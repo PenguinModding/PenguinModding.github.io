@@ -1,0 +1,46 @@
+{
+  "names": [
+    "Text",
+    "Zip",
+    "Images",
+    "Extendable Blocks",
+    "Extendable Blocks (Compiled)",
+    "CST 3D",
+    "Multiline Text Input",
+    "Extendable Blocks 2",
+    "Scratch 2.2"
+  ],
+  "thumbnails": [
+    "https://extensions.turbowarp.org/images/text.svg",
+    "https://extensions.turbowarp.org/images/CST1229/zip.svg",
+    "https://extensions.turbowarp.org/images/CST1229/images.svg",
+    "https://cst1229.eu.org/_app/immutable/assets/extendableBlocks.BMzFvOcp.svg",
+    "https://cst1229.eu.org/_app/immutable/assets/extendableBlocksCompiled.CTIwYUai.svg",
+    "data:image/png;base64,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",
+    "https://cst1229.eu.org/_app/immutable/assets/multilineText.B-S0qK4H.png",
+    "https://cst1229.eu.org/_app/immutable/assets/extendableBlocks2.XTaGctqv.svg",
+    "https://cst1229.eu.org/_app/immutable/assets/scratch22.D5zQW6Xk.png"
+  ],
+  "links": [
+    "https://extensions.turbowarp.org/text.js",
+    "https://extensions.turbowarp.org/CST1229/zip.js",
+    "https://extensions.turbowarp.org/CST1229/images.js",
+    "https://raw.githubusercontent.com/CST1229/turbowarp-extensions/refs/heads/extendable-blocks/extensions/CST1229/extendableblocks.js",
+    "https://raw.githubusercontent.com/CST1229/turbowarp-extensions/refs/heads/extendable-blocks-compiled/extensions/CST1229/extendableblocks.js",
+    "https://raw.githubusercontent.com/CST1229/turbowarp-extensions/3d/extensions/CST1229/3d.js",
+    "https://cst1229.eu.org/extensions/multilinetext.js",
+    "https://cst1229.eu.org/extensions/extendableblocks2.js",
+    "https://cst1229.eu.org/extensions/scratch22.js"
+  ],
+  "newExtensions": [
+    "Text",
+    "Zip",
+    "Images",
+    "Extendable Blocks",
+    "Extendable Blocks (Compiled)",
+    "CST 3D",
+    "Multiline Text Input",
+    "Extendable Blocks 2",
+    "Scratch 2.2"
+  ]
+}

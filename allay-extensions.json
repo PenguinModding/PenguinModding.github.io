@@ -1,0 +1,34 @@
+{
+  "names": [
+    "HTML",
+    "Tiles (UPDATED)",
+    "On-screen Controls",
+    "Simple Console",
+    "Ollama",
+    "Simple Hashing"
+  ],
+  "thumbnails": [
+    "https://greedyallay.github.io/extensions/resources/html.png",
+    "https://greedyallay.github.io/extensions/resources/tiles.png",
+    "https://greedyallay.github.io/extensions/resources/controls.png",
+    "https://greedyallay.github.io/extensions/resources/console.png",
+    "https://greedyallay.github.io/extensions/resources/ollama.png",
+    "https://greedyallay.github.io/extensions/resources/hashing.png"
+  ],
+  "links": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "newExtensions": [
+    "HTML",
+    "Tiles (UPDATED)",
+    "On-screen Controls",
+    "Simple Console",
+    "Ollama",
+    "Simple Hashing"
+  ]
+}

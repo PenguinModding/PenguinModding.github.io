@@ -1,0 +1,51 @@
+{
+  "names": [
+    "Sprite Controller",
+    "Sweet Alerts",
+    "String Mutilation",
+    "Date Format",
+    "Measurement Format",
+    "Speech Synthesis",
+    "Nasa Media Search",
+    "Super Booleans",
+    "Potato Extension",
+    "Poop Extension",
+    "Subway Surfers",
+    "Subway Surfers V2",
+    "Posenet2Scratch",
+    "Facemesh2Scratch"
+  ],
+  "thumbnails": [
+    "https://dde-ext-gallery.vercel.app/extensions/thumbnail/spriteController.svg",
+    "https://dde-ext-gallery.vercel.app/extensions/thumbnail/sweetAlert2.svg",
+    "https://dde-ext-gallery.vercel.app/extensions/thumbnail/stringMutilation.png",
+    "https://dde-ext-gallery.vercel.app/extensions/thumbnail/dateFormatV2.svg",
+    "https://dde-ext-gallery.vercel.app/extensions/thumbnail/measurementFormat.svg",
+    "https://dde-ext-gallery.vercel.app/extensions/thumbnail/speechSynthesis.svg",
+    "https://dde-ext-gallery.vercel.app/extensions/thumbnail/nasaMediaSearch.svg",
+    "https://dde-ext-gallery.vercel.app/extensions/thumbnail/superBooleans.svg",
+    "https://dde-ext-gallery.vercel.app/extensions/thumbnail/potatoExtension.svg",
+    "https://dde-ext-gallery.vercel.app/extensions/thumbnail/poopExtension.svg",
+    "https://dde-ext-gallery.vercel.app/extensions/thumbnail/subwaySurfers.png",
+    "https://dde-ext-gallery.vercel.app/extensions/thumbnail/subwaySurfersV2.jpg",
+    "https://dde-ext-gallery.vercel.app/extensions/thumbnail/posenet2scratch.png",
+    "https://dde-ext-gallery.vercel.app/extensions/thumbnail/facemesh2scratch.png"
+  ],
+  "links": [
+    "spriteController",
+    "sweetAlert2",
+    "stringMutilation",
+    "dateFormatV2",
+    "measurementFormat",
+    "speechSynthesis",
+    "nasaMediaSearch",
+    "superBooleans",
+    "potatoExtension",
+    "poopExtension",
+    "subwaySurfers",
+    "subwaySurfersV2",
+    "posenet2scratch",
+    "facemesh2scratch"
+  ],
+  "newExtensions": []
+}

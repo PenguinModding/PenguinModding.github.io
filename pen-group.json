@@ -1,0 +1,30 @@
+{
+  "names": [
+    "Pen+",
+    "Shaded",
+    "Render Control",
+    "Customizable\nAnti-Aliasing",
+    "Effective"
+  ],
+  "links": [
+    "https://pen-group.github.io/extensions/extensions/PenP/v7.js",
+    "https://pen-group.github.io/extensions/extensions/ShadedStamps/extension.js",
+    "https://pen-group.github.io/extensions/extensions/RenderControl/main.js",
+    "https://pen-group.github.io/extensions/extensions/PenAA/extension.js",
+    "https://pen-group.github.io/extensions/extensions/effective/extension.js"
+  ],
+  "thumbnails": [
+    "https://pen-group.github.io/extensions/extensions/PenP/thumbnail.svg",
+    "https://pen-group.github.io/extensions/extensions/ShadedStamps/thumbnail.png",
+    "https://pen-group.github.io/extensions/extensions/RenderControl/thumbnail.svg",
+    "https://pen-group.github.io/extensions/extensions/PenAA/thumbnail.png",
+    "https://pen-group.github.io/extensions/extensions/effective/thumbnail.svg"
+  ],
+  "newExtensions": [
+    "Pen+",
+    "Shaded",
+    "Render Control",
+    "Customizable\nAnti-Aliasing",
+    "Effective"
+  ]
+}

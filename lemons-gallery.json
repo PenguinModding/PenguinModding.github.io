@@ -1,0 +1,54 @@
+{
+  "names": [
+    "Hello World",
+    "SQLSnap! Fileshare",
+    "Weather API",
+    "Screenshot (Slow)",
+    "Auto Clicker Detection",
+    "Bluetooth Request",
+    "Live Keyboard Input",
+    "URL Music extension",
+    "IndexedDB",
+    "TurboAST",
+    "Waveforms"
+  ],
+  "links": [
+    "https://bludisanlemon.github.io/lemons-gallery//extensions/hello-world.js",
+    "https://bludisanlemon.github.io/lemons-gallery//extensions/Bitter_130/SQLSnapFileshare.js",
+    "https://bludisanlemon.github.io/lemons-gallery//extensions/Lemon/WeatherAPI.js",
+    "https://bludisanlemon.github.io/lemons-gallery//extensions/Lemon/screenshot.js",
+    "https://bludisanlemon.github.io/lemons-gallery//extensions/Lemon/autoclick_detect.js",
+    "https://bludisanlemon.github.io/lemons-gallery//extensions/Lemon/bluetooth.js",
+    "https://bludisanlemon.github.io/lemons-gallery//extensions/silly software/LiveKeyboard.js",
+    "https://bludisanlemon.github.io/lemons-gallery//extensions/silly software/URL_music.js",
+    "https://bludisanlemon.github.io/lemons-gallery//extensions/silly software/IndexedDB.js",
+    "https://bludisanlemon.github.io/lemons-gallery//extensions/Lemon/TurboAST.js",
+    "https://bludisanlemon.github.io/lemons-gallery//extensions/Lemon/Waveforms.js"
+  ],
+  "thumbnails": [
+    "https://bludisanlemon.github.io/lemons-gallery/images/unknown-banner.png",
+    "https://bludisanlemon.github.io/lemons-gallery/images/Bitter_130/SQLSnapFileshare.png",
+    "https://bludisanlemon.github.io/lemons-gallery/images/Lemon/WeatherAPI.png",
+    "https://bludisanlemon.github.io/lemons-gallery/images/Lemon/screenshot.png",
+    "https://bludisanlemon.github.io/lemons-gallery/images/Lemon/autoclick_detect.png",
+    "https://bludisanlemon.github.io/lemons-gallery/images/Lemon/bluetooth.png",
+    "https://bludisanlemon.github.io/lemons-gallery/images/unknown-banner.png",
+    "https://bludisanlemon.github.io/lemons-gallery/images/unknown-banner.png",
+    "https://bludisanlemon.github.io/lemons-gallery/images/silly%20software/indexedDB.png",
+    "https://bludisanlemon.github.io/lemons-gallery/images/Lemon/TurboAST.png",
+    "https://bludisanlemon.github.io/lemons-gallery/images/Lemon/Waveforms.png"
+  ],
+  "newExtensions": [
+    "Hello World",
+    "SQLSnap! Fileshare",
+    "Weather API",
+    "Screenshot (Slow)",
+    "Auto Clicker Detection",
+    "Bluetooth Request",
+    "Live Keyboard Input",
+    "URL Music extension",
+    "IndexedDB",
+    "TurboAST",
+    "Waveforms"
+  ]
+}

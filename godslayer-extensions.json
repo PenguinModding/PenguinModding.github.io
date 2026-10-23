@@ -1,0 +1,38 @@
+{
+  "names": [
+    "PenguinMod",
+    "HTTP",
+    "JS Beautifier (beautifier.io)",
+    "WebSocket",
+    "Buffer",
+    "JavaScript Workspace",
+    "Compiler Rings"
+  ],
+  "thumbnails": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "links": [
+    "https://penguinmod.com/",
+    "https://godslayerakp.gay/built-extensions/http.js",
+    "https://godslayerakp.gay/built-extensions/js-beautify.js",
+    "https://godslayerakp.gay/built-extensions/ws.js",
+    "https://godslayerakp.gay/built-extensions/buffer.js",
+    "https://godslayerakp.gay/built-extensions/js-workspace.js",
+    "https://godslayerakp.gay/built-extensions/compile-rings.js"
+  ],
+  "newExtensions": [
+    "PenguinMod",
+    "HTTP",
+    "JS Beautifier (beautifier.io)",
+    "WebSocket",
+    "Buffer",
+    "JavaScript Workspace",
+    "Compiler Rings"
+  ]
+}

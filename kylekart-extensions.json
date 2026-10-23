@@ -1,0 +1,246 @@
+{
+  "names": [
+    "Pitchano",
+    "Legacy Blocks",
+    "Extra Blocks",
+    "Theme Color",
+    "Key Remote",
+    "Clipboard",
+    "JSON",
+    "Comment Blocks",
+    "Advanced Costumes",
+    "HTML Costumes",
+    "Varray",
+    "TI-Basic",
+    "Variable Control",
+    "Extended",
+    "Block Manipulator",
+    "JSON5"
+  ],
+  "thumbnails": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "links": [
+    "https://kylekart.github.io/ScratchExtensions/get/pitchano.js",
+    "https://kylekart.github.io/ScratchExtensions/get/legacy.js",
+    "https://kylekart.github.io/ScratchExtensions/get/xtra.js",
+    "https://kylekart.github.io/ScratchExtensions/get/theme-color.js",
+    "https://kylekart.github.io/ScratchExtensions/get/keyremote.js",
+    "https://kylekart.github.io/ScratchExtensions/get/clipboardX.js",
+    "https://kylekart.github.io/ScratchExtensions/get/jsonX.js",
+    "https://kylekart.github.io/ScratchExtensions/get/commentsX.js",
+    "https://kylekart.github.io/ScratchExtensions/get/advcostumes.js",
+    "https://kylekart.github.io/ScratchExtensions/get/webcostume.js",
+    "https://kylekart.github.io/ScratchExtensions/get/varray.js",
+    "https://kylekart.github.io/ScratchExtensions/get/tibasic.js",
+    "https://kylekart.github.io/ScratchExtensions/get/varcontrol.js",
+    "https://kylekart.github.io/ScratchExtensions/get/extended.js",
+    "https://kylekart.github.io/ScratchExtensions/get/blocks.js",
+    "https://kylekart.github.io/ScratchExtensions/get/json5.js"
+  ],
+  "newExtensions": [
+    "Pitchano",
+    "Legacy Blocks",
+    "Extra Blocks",
+    "Theme Color",
+    "Key Remote",
+    "Clipboard",
+    "JSON",
+    "Comment Blocks",
+    "Advanced Costumes",
+    "HTML Costumes",
+    "Varray",
+    "TI-Basic",
+    "Variable Control",
+    "Extended",
+    "Block Manipulator",
+    "JSON5"
+  ],
+  "details": [
+    {
+      "name": "Pitchano",
+      "thumbnail": "",
+      "link": "https://kylekart.github.io/ScratchExtensions/get/pitchano.js",
+      "description": "Converts piano note numbers to pitch numbers. May be off by a minor amount.",
+      "platforms": [
+        "TurboWarp",
+        "NitroBolt",
+        "PenguinMod"
+      ]
+    },
+    {
+      "name": "Legacy Blocks",
+      "thumbnail": "",
+      "link": "https://kylekart.github.io/ScratchExtensions/get/legacy.js",
+      "description": "Recreations of old blocks from early and beta versions of Scratch.",
+      "platforms": [
+        "TurboWarp",
+        "NitroBolt",
+        "PenguinMod"
+      ]
+    },
+    {
+      "name": "Extra Blocks",
+      "thumbnail": "",
+      "link": "https://kylekart.github.io/ScratchExtensions/get/xtra.js",
+      "description": "Vanilla-compatible modded custom blocks with fancy menus and inputs.",
+      "platforms": [
+        "TurboWarp",
+        "NitroBolt",
+        "PenguinMod"
+      ]
+    },
+    {
+      "name": "Theme Color",
+      "thumbnail": "",
+      "link": "https://kylekart.github.io/ScratchExtensions/get/theme-color.js",
+      "description": "Dynamically change your browser theme! Exclusive to PWAs and supported browsers like Vivaldi.",
+      "platforms": [
+        "TurboWarp",
+        "NitroBolt",
+        "PenguinMod"
+      ]
+    },
+    {
+      "name": "Key Remote",
+      "thumbnail": "",
+      "link": "https://kylekart.github.io/ScratchExtensions/get/keyremote.js",
+      "description": "A key detection extension designed specifically for remotes including Bluetooth ones.",
+      "platforms": [
+        "TurboWarp",
+        "NitroBolt",
+        "PenguinMod"
+      ]
+    },
+    {
+      "name": "Clipboard",
+      "thumbnail": "",
+      "link": "https://kylekart.github.io/ScratchExtensions/get/clipboardX.js",
+      "description": "A ScratchX compatible extension for interacting with the clipboard.\nHas known issues in browsers like Pale Moon.",
+      "platforms": [
+        "ScratchX",
+        "X3non",
+        "TurboWarp",
+        "NitroBolt",
+        "PenguinMod"
+      ]
+    },
+    {
+      "name": "JSON",
+      "thumbnail": "",
+      "link": "https://kylekart.github.io/ScratchExtensions/get/jsonX.js",
+      "description": "A X3non extension with tools for parsing, reading, and handling JSON data.\nUses X3non-only block types.",
+      "platforms": [
+        "X3non"
+      ]
+    },
+    {
+      "name": "Comment Blocks",
+      "thumbnail": "",
+      "link": "https://kylekart.github.io/ScratchExtensions/get/commentsX.js",
+      "description": "A X3non extension for adding comments nested inside of your code.\nUses X3non-only block types.",
+      "platforms": [
+        "X3non"
+      ]
+    },
+    {
+      "name": "Advanced Costumes",
+      "thumbnail": "",
+      "link": "https://kylekart.github.io/ScratchExtensions/get/advcostumes.js",
+      "description": "An extension for appending text, shapes, and images to an SVG costume.",
+      "platforms": [
+        "TurboWarp",
+        "NitroBolt",
+        "PenguinMod"
+      ]
+    },
+    {
+      "name": "HTML Costumes",
+      "thumbnail": "",
+      "link": "https://kylekart.github.io/ScratchExtensions/get/webcostume.js",
+      "description": "An extension for using HTML in an SVG costume.",
+      "platforms": [
+        "TurboWarp",
+        "NitroBolt",
+        "PenguinMod"
+      ]
+    },
+    {
+      "name": "Varray",
+      "thumbnail": "",
+      "link": "https://kylekart.github.io/ScratchExtensions/get/varray.js",
+      "description": "An extension for handling variables like lists.",
+      "platforms": [
+        "TurboWarp",
+        "NitroBolt",
+        "PenguinMod"
+      ]
+    },
+    {
+      "name": "TI-Basic",
+      "thumbnail": "",
+      "link": "https://kylekart.github.io/ScratchExtensions/get/tibasic.js",
+      "description": "An extension for executing lines of TI-Basic.",
+      "platforms": [
+        "TurboWarp",
+        "NitroBolt",
+        "PenguinMod"
+      ]
+    },
+    {
+      "name": "Variable Control",
+      "thumbnail": "",
+      "link": "https://kylekart.github.io/ScratchExtensions/get/varcontrol.js",
+      "description": "Allows for advanced control of variables.",
+      "platforms": [
+        "TurboWarp",
+        "NitroBolt",
+        "PenguinMod"
+      ]
+    },
+    {
+      "name": "Extended",
+      "thumbnail": "",
+      "link": "https://kylekart.github.io/ScratchExtensions/get/extended.js",
+      "description": "Various blocks that i've made extendable bc yes.",
+      "platforms": [
+        "NitroBolt"
+      ]
+    },
+    {
+      "name": "Block Manipulator",
+      "thumbnail": "",
+      "link": "https://kylekart.github.io/ScratchExtensions/get/blocks.js",
+      "description": "Let's you edit various block properties you normally can't/shouldn't change. Expect bugginess at times.",
+      "platforms": [
+        "NitroBolt"
+      ]
+    },
+    {
+      "name": "JSON5",
+      "thumbnail": "",
+      "link": "https://kylekart.github.io/ScratchExtensions/get/json5.js",
+      "description": "An extension that let's you turn JSON5 into valid JSON for use with your favourite JSON implementations.",
+      "platforms": [
+        "TurboWarp",
+        "NitroBolt",
+        "PenguinMod"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "names": [
+    "Music Plus",
+    "Block Dates",
+    "Temporary Variables",
+    "Nodes and Links",
+    "Ciphers"
+  ],
+  "thumbnails": [
+    "https://ziplox.neocities.org/extensions/banners/musicplus.svg",
+    "https://ziplox.neocities.org/extensions/banners/blockdates.svg",
+    "https://ziplox.neocities.org/extensions/banners/tempvar.svg",
+    "https://ziplox.neocities.org/extensions/banners/nodes.svg",
+    "https://ziplox.neocities.org/extensions/banners/ciphers.svg"
+  ],
+  "links": [
+    "https://ziplox.neocities.org/extensions/scripts/musicplus.js",
+    "https://ziplox.neocities.org/extensions/scripts/blockdates.js",
+    "https://ziplox.neocities.org/extensions/scripts/tempvar.js",
+    "https://ziplox.neocities.org/extensions/scripts/nodes.js",
+    "https://ziplox.neocities.org/extensions/scripts/ciphers.js"
+  ],
+  "newExtensions": [
+    "Music Plus",
+    "Block Dates",
+    "Temporary Variables",
+    "Nodes and Links",
+    "Ciphers"
+  ],
+  "details": [
+    {
+      "name": "Music Plus",
+      "thumbnail": "https://ziplox.neocities.org/extensions/banners/musicplus.svg",
+      "link": "https://ziplox.neocities.org/extensions/scripts/musicplus.js",
+      "version": 1,
+      "creators": [
+        "ZiploxZQS"
+      ],
+      "newext": true
+    },
+    {
+      "name": "Block Dates",
+      "thumbnail": "https://ziplox.neocities.org/extensions/banners/blockdates.svg",
+      "link": "https://ziplox.neocities.org/extensions/scripts/blockdates.js",
+      "version": 1,
+      "creators": [
+        "OutsideFlight"
+      ],
+      "newext": false
+    },
+    {
+      "name": "Temporary Variables",
+      "thumbnail": "https://ziplox.neocities.org/extensions/banners/tempvar.svg",
+      "link": "https://ziplox.neocities.org/extensions/scripts/tempvar.js",
+      "version": 1,
+      "creators": [
+        "ZiploxZQS"
+      ],
+      "newext": false
+    },
+    {
+      "name": "Nodes and Links",
+      "thumbnail": "https://ziplox.neocities.org/extensions/banners/nodes.svg",
+      "link": "https://ziplox.neocities.org/extensions/scripts/nodes.js",
+      "version": 1,
+      "creators": [
+        "ZiploxZQS",
+        "OutsideFlight"
+      ],
+      "newext": false
+    },
+    {
+      "name": "Ciphers",
+      "thumbnail": "https://ziplox.neocities.org/extensions/banners/ciphers.svg",
+      "link": "https://ziplox.neocities.org/extensions/scripts/ciphers.js",
+      "version": 1,
+      "creators": [
+        "ZiploxZQS",
+        "OutsideFlight"
+      ],
+      "newext": false
+    }
+  ]
+}
