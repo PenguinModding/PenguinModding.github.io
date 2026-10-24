@@ -24,13 +24,10 @@ Extension data collected from multiple extension galleries, available as JSON fo
 
 Each dataset is intended to contain:
 
-- `names` — extension names
-- `links` — extension source URLs
-- `thumbnails` — thumbnail image URLs
-- `newExtensions` — newly detected extensions
+- `names` - extension names
+- `links` - extension source URLs
+- `thumbnails` - thumbnail image URLs
+- `newExtensions` - newly detected extensions
 
 ## Usage
-
-These files can be fetched individually by projects that support HTTP requests and JSON parsing.
-
-**Note:** The URLs above work once the corresponding JSON files exist in the repository and GitHub Pages has published them.
+poo
