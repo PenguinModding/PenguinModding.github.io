@@ -1,13 +1,13 @@
 {
   "names": [
-  "Debugger Console"
-  "Lazy Multi-Lines"
-  "Jul Mik Utilities"
-  "E2EE"
-  "WebRTC"
-  "ElectraAPI"
-  "ElectraGPT"
-  "Markdown To HTML"
+    "Debugger Console",
+    "Lazy Multi-Lines",
+    "Jul Mik Utilities",
+    "E2EE",
+    "WebRTC",
+    "ElectraAPI",
+    "ElectraGPT",
+    "Markdown To HTML"
   ],
   "thumbnails": [
     "https://electramod-extensions-gallery.vercel.app/images/Aness6040/debuggerconsole.svg",
@@ -27,7 +27,7 @@
     "https://electramod-extensions-gallery.vercel.app/extensions/MikeDev101/webrtc.js",
     "https://electramod-extensions-gallery.vercel.app/extensions/Aness6040/electraapi.js",
     "https://electramod-extensions-gallery.vercel.app/extensions/MubiLop/electragpt.js",
-    "https://electramod-extensions-gallery.vercel.app/extensions/Aness6040/md2html.js",
+    "https://electramod-extensions-gallery.vercel.app/extensions/Aness6040/md2html.js"
   ],
   "newExtensions": [
     ""
