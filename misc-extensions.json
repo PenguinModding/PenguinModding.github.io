@@ -7,7 +7,9 @@
     "WebRTC",
     "ElectraAPI",
     "ElectraGPT",
-    "Markdown To HTML"
+    "Markdown To HTML",
+    "MR BEAST UTILITIES",
+    "Jungle Inferno"
   ],
   "thumbnails": [
     "https://electramod-extensions-gallery.vercel.app/images/Aness6040/debuggerconsole.svg",
@@ -17,7 +19,11 @@
     "https://electramod-extensions-gallery.vercel.app/images/MikeDev101/webrtc.png",
     "https://electramod-extensions-gallery.vercel.app/images/Aness6040/electraapi.svg",
     "https://electramod-extensions-gallery.vercel.app/images/MubiLop/electragpt.png",
-    "https://electramod-extensions-gallery.vercel.app/images/Aness6040/md2html.png"
+    "https://electramod-extensions-gallery.vercel.app/images/Aness6040/md2html.png",
+    "https://turbololder.vercel.app/images/scratch22.png",
+    "https://turbololder.vercel.app/images/Mr_Beast_Utilitities.svg",
+    "https://turbololder.vercel.app/images/none.png",
+    "https://cst1229.eu.org/_app/immutable/assets/extendableBlocks2.XTaGctqv.svg"
   ],
   "links": [
     "https://electramod-extensions-gallery.vercel.app/extensions/Aness6040/debuggerconsole.js",
@@ -27,7 +33,11 @@
     "https://electramod-extensions-gallery.vercel.app/extensions/MikeDev101/webrtc.js",
     "https://electramod-extensions-gallery.vercel.app/extensions/Aness6040/electraapi.js",
     "https://electramod-extensions-gallery.vercel.app/extensions/MubiLop/electragpt.js",
-    "https://electramod-extensions-gallery.vercel.app/extensions/Aness6040/md2html.js"
+    "https://electramod-extensions-gallery.vercel.app/extensions/Aness6040/md2html.js",
+    "https://turbololder.vercel.app/extensions/scratch22.js",
+    "https://turbololder.vercel.app/extensions/mrbeastutil.js",
+    "https://turbololder.vercel.app/extensions/jungleinferno.js",
+    "https://clickhereforcredits.mgik.dev/proxy/?url=https%3A%2F%2Fcst1229.eu.org%2Fextensions%2Fextendableblocks2.js"
   ],
   "newExtensions": [
     ""
