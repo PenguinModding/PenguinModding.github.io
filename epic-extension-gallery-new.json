@@ -1,0 +1,26 @@
+{
+  "names": [
+    "Comments",
+    "Random Utils",
+    "Sprites",
+    "Additional Events"
+  ],
+  "thumbnails": [
+    "https://epic-extension-gallery.github.io/images/comments.png",
+    "https://epic-extension-gallery.github.io/images/random.png",
+    "https://epic-extension-gallery.github.io/images/sprites.png",
+    "https://epic-extension-gallery.github.io/images/additionalevents.png"
+  ],
+  "links": [
+    "https://epic-extension-gallery.github.io/extensions/comments.js",
+    "https://epic-extension-gallery.github.io/extensions/random.js",
+    "https://epic-extension-gallery.github.io/extensions/sprites.js",
+    "https://epic-extension-gallery.github.io/extensions/additionalevents.js"
+  ],
+  "newExtensions": [
+    "Comments",
+    "Random Utils",
+    "Sprites",
+    "Additional Events"
+  ]
+}
