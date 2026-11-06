@@ -565,7 +565,7 @@ async function fetchSource(source) {
       const card=$(node);
       const name=clean(card.find("h3").first().text());
       const link=absolute(card.attr("href"),finalUrl);
-      const platformTags=(card.find(".tag").map((_,tag)=>((card.find(tag).attr("class")||"").split(/\\s+/).map(x=>x.toLowerCase()).filter(x=>["tw","nb","pm","sx","x3"].includes(x)))).get());
+      const platformTags=card.find(".tag").map((_,tag)=>(tag.attribs?.class||"").split(/\\s+/).map(x=>x.toLowerCase()).filter(x=>["tw","nb","pm","sx","x3"].includes(x))).get().flat();
       // Keep extensions usable outside NitroBolt/X3non; exclude cards tagged only for those mods.
       if(!platformTags.some(tag=>["tw","pm","sx"].includes(tag))) return;
       const image=card.find("img").first().attr("src") || card.find("meta[property='og:image']").attr("content");
