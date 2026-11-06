@@ -286,7 +286,7 @@ async function fetchDedicated(source, finalUrl, body) {
     })));
   }
 
-  if (source.kind === "pooiod7") {
+  if (source.id === "pooid7" || source.kind === "pooid7") {
     // The gallery publishes its source list as extensions.json. The live
     // site and the project's source repository are both supported so a
     // temporary Pages/CDN fetch issue does not make the whole gallery vanish.
