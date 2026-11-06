@@ -1007,37 +1007,5 @@
     "",
     ""
   ],
-  "newExtensions": [
-    "Clipboard V2",
-    "USB Pause",
-    "Fetch",
-    "* Storage",
-    "Extension Exposer",
-    "Buffers",
-    "More Fields",
-    "Web History API",
-    "Compiler Injector",
-    "Fake Crashes",
-    "Cryptography",
-    "Try Catch V2",
-    "More Buttons",
-    "Image Blocks",
-    "HTML Entitys",
-    "DOMPurify",
-    "Right Click Menu",
-    "MimeDB",
-    "Spell Check",
-    "Document Events",
-    "Breaking Eternity",
-    "Since 2000",
-    "Microbit Extended",
-    "Periodic Table",
-    "Switch Case",
-    "Script Management",
-    "NicheToolbox",
-    "Placeholder",
-    "Tables",
-    "Fetch-Plus",
-    "Keys-Plus-V2"
-  ]
+  "newExtensions": []
 }

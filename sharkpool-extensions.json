@@ -209,7 +209,5 @@
     "https://sharkpools-extensions.vercel.app/extension-thumbs/MIDI-Tools.svg",
     "https://sharkpools-extensions.vercel.app/extension-thumbs/Example.svg"
   ],
-  "newExtensions": [
-    "Example"
-  ]
+  "newExtensions": []
 }

@@ -1,6 +1,6 @@
 {
   "lastCheckedAt": null,
-  "lastAttemptAt": "2026-11-06T06:34:02.050Z",
+  "lastAttemptAt": "2026-11-06T06:36:30.461Z",
   "intervalDays": 15,
   "report": [
     {
@@ -21,7 +21,7 @@
       "id": "sharkpool",
       "status": "ok",
       "count": 68,
-      "new": 1,
+      "new": 0,
       "file": "sharkpool-extensions.json"
     },
     {
@@ -56,7 +56,7 @@
       "id": "coast",
       "status": "ok",
       "count": 329,
-      "new": 276,
+      "new": 0,
       "file": "coast-extensions.json"
     },
     {
@@ -117,7 +117,7 @@
       "id": "mgik",
       "status": "ok",
       "count": 334,
-      "new": 31,
+      "new": 0,
       "file": "mgik-extensions.json"
     },
     {
@@ -157,7 +157,7 @@
       "id": "adacraft",
       "status": "ok",
       "count": 149,
-      "new": 5,
+      "new": 0,
       "file": "adacraft-extensions.json"
     },
     {
@@ -171,7 +171,7 @@
       "id": "kittenblock",
       "status": "ok",
       "count": 147,
-      "new": 143,
+      "new": 0,
       "file": "kittenblock-extensions.json"
     },
     {
