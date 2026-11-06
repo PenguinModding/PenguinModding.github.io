@@ -23,19 +23,54 @@ function fromJSON(root){
  walk(root,0);return out;
 }
 function fromDOM(){
- const selectors=["article","[class*=card i]","[class*=extension i]","[class*=item i]","[class*=tile i]","[class*=plugin i]","li"];
- const nodes=new Set();selectors.forEach(s=>document.querySelectorAll(s).forEach(e=>{if(!e.closest("#"+ID)&&e.querySelector("a[href]")&&clean(e.innerText).length<1600)nodes.add(e);}));
- const out=[],seen=new Set();
- nodes.forEach(e=>{
- const a=[...e.querySelectorAll("a[href]")];const linkEl=a.find(x=>likelyLink(x.href))||a[0];
- const img=[...e.querySelectorAll("img,source")].map(x=>x.currentSrc||x.src||x.getAttribute("data-src")||x.getAttribute("data-lazy-src")).map(abs).find(Boolean)||"";
- const h=e.querySelector("h1,h2,h3,h4,h5,[class*=name i],[class*=title i]");
- const name=clean(h?.innerText||linkEl?.innerText||"");const link=linkEl?abs(linkEl.href):"";
- if(!name||name.length>120||(!link&&!img))return;
- const key=name.toLowerCase()+"|"+link;if(seen.has(key))return;seen.add(key);
- out.push({name,link,thumb:img,isNew:/\bnew\b/i.test(e.innerText)||!!e.querySelector("[class*=new i]")});
+ const candidates=new Set();
+ // Start from visible headings and walk upward to find the smallest card-like container.
+ document.querySelectorAll("h1,h2,h3,h4,h5,[class*=name i],[class*=title i]").forEach(h=>{
+  let node=h;
+  for(let level=0;level<6&&node&&node!==document.body;level++,node=node.parentElement){
+   if(node.closest("#"+ID))continue;
+   const text=clean(node.innerText);
+   const images=node.querySelectorAll("img,picture source");
+   const buttons=node.querySelectorAll("button,[role=button]");
+   if(text.length>20&&text.length<1800&&(images.length||buttons.length))candidates.add(node);
+  }
  });
- return out;
+ // Also inspect common card wrappers even when their content has no anchor.
+ ["article","[class*=card i]","[class*=extension i]","[class*=tile i]","[class*=plugin i]","li"].forEach(sel=>{
+  document.querySelectorAll(sel).forEach(node=>{
+   if(!node.closest("#"+ID)&&clean(node.innerText).length<1800&&(node.querySelector("img")||node.querySelector("button,[role=button]")))candidates.add(node);
+  });
+ });
+ const out=[],seen=new Set();
+ candidates.forEach(e=>{
+  const text=clean(e.innerText);
+  if(!text||text.length>1800)return;
+  const heading=e.querySelector("h1,h2,h3,h4,h5,[class*=name i],[class*=title i]");
+  const anchors=[...e.querySelectorAll("a[href]")];
+  const linkEl=anchors.find(a=>likelyLink(a.href));
+  const attrs=[...e.querySelectorAll("*")].flatMap(el=>["href","data-href","data-url","data-src","data-extension-url","data-code","value"].map(k=>el.getAttribute(k)).filter(Boolean));
+  const buttons=[...e.querySelectorAll("button,[role=button]")];
+  const buttonData=buttons.flatMap(b=>["data-url","data-href","data-src","data-code","data-extension-url","value"].map(k=>b.getAttribute(k)).filter(Boolean));
+  const possible=[...(linkEl?[linkEl.href]:[]),...attrs,...buttonData];
+  const link=possible.map(abs).find(likelyLink)||"";
+  const img=[...e.querySelectorAll("img,picture source")].map(x=>x.currentSrc||x.src||x.getAttribute("src")||x.getAttribute("data-src")||x.getAttribute("data-lazy-src")||x.getAttribute("srcset")?.split(",")[0]?.trim().split(" ")[0]).map(abs).find(Boolean)||"";
+  let name=clean(heading?.innerText||linkEl?.innerText||"");
+  if(!name){
+   name=text.split(/\n/).map(clean).find(line=>line&&line.length<100&&!/^(copy|copied|new|updated)$/i.test(line))||"";
+  }
+  if(!name||name.length>120||(!img&&!link&&!buttons.length))return;
+  // Avoid selecting a large wrapper containing multiple separate extension cards.
+  if(e.querySelectorAll("h1,h2,h3,h4,h5").length>5)return;
+  const key=name.toLowerCase()+"|"+link+"|"+img;
+  if(seen.has(key))return;
+  seen.add(key);
+  out.push({name,link,thumb:img,isNew:/\bnew\b/i.test(text)||!!e.querySelector("[class*=new i],[aria-label*=new i]")});
+ });
+ // Prefer entries that have a real heading and image, then collapse duplicate nested wrappers.
+ const ranked=out.sort((a,b)=>(Number(Boolean(b.thumb))+Number(Boolean(b.link)))-(Number(Boolean(a.thumb))+Number(Boolean(a.link))));
+ const final=[],keys=new Set();
+ ranked.forEach(item=>{const key=item.name.toLowerCase()+"|"+item.link;if(!keys.has(key)){keys.add(key);final.push(item);}});
+ return final;
 }
 function scan(){
  const json=parsePageJSON(),j=json?fromJSON(json):[],d=fromDOM();
@@ -44,7 +79,7 @@ function scan(){
 let found=scan(),items=found.items;
 const host=document.createElement("div");host.id=ID;host.style.cssText="all:initial;position:fixed;inset:0;z-index:2147483647;font:14px system-ui;color:#eee;";
 const sh=host.attachShadow({mode:"open"});
-sh.innerHTML='<style>*{box-sizing:border-box}.bg{position:fixed;inset:0;background:#0009;display:flex;justify-content:flex-end}.panel{width:min(700px,100vw);height:100%;background:#171a21;display:flex;flex-direction:column;box-shadow:0 0 30px #000}.head,.meta,.foot{padding:14px 18px;border-bottom:1px solid #343a46}.head{display:flex;align-items:center;gap:12px}.head b{font-size:18px;flex:1}button{background:#2b3240;color:#fff;border:1px solid #4c5669;border-radius:7px;padding:8px 11px;cursor:pointer;font:inherit}.primary{background:#3569bd}.meta{background:#202530}.muted{color:#aeb8c8;font-size:12px;overflow-wrap:anywhere}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.list{overflow:auto;flex:1;padding:8px 18px}.entry{display:grid;grid-template-columns:50px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #343a46}.thumb{width:50px;height:46px;object-fit:contain;background:#2a303b;border-radius:5px}.name{font-weight:650;overflow-wrap:anywhere}.url{font-size:11px;color:#9db9ee;overflow-wrap:anywhere}.foot{border-top:1px solid #343a46;border-bottom:0;display:flex;justify-content:space-between}.pill{font-size:11px;background:#3b4555;border-radius:20px;padding:3px 7px}@media(max-width:480px){.panel{width:100vw}}</style><div class="bg"><section class="panel"><div class="head"><b>Gallery Extractor <span class="pill">v1.0</span></b><button id="close">✕</button></div><div class="meta"><b id="title"></b><div class="muted" id="url"></div><p id="method"></p><div class="muted" id="detail"></div><div class="actions"><button class="primary" id="download">Download JSON</button><button id="copy">Copy JSON</button><button id="rescan">Rescan</button></div></div><div class="list" id="list"></div><div class="foot"><span class="muted" id="count"></span><span class="muted">Review before exporting</span></div></section></div>';
+sh.innerHTML='<style>*{box-sizing:border-box}.bg{position:fixed;inset:0;background:#0009;display:flex;justify-content:flex-end}.panel{width:min(700px,100vw);height:100%;background:#171a21;display:flex;flex-direction:column;box-shadow:0 0 30px #000}.head,.meta,.foot{padding:14px 18px;border-bottom:1px solid #343a46}.head{display:flex;align-items:center;gap:12px}.head b{font-size:18px;flex:1}button{background:#2b3240;color:#fff;border:1px solid #4c5669;border-radius:7px;padding:8px 11px;cursor:pointer;font:inherit}.primary{background:#3569bd}.meta{background:#202530}.muted{color:#aeb8c8;font-size:12px;overflow-wrap:anywhere}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.list{overflow:auto;flex:1;padding:8px 18px}.entry{display:grid;grid-template-columns:50px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #343a46}.thumb{width:50px;height:46px;object-fit:contain;background:#2a303b;border-radius:5px}.name{font-weight:650;overflow-wrap:anywhere}.url{font-size:11px;color:#9db9ee;overflow-wrap:anywhere}.foot{border-top:1px solid #343a46;border-bottom:0;display:flex;justify-content:space-between}.pill{font-size:11px;background:#3b4555;border-radius:20px;padding:3px 7px}@media(max-width:480px){.panel{width:100vw}}</style><div class="bg"><section class="panel"><div class="head"><b>Gallery Extractor <span class="pill">v1.1</span></b><button id="close">✕</button></div><div class="meta"><b id="title"></b><div class="muted" id="url"></div><p id="method"></p><div class="muted" id="detail"></div><div class="actions"><button class="primary" id="download">Download JSON</button><button id="copy">Copy JSON</button><button id="rescan">Rescan</button></div></div><div class="list" id="list"></div><div class="foot"><span class="muted" id="count"></span><span class="muted">Review before exporting</span></div></section></div>';
 document.documentElement.appendChild(host);
 const $=id=>sh.getElementById(id);
 $("title").textContent=pageTitle;$("url").textContent=location.href;
