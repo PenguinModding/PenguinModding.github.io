@@ -49,3 +49,17 @@ javascript:(()=>{const s=document.createElement('script');s.src='https://penguin
 ```
 
 Open a gallery page, wait for its cards to load, then click the bookmark. Review the detected entries before exporting. Some sites may still require a dedicated adapter if they hide their extension URLs behind inaccessible APIs or unusual application state.
+
+## Automatic gallery updates
+
+GitHub Actions now runs the gallery monitor daily, but the scanner only performs a full check when 15 days have elapsed since the last **complete** scan. You can also start a scan manually from the repository's **Actions → Update extension galleries → Run workflow** page.
+
+The monitor checks the 26 gallery URLs from the exported bookmark collection, using the old importers as extraction references and server-side adapters for each known layout. When it finds a valid gallery snapshot, it updates that gallery's JSON file and fills `newExtensions` with names newly detected since the previous snapshot.
+
+Safety rules:
+- If a website is unavailable or its layout cannot be parsed, its existing JSON is left untouched.
+- Very small or incomplete results are rejected rather than replacing a good snapshot.
+- Failed sites are retried on subsequent daily workflow runs; the 15-day timer resets only after every gallery succeeds.
+- The workflow commits changed JSON files and its scan state back to this repository.
+
+The browser bookmarklet and the scheduled server-side scanner are separate runtimes. The scheduled scanner uses Node.js and a static HTML parser, so it does not execute arbitrary JavaScript from gallery websites. A site that only reveals extension URLs after clicking a button or running client-side code may need a dedicated API adapter before it can be fully automated.
