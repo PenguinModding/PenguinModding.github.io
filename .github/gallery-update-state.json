@@ -1,6 +1,6 @@
 {
   "lastCheckedAt": "2026-10-21T00:00:00.000Z",
-  "lastAttemptAt": "2026-10-21T00:00:00.000Z",
+  "lastAttemptAt": "2026-11-06T07:32:17.762Z",
   "intervalDays": 15,
   "report": [
     {
@@ -105,7 +105,7 @@
       "id": "dinosaurmod",
       "status": "ok",
       "count": 9,
-      "new": 9,
+      "new": 0,
       "file": "dinosaurmod-extensions.json"
     },
     {
@@ -152,10 +152,8 @@
     },
     {
       "id": "tutelmod",
-      "status": "ok",
-      "count": 72,
-      "new": 72,
-      "file": "tutelmod-extensions.json"
+      "status": "error",
+      "error": "Error: Only 1 entries found; safety minimum is 58 (80% of previous 72). Existing JSON left untouched."
     },
     {
       "id": "adacraft",

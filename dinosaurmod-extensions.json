@@ -32,15 +32,5 @@
     "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/icons/placeholder.png",
     "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/icons/placeholder.png"
   ],
-  "newExtensions": [
-    "Site Runtime",
-    "Keys+",
-    "GitHub API",
-    "Python",
-    "Lua",
-    "Typable Tab Key",
-    "Useless blocks",
-    "Dogs",
-    "Functions and Tests"
-  ]
+  "newExtensions": []
 }
