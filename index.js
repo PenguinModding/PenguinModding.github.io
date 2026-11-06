@@ -45,8 +45,8 @@ function fromDOM(){
     if(propsKey)values.push(...getStrings(el[propsKey]));
    }
   }
-  const urls=values.flatMap(v=>{const direct=abs(v);const matches=String(v).match(/https?:\\/\\/[^"'\\s<>]+/g)||[];return [direct,...matches.map(abs)];});
-  return urls.find(v=>likelyLink(v)&&!/(github\\.com\\/[^/]+\\/?$|twitter\\.com|discord\\.gg)/i.test(v))||"";
+  const urls=values.flatMap(v=>{const direct=abs(v);const matches=String(v).match(/https?:\/\/[^"'\s<>]+/g)||[];return [direct,...matches.map(abs)];});
+  return urls.find(v=>likelyLink(v)&&!/(github\.com\/[^/]+\/?$|twitter\.com|discord\.gg)/i.test(v))||"";
  };
  // On galleries with explicit card actions, use those actions as the card boundary.
  const actionButtons=[...document.querySelectorAll("button,[role=button]")].filter(b=>/copy link|try it out/i.test(clean(b.innerText)));
@@ -66,7 +66,7 @@ function fromDOM(){
    const link=extractLink(card);
    const key=name.toLowerCase()+"|"+thumb;
    if(seen.has(key))return;seen.add(key);
-   out.push({name,link,thumb,isNew:/\\bnew\\b/i.test(clean(card.innerText))||!!card.querySelector("[class*=new i],[aria-label*=new i]")});
+   out.push({name,link,thumb,isNew:/\bnew\b/i.test(clean(card.innerText))||!!card.querySelector("[class*=new i],[aria-label*=new i]")});
   });
   if(out.length)return out;
  }
@@ -83,7 +83,7 @@ function fromDOM(){
   if(e.querySelectorAll("h1,h2,h3,h4,h5").length>2)return;
   const link=extractLink(e),key=name.toLowerCase()+"|"+thumb;
   if(seen.has(key))return;seen.add(key);
-  out.push({name,link,thumb,isNew:/\\bnew\\b/i.test(clean(e.innerText))||!!e.querySelector("[class*=new i],[aria-label*=new i]")});
+  out.push({name,link,thumb,isNew:/\bnew\b/i.test(clean(e.innerText))||!!e.querySelector("[class*=new i],[aria-label*=new i]")});
  });
  return out;
 }
