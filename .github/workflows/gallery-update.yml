@@ -47,5 +47,16 @@ jobs:
             echo "No repository changes to commit."
           else
             git commit -m "Automated 15-day extension gallery refresh"
-            git push
+            # Another commit can land on main while the gallery scan is running.
+            # Rebase the generated snapshot onto the newest main before pushing.
+            for attempt in 1 2 3; do
+              git fetch origin main
+              git rebase -X theirs origin/main
+              if git push origin HEAD:main; then
+                exit 0
+              fi
+              echo "Push raced with another main update; retrying ($attempt/3)."
+            done
+            echo "Could not push gallery refresh after 3 attempts."
+            exit 1
           fi
