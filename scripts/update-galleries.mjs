@@ -43,7 +43,7 @@ const uniq = items => {
   const map = new Map();
   for (const item of items) {
     const name = clean(item.name), link = clean(item.link), thumb = clean(item.thumb);
-    if (!name || name.length > 140 || /^(extensions?|filters?|categories|gallery|search|about|home|try it out|copy link)$/i.test(name)) continue;
+    if (!name || name.length > 140 || /^(extensions?|filters?|categories|gallery|search|about|home|try it out|copy link)$/i.test(name) || /extension gallery$/i.test(name)) continue;
     const key = (link || name).toLowerCase();
     if (!map.has(key)) map.set(key, {name, link, thumb});
     else {
