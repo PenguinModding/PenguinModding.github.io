@@ -304,7 +304,7 @@ async function fetchDedicated(source, finalUrl, body) {
     return result;
   }
 
-  // TutelMod is scanned from its configured live gallery page.
+  // TutelMod is scanned from its configured live gallery page; keep its live listing authoritative.
   // Do not use the unrelated TurtleMod-Team source repository as its catalogue.
 
   if (source.kind === "turbowarp") {
