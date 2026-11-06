@@ -304,26 +304,8 @@ async function fetchDedicated(source, finalUrl, body) {
     return result;
   }
 
-  if (source.kind === "tutelmod") {
-    const dataUrl = "https://raw.githubusercontent.com/TurtleMod-Team/TurtleMod-ExtensionsGallery/main/src/lib/extensions.js";
-    const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
-    if (!response.ok) throw new Error("TutelMod extension index HTTP " + response.status);
-    const js = await response.text();
-    const base = "https://turtlemod-team.github.io/TurtleMod-ExtensionsGallery/";
-    const items = extractObjectBlocks(js).map(object => {
-      const name = jsStringField(object, "name");
-      const code = jsStringField(object, "code");
-      const banner = jsStringField(object, "banner");
-      return {
-        name,
-        link: code ? absolute("extensions/" + code, base) : "",
-        thumb: banner ? absolute("images/" + banner, base) : ""
-      };
-    });
-    const result = uniq(items);
-    if (result.length < 20) throw new Error("TutelMod index returned only " + result.length + " usable extensions");
-    return result;
-  }
+  // TutelMod is scanned from its configured live gallery page.
+  // Do not use the unrelated TurtleMod-Team source repository as its catalogue.
 
   if (source.kind === "turbowarp") {
     const listUrl = "https://raw.githubusercontent.com/TurboWarp/extensions/master/extensions/extensions.json";
