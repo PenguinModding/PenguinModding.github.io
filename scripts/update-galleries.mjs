@@ -484,21 +484,27 @@ function mergeKnownFields(items, existing) {
   });
 }
 async function validSnapshot(items, existing) {
-  const min = Math.max(1, Math.min(3, Math.ceil((existing.names?.length||0)*0.2)));
-  const previousCount=existing.names?.length||0;
-  const safeMinimum=previousCount>=10?Math.max(min,Math.ceil(previousCount*0.5)):min;
-  if(items.length<safeMinimum)throw new Error("Only "+items.length+" entries found; safety minimum is "+safeMinimum+" (50% of previous "+previousCount+"). Existing JSON left untouched.");
-  const merged=mergeKnownFields(uniq(items),existing);
-  const checked=await mapLimit(merged,8,async item=>{
-    const [linkOk,thumbOk]=await Promise.all([
-      item.link?probeUrl(item.link):Promise.resolve(false),
-      item.thumb?probeUrl(item.thumb):Promise.resolve(false)
-    ]);
-    return {...item,link:linkOk?item.link:"",thumb:thumbOk?item.thumb:""};
-  });
-  const complete=checked.filter(x=>x.name && (x.link||x.thumb));
-  if(complete.length<min)throw new Error("Too few entries with verified links or thumbnails ("+complete.length+"). Existing JSON left untouched.");
-  return uniq(complete);
+  const previousCount = existing.names?.length || 0;
+  // A sudden large drop is more likely a partial/client-rendered scrape than
+  // hundreds of extensions being intentionally removed. Keep the old file.
+  const safeMinimum = previousCount >= 10
+    ? Math.max(3, Math.ceil(previousCount * 0.8))
+    : Math.max(1, Math.min(3, Math.ceil(previousCount * 0.2)));
+  const unique = uniq(items);
+  if (unique.length < safeMinimum) {
+    throw new Error("Only " + unique.length + " entries found; safety minimum is " + safeMinimum + " (80% of previous " + previousCount + "). Existing JSON left untouched.");
+  }
+
+  // Do not use HEAD/GET probes as a reason to delete an entry. Many gallery
+  // hosts reject automated HEAD requests, rate-limit CI, or serve assets via
+  // redirects while the URL still works in a browser. Keep discovered URLs
+  // and merge previously known URLs when a refreshed card omits them.
+  const merged = mergeKnownFields(unique, existing);
+  return uniq(merged.map(item => ({
+    name: clean(item.name),
+    link: isUsefulLink(item.link) ? item.link : "",
+    thumb: isImage(item.thumb) ? item.thumb : ""
+  })));
 }
 
 async function main() {
