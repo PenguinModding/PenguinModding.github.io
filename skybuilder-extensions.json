@@ -1,0 +1,22 @@
+{
+  "names": [
+    "Geometry Dash Tools",
+    "Sparrow",
+    "SK17"
+  ],
+  "links": [
+    "https://skybuilder-extensions.vercel.app/extensions/GeometryDashTools.js",
+    "https://skybuilder-extensions.vercel.app/extensions/Sparrow.js",
+    "https://skybuilder-extensions.vercel.app/extensions/SK17.js"
+  ],
+  "thumbnails": [
+    "https://skybuilder-extensions.vercel.app/static/extensions/GeometryDashTools.png",
+    "https://skybuilder-extensions.vercel.app/static/extensions/Sparrow.svg",
+    "https://skybuilder-extensions.vercel.app/static/extensions/SK17.svg"
+  ],
+  "newExtensions": [
+    "Geometry Dash Tools",
+    "Sparrow",
+    "SK17"
+  ]
+}

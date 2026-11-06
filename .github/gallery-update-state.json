@@ -1,6 +1,6 @@
 {
   "lastCheckedAt": null,
-  "lastAttemptAt": "2026-11-06T06:36:30.461Z",
+  "lastAttemptAt": "2026-11-06T06:38:19.942Z",
   "intervalDays": 15,
   "report": [
     {
@@ -122,8 +122,10 @@
     },
     {
       "id": "skybuilder",
-      "status": "error",
-      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
+      "status": "ok",
+      "count": 3,
+      "new": 3,
+      "file": "skybuilder-extensions.json"
     },
     {
       "id": "m0v0",
