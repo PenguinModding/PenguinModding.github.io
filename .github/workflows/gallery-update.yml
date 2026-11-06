@@ -60,3 +60,5 @@ jobs:
             echo "Could not push gallery refresh after 3 attempts."
             exit 1
           fi
+
+# Trigger a validation scan after adapter updates.
