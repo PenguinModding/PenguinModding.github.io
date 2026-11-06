@@ -156,8 +156,26 @@ function parseJsObjectFeed(text, base, kind) {
     $("a[href]").each((_,a)=>{const name=clean($(a).text());const link=absolute($(a).attr("href"),base);if(name&&isUsefulLink(link))found.push({name,link,thumb:""});});
   }
   if(kind==="ziplox") {
-    const re=/\{\s*displaytitle\s*:\s*["']([^"']+)["'][\s\S]*?banner\s*:\s*["']([^"']*)["'][\s\S]*?code\s*:\s*["']([^"']+)["'][\s\S]*?\}/g;
-    for(const m of text.matchAll(re))found.push({name:m[1],thumb:absolute(m[2],base),link:absolute(m[3],base)});
+    // Parse each flat object separately to stop fields leaking between entries.
+    const objects=text.match(/\{[^{}]*\}/g)||[];
+    const field=(object,...keys)=>{
+      for(const key of keys) {
+        const escaped=key.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+        const match=object.match(new RegExp("(?:^|[,\\s])"+escaped+"\\s*:\\s*([\\\"'`])([\\s\\S]*?)\\1","i"));
+        if(match)return match[2].trim();
+      }
+      return "";
+    };
+    for(const object of objects) {
+      const displayTitle=field(object,"displayTitle","displaytitle","title","name");
+      const internalTitle=field(object,"internalTitle","internaltitle","id");
+      const code=field(object,"code","url","link","extensionURL","extensionUrl");
+      const banner=field(object,"banner","thumbnail","thumbnailURL","thumbnailUrl","image","icon");
+      const name=clean(displayTitle||internalTitle);
+      const link=absolute(code,base);
+      const thumb=absolute(banner,base);
+      if(name && (isUsefulLink(link)||isImage(thumb)))found.push({name,link:isUsefulLink(link)?link:"",thumb:isImage(thumb)?thumb:""});
+    }
   }
   return uniq(found);
 }
