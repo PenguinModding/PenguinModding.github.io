@@ -454,6 +454,12 @@ async function fetchDedicated(source, finalUrl, body) {
 }
 
 async function fetchSource(source) {
+  // Pooiod7 is indexed by its independent JSON feed. Do not require its
+  // gallery homepage to load first: CI can be blocked by the Pages frontend
+  // even while the source index and extension assets are available.
+  if (source.kind === "pooiod7") {
+    return fetchDedicated(source, source.url, "");
+  }
   const response = await fetch(source.url,{redirect:"follow",headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0 (+https://github.com/PenguinModding/PenguinModding.github.io)","accept":"text/html,application/json,text/plain,*/*"},signal:AbortSignal.timeout(35000)});
   if(!response.ok) throw new Error("HTTP "+response.status);
   const body=await response.text();
