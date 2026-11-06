@@ -32,15 +32,5 @@
     "https://electramod-extensions-gallery.vercel.app/MubiLop/electragpt.png",
     "https://electramod-extensions-gallery.vercel.app/Aness6040/md2html.png"
   ],
-  "newExtensions": [
-    "Debugger Console",
-    "Lazy Multi-lines",
-    "Jul Mik Utilities",
-    "GLSL Custom Shader",
-    "E2EE",
-    "WebRTC",
-    "ElectraAPI",
-    "ElectraGPT",
-    "Markdown to HTML"
-  ]
+  "newExtensions": []
 }

@@ -23,12 +23,5 @@
     "https://greedyallay.github.io/extensions/resources/ollama.png",
     "https://greedyallay.github.io/extensions/resources/hashing.png"
   ],
-  "newExtensions": [
-    "HTML",
-    "Tiles (UPDATED)",
-    "On-screen Controls",
-    "Simple Console",
-    "Ollama",
-    "Simple Hashing"
-  ]
+  "newExtensions": []
 }
