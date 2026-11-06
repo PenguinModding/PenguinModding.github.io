@@ -1,12 +1,46 @@
 {
   "names": [
-    "GitHub API"
+    "Site Runtime",
+    "Keys+",
+    "GitHub API",
+    "Python",
+    "Lua",
+    "Typable Tab Key",
+    "Useless blocks",
+    "Dogs",
+    "Functions and Tests"
   ],
   "links": [
-    "https://www.youtube.com/channel/UCJzRC3HsauioZoc9vKC6W4g"
+    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/webextension.js",
+    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/keys-plus-extension.js",
+    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/github-api.js",
+    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/python.js",
+    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/lua.js",
+    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/typable-tab-character.js",
+    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/Useless_Blocks.js",
+    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/dogs.js",
+    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/jasmine.js"
   ],
   "thumbnails": [
-    ""
+    "https://gabsthecuriouskid.github.io/DinosaurModExtensions/images/images/site-runtime.png",
+    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/icons/keysPlus.png",
+    "https://gabsthecuriouskid.github.io/DinosaurModExtensions/images/images/githubapi.png",
+    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/icons/python.png",
+    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/icons/lua.png",
+    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/icons/placeholder.png",
+    "https://gabsthecuriouskid.github.io/DinosaurModExtensions/images/images/Useless_Blocks.png",
+    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/icons/placeholder.png",
+    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/icons/placeholder.png"
   ],
-  "newExtensions": []
+  "newExtensions": [
+    "Site Runtime",
+    "Keys+",
+    "GitHub API",
+    "Python",
+    "Lua",
+    "Typable Tab Key",
+    "Useless blocks",
+    "Dogs",
+    "Functions and Tests"
+  ]
 }

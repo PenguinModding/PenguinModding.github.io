@@ -1,6 +1,6 @@
 {
-  "lastCheckedAt": "2026-10-21T00:00:00.000Z",
-  "lastAttemptAt": "2026-10-21T00:00:00.000Z",
+  "lastCheckedAt": "2026-11-06T07:29:29.990Z",
+  "lastAttemptAt": "2026-11-06T07:29:29.990Z",
   "intervalDays": 15,
   "report": [
     {
@@ -60,11 +60,11 @@
       "file": "coast-extensions.json"
     },
     {
-      "id": "pooid7",
+      "id": "pooiod7",
       "status": "ok",
       "count": 28,
       "new": 0,
-      "file": "pooid7-extensions.json"
+      "file": "pooiod7-extensions.json"
     },
     {
       "id": "cst",
@@ -104,8 +104,8 @@
     {
       "id": "dinosaurmod",
       "status": "ok",
-      "count": 1,
-      "new": 0,
+      "count": 9,
+      "new": 9,
       "file": "dinosaurmod-extensions.json"
     },
     {
@@ -153,8 +153,8 @@
     {
       "id": "tutelmod",
       "status": "ok",
-      "count": 1,
-      "new": 0,
+      "count": 72,
+      "new": 72,
       "file": "tutelmod-extensions.json"
     },
     {
