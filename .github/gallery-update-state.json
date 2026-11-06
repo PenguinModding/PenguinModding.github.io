@@ -1,6 +1,6 @@
 {
   "lastCheckedAt": null,
-  "lastAttemptAt": "2026-11-06T06:01:40.201Z",
+  "lastAttemptAt": "2026-11-06T06:03:06.536Z",
   "intervalDays": 15,
   "report": [
     {
@@ -31,7 +31,7 @@
       "id": "ziplox",
       "status": "ok",
       "count": 6,
-      "new": 1,
+      "new": 0,
       "file": "ziplox-extensions.json"
     },
     {
@@ -50,7 +50,7 @@
       "id": "coast",
       "status": "ok",
       "count": 329,
-      "new": 329,
+      "new": 0,
       "file": "coast-extensions.json"
     },
     {
@@ -89,7 +89,7 @@
       "id": "dinosaurmod",
       "status": "ok",
       "count": 1,
-      "new": 1,
+      "new": 0,
       "file": "dinosaurmod-extensions.json"
     },
     {
@@ -120,7 +120,7 @@
       "id": "goofywarp",
       "status": "ok",
       "count": 98,
-      "new": 1,
+      "new": 0,
       "file": "goofywarp-extensions.json"
     },
     {
@@ -141,7 +141,7 @@
       "id": "adacraft",
       "status": "ok",
       "count": 149,
-      "new": 149,
+      "new": 0,
       "file": "adacraft-extensions.json"
     },
     {
@@ -153,14 +153,14 @@
       "id": "kittenblock",
       "status": "ok",
       "count": 147,
-      "new": 147,
+      "new": 0,
       "file": "kittenblock-extensions.json"
     },
     {
       "id": "turbololder",
       "status": "ok",
       "count": 4,
-      "new": 4,
+      "new": 0,
       "file": "turbololder-extensions.json"
     }
   ]
