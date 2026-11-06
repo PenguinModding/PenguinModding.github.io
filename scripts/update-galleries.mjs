@@ -294,7 +294,7 @@ async function fetchDedicated(source, finalUrl, body) {
       "https://raw.githubusercontent.com/pooiod/ScratchExtensions/main/extensions.json"
     ];
     let data = null;
-    let lastError = "";
+    const errors = [];
     for (const dataUrl of urls) {
       try {
         const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0","accept":"application/json"},signal:AbortSignal.timeout(35000)});
@@ -303,19 +303,36 @@ async function fetchDedicated(source, finalUrl, body) {
         if (!Array.isArray(parsed) || !parsed.length) throw new Error("Extension index was empty or not an array");
         data = parsed;
         break;
-      } catch (error) { lastError = String(error); }
+      } catch (error) { errors.push(dataUrl + ": " + String(error)); }
     }
-    if (!data) throw new Error("Pooiod7 extension index unavailable: " + lastError);
-    return uniq(data.filter(item => item && item.hidden !== true).map(item => {
-      const id = String(item.id || "");
-      // The site's viewer loads /ext/<id>/main.js by default. Its button
-      // URL is a viewer route, not the executable extension URL.
+    // Last-resort source: GitHub's contents API. This avoids depending on
+    // either the Pages deployment or raw-content CDN being available to CI.
+    if (!data) {
+      try {
+        const response = await fetch("https://api.github.com/repos/pooiod/ScratchExtensions/contents/extensions.json", {
+          headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0","accept":"application/vnd.github+json"},
+          signal:AbortSignal.timeout(35000)
+        });
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        const file = await response.json();
+        const parsed = JSON.parse(Buffer.from(file.content || "", "base64").toString("utf8"));
+        if (!Array.isArray(parsed) || !parsed.length) throw new Error("GitHub API returned an empty or invalid index");
+        data = parsed;
+      } catch (error) { errors.push("GitHub contents API: " + String(error)); }
+    }
+    if (!data) throw new Error("Pooiod7 extension index unavailable. " + errors.join(" | "));
+    const items = uniq(data.filter(item => item && item.hidden !== true).map(item => {
+      const id = String(item.id || "").trim();
+      const name = clean(item.title || item.name || id);
+      // The viewer defaults to /ext/<id>/main.js. Use the exact published
+      // asset path and retain the cover path supplied by the index.
       const link = id ? absolute("ext/" + encodeURIComponent(id) + "/main.js", "https://p7scratchextensions.pages.dev/") : "";
-      const thumb = item.image && id
-        ? absolute(item.image.replaceAll("[id]", id), "https://p7scratchextensions.pages.dev/")
-        : "";
-      return {name:item.title,link,thumb};
+      const imagePath = typeof item.image === "string" ? item.image.replaceAll("[id]", id) : "";
+      const thumb = imagePath ? absolute(imagePath, "https://p7scratchextensions.pages.dev/") : "";
+      return {name,link,thumb};
     }));
+    if (items.length < 3) throw new Error("Pooiod7 index parsed but only " + items.length + " usable entries were extracted");
+    return items;
   }
 
   if (source.kind === "skybuilder") {
