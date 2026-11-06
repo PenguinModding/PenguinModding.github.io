@@ -44,7 +44,7 @@ const normalizedUrl = value => {
     const url = new URL(value);
     url.hash = "";
     url.hostname = url.hostname.toLowerCase();
-    if (url.pathname.length > 1) url.pathname = url.pathname.replace(/\\/+$/, "");
+    if (url.pathname.length > 1) url.pathname = url.pathname.replace(/\/+$/, "");
     return url.href;
   } catch { return ""; }
 };
