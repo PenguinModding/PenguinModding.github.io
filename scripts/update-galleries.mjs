@@ -22,7 +22,7 @@ const SOURCES = [
   { id:"pen", file:"pen-extensions.json", url:"https://pen-group.github.io/extensions/", kind:"pen" },
   { id:"ruby", file:"ruby-extensions.json", url:"https://ruby-devs.vercel.app/gallery", kind:"ruby" },
   { id:"dinosaurmod", file:"dinosaurmod-extensions.json", url:"https://dinosaurmod.github.io/extensions/", kind:"dinosaur" },
-  { id:"electramod", file:"misc-extensions.json", url:"https://electramod-extensions-gallery.vercel.app/", kind:"electra" },
+  { id:"electramod", file:"electramod-extensions.json", url:"https://electramod-extensions-gallery.vercel.app/", kind:"electra" },
   { id:"mgik", file:"mgik-extensions.json", url:"https://s.mgik.dev/CRAZYextensionlistwow.json?ref=ListOfAllExtensionDiscord", kind:"json" },
   { id:"skybuilder", file:"skybuilder-extensions.json", url:"https://skybuilder-extensions.vercel.app/?ref=ListOfAllExtensionDiscord", kind:"generic" },
   { id:"m0v0", file:"m0v0-extensions.json", url:"https://m0v0.github.io/Website/?ref=ListOfAllExtensionDiscord", kind:"generic" },
