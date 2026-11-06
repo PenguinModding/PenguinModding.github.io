@@ -131,8 +131,12 @@
     "TILT_DIRECTION_ANY",
     "TILT_DIRECTION_ANY",
     "TILT_DIRECTION_ANY",
+    "nom du costume",
+    "adacraft cloud",
     "STEPS",
+    "input",
     "Chronometer",
+    "vittascience",
     "Posenet2Scratch",
     "Posenet2Scratch",
     "ML2Scratch",
@@ -143,7 +147,8 @@
     "Go Direct Force & Acceleration",
     "Go Direct Force & Acceleration",
     "Croquet",
-    "Makey Makey"
+    "Makey Makey",
+    "optInOut"
   ],
   "links": [
     "https://github.com/fauna/faunadb-js/issues",
@@ -277,8 +282,12 @@
     "https://www.adacraft.org/studio/js/wedo2_whenTilted",
     "https://www.adacraft.org/studio/js/wedo2_getDistance",
     "https://www.adacraft.org/studio/js/wedo2_getTiltAngle",
+    "https://www.adacraft.org/studio/js/demander%20%1%20et%20ouvrir%20un%20fichier%20binaire",
+    "https://ojpnrfomcjvmsdetfahv.supabase.co/",
     "https://www.adacraft.org/studio/js/motion_movesteps",
+    "https://www.adacraft.org/studio/js/.concat(e.cmd));const%20o=h[e.cmd].opcode,i=o.indexOf(",
     "https://www.adacraft.org/studio/js/show",
+    "https://storage.beta.adacraft.org/",
     "https://www.adacraft.org/studio/js/croquet",
     "https://www.adacraft.org/studio/js/posenet2scratch",
     "https://www.adacraft.org/studio/js/ml2scratch",
@@ -289,7 +298,8 @@
     "https://www.adacraft.org/studio/js/wedo2",
     "https://www.adacraft.org/studio/js/gdxfor",
     "https://www.adacraft.org/studio/js/adasound",
-    "https://www.adacraft.org/studio/js/text2speech"
+    "https://www.adacraft.org/studio/js/text2speech",
+    "https://scratch.mit.edu/privacy_policy/"
   ],
   "thumbnails": [
     "",
@@ -435,7 +445,18 @@
     "",
     "",
     "",
+    "",
+    "",
+    "",
+    "",
+    "",
     ""
   ],
-  "newExtensions": []
+  "newExtensions": [
+    "nom du costume",
+    "adacraft cloud",
+    "input",
+    "vittascience",
+    "optInOut"
+  ]
 }

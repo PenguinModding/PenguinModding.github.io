@@ -66,7 +66,8 @@
     "Turbo-Skins",
     "Scenes",
     "Pen-Papers",
-    "MIDI-Tools"
+    "MIDI-Tools",
+    "Example"
   ],
   "links": [
     "https://sharkpools-extensions.vercel.app/extension-code/Sharktilities.js",
@@ -135,7 +136,8 @@
     "https://sharkpools-extensions.vercel.app/extension-code/Turbo-Skins.js",
     "https://sharkpools-extensions.vercel.app/extension-code/Scenes.js",
     "https://sharkpools-extensions.vercel.app/extension-code/Pen-Papers.js",
-    "https://sharkpools-extensions.vercel.app/extension-code/MIDI-Tools.js"
+    "https://sharkpools-extensions.vercel.app/extension-code/MIDI-Tools.js",
+    "https://sharkpools-extensions.vercel.app/extension-code/Example.js"
   ],
   "thumbnails": [
     "https://sharkpools-extensions.vercel.app/extension-thumbs/Sharktilities.svg",
@@ -204,7 +206,10 @@
     "https://sharkpools-extensions.vercel.app/extension-thumbs/Turbo-Skins.svg",
     "https://sharkpools-extensions.vercel.app/extension-thumbs/Scenes.svg",
     "https://sharkpools-extensions.vercel.app/extension-thumbs/Pen-Papers.svg",
-    "https://sharkpools-extensions.vercel.app/extension-thumbs/MIDI-Tools.svg"
+    "https://sharkpools-extensions.vercel.app/extension-thumbs/MIDI-Tools.svg",
+    "https://sharkpools-extensions.vercel.app/extension-thumbs/Example.svg"
   ],
-  "newExtensions": []
+  "newExtensions": [
+    "Example"
+  ]
 }

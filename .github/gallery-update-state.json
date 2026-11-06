@@ -1,6 +1,6 @@
 {
   "lastCheckedAt": null,
-  "lastAttemptAt": "2026-11-06T06:33:00.412Z",
+  "lastAttemptAt": "2026-11-06T06:34:02.050Z",
   "intervalDays": 15,
   "report": [
     {
@@ -20,8 +20,8 @@
     {
       "id": "sharkpool",
       "status": "ok",
-      "count": 67,
-      "new": 0,
+      "count": 68,
+      "new": 1,
       "file": "sharkpool-extensions.json"
     },
     {
@@ -55,8 +55,8 @@
     {
       "id": "coast",
       "status": "ok",
-      "count": 53,
-      "new": 0,
+      "count": 329,
+      "new": 276,
       "file": "coast-extensions.json"
     },
     {
@@ -108,14 +108,16 @@
     },
     {
       "id": "electramod",
-      "status": "error",
-      "error": "Error: Too few entries with verified links or thumbnails (0). Existing JSON left untouched."
+      "status": "ok",
+      "count": 9,
+      "new": 0,
+      "file": "electramod-extensions.json"
     },
     {
       "id": "mgik",
       "status": "ok",
-      "count": 303,
-      "new": 0,
+      "count": 334,
+      "new": 31,
       "file": "mgik-extensions.json"
     },
     {
@@ -154,8 +156,8 @@
     {
       "id": "adacraft",
       "status": "ok",
-      "count": 144,
-      "new": 0,
+      "count": 149,
+      "new": 5,
       "file": "adacraft-extensions.json"
     },
     {
@@ -168,8 +170,8 @@
     {
       "id": "kittenblock",
       "status": "ok",
-      "count": 4,
-      "new": 0,
+      "count": 147,
+      "new": 143,
       "file": "kittenblock-extensions.json"
     },
     {
