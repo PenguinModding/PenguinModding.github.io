@@ -7,7 +7,7 @@ const STATE_PATH = path.join(ROOT, ".github/gallery-update-state.json");
 const INTERVAL_MS = 15 * 24 * 60 * 60 * 1000;
 const NOW = new Date();
 const SOURCES = [
-  { id:"penguinmod", file:"penguinmod-extensions.json", url:"https://extensions.penguinmod.com/?editor=true", kind:"penguinmod" },
+  { id:"penguinmod", file:"penguinmod-extensions.json", url:"https://extensions.penguinmod.com/?editor=false", kind:"penguinmod" },
   { id:"turbowarp", file:"turbowarp-extensions.json", url:"https://extensions.turbowarp.org/", kind:"turbowarp" },
   { id:"sharkpool", file:"sharkpool-extensions.json", url:"https://sharkpools-extensions.vercel.app/?originPM=true", kind:"sharkpool" },
   { id:"godslayer", file:"godslayer-extensions.json", url:"https://godslayerakp.gay/extensions.server.js", kind:"godslayer" },
@@ -30,7 +30,7 @@ const SOURCES = [
   { id:"alejo", file:"alejo-extensions.json", url:"https://alejo14.vercel.app/extensions.html", kind:"generic" },
   { id:"tutelmod", file:"tutelmod-extensions.json", url:"https://extensions.tutelmod.com/?editor=true", kind:"tutelmod" },
   { id:"adacraft", file:"adacraft-extensions.json", url:"https://www.adacraft.org/studio/?ref=ListOfAllExtensionDiscord", kind:"generic" },
-  { id:"tringlyman", file:"tringlyman-extensions.json", url:"https://tringlyman.github.io/Scratch-Extensions/", kind:"generic" },
+  { id:"tringlyman", file:"tringlyman-extensions.json", url:"https://tringlyman.github.io/Scratch-Extensions/", kind:"tringlyman" },
   { id:"kittenblock", file:"kittenblock-extensions.json", url:"https://kblock.kittenbot.cc/?ref=ListOfAllExtensionDiscord", kind:"generic" },
   { id:"turbololder", file:"turbololder-extensions.json", url:"https://turbololder.vercel.app/", kind:"generic" }
 ];
@@ -51,24 +51,22 @@ const normalizedUrl = value => {
 const identityKeys = item => {
   const link = normalizedUrl(item.link);
   const name = clean(item.name).toLocaleLowerCase("en");
-  return [link && "url:" + link, name && "name:" + name].filter(Boolean);
+  return link ? ["url:" + link] : name ? ["name:" + name] : [];
 };
 const uniq = items => {
-  const map = new Map(), aliases = new Map();
+  const map = new Map();
   for (const item of items) {
     const name = clean(item.name), link = clean(item.link), thumb = clean(item.thumb);
     if (!name || name.length > 140 || /^(extensions?|filters?|categories|gallery|search|about|home|try it out|copy link)$/i.test(name) || /extension gallery$/i.test(name)) continue;
-    const keys = identityKeys({name,link});
-    let key = keys.map(k => aliases.get(k) || k).find(k => map.has(k)) || keys[0];
+    const key = identityKeys({name,link})[0];
     if (!key) continue;
     if (!map.has(key)) map.set(key, {name, link, thumb});
     else {
       const prior = map.get(key);
       if ((!prior.thumb || !isImage(prior.thumb)) && thumb) prior.thumb = thumb;
       if (!prior.link && link) prior.link = link;
-      if (name.length > prior.name.length && prior.name === slugName(prior.name)) prior.name = name;
+      if (name.length > prior.name.length) prior.name = name;
     }
-    for (const alias of keys) aliases.set(alias,key);
   }
   return [...map.values()];
 };
@@ -305,9 +303,9 @@ async function fetchDedicated(source, finalUrl, body) {
     const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
     if (!response.ok) throw new Error("DDE extension index HTTP " + response.status);
     const data = await response.json();
-    return uniq(data.filter(item => !item.hidden && item.canBeUsedOn?.nb).map(item => ({
+    return uniq(data.filter(item => !item.hidden).map(item => ({
       name: item.name,
-      link: absolute("extensions/code/" + item.id, finalUrl),
+      link: absolute("extensions/code/" + item.id + ".js", finalUrl),
       thumb: absolute("extensions/thumbnail/" + item.id + "." + (item.imgFormat || "svg"), finalUrl)
     })));
   }
