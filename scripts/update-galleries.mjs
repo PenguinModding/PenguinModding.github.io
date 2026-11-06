@@ -91,7 +91,7 @@ function fromHtml(html, base, kind) {
     el.find("*").addBack().each((_,node)=>{
       const n=$(node);
       for(const a of attrs){const v=n.attr(a);if(v){const u=absolute(v,base);if(isUsefulLink(u)&&u!==base){link=u;break;}}}
-      if(!link){const raw=[n.attr("onclick"),n.attr("onmousedown"),n.attr("data-clipboard-text"),n.attr("data-copy")].filter(Boolean).join(" ");const m=raw.match(/(?:https?:\/\/|\.\/|\.\.\/|\/)[^"'\\s<>]+/);if(m)link=absolute(m[0],base);}
+      if(!link){const raw=[n.attr("onclick"),n.attr("onmousedown"),n.attr("data-clipboard-text"),n.attr("data-copy")].filter(Boolean).join(" ");const m=raw.match(/(?:https?:\/\/|\.\/|\.\.\/|\/)[^"'\s<>]+/);if(m)link=absolute(m[0],base);}
       if(link)return false;
     });
     if (!link) {
@@ -202,7 +202,7 @@ async function fetchSource(source) {
       const js=await sr.text();
       const parsed=fromHtml("<script>"+js.replace(/</g,"\\u003c")+"</script>",scriptUrl,source.kind);
       bundleItems.push(...parsed);
-      const rx=/(?:name|title)\\s*:\\s*["']([^"']{2,100})["'][\\s\\S]{0,1200}?(?:extensionId|extensionURL|extensionUrl|code|url|href)\\s*:\\s*["']([^"']{4,500})["']/gi;
+      const rx=/(?:name|title)\s*:\s*["']([^"']{2,100})["'][\s\S]{0,1200}?(?:extensionId|extensionURL|extensionUrl|code|url|href)\s*:\s*["']([^"']{4,500})["']/gi;
       for(const m of js.matchAll(rx)) {
         const link=absolute(m[2],scriptUrl);
         if(isUsefulLink(link))bundleItems.push({name:m[1],link,thumb:""});
