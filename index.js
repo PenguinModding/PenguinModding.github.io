@@ -15,8 +15,9 @@ function fromJSON(root){
  const o={};for(const [k,x] of Object.entries(v))if(typeof x==="string"||typeof x==="number")o[k.toLowerCase()]=String(x);
  const pick=(...keys)=>{for(const k of keys)if(o[k])return o[k];return"";};
  const name=clean(pick("name","title","displayname","display_name","extensionname"));
- const link=abs(pick("url","link","href","src","code","source","extensionurl"));
- const thumb=abs(pick("thumbnail","thumbnailurl","thumbnail_url","image","icon","banner","cover"));
+ let link=abs(pick("url","link","href","src","code","source","extensionurl","extensionid","extension_id"));
+ if(link){try{const u=new URL(link);const embedded=u.searchParams.get("url")||u.searchParams.get("extension");if(embedded)link=abs(embedded);}catch{}}
+ const thumb=abs(pick("thumbnail","thumbnailurl","thumbnail_url","image","icon","banner","cover","rawurl","raw_url"));
  if(name||link||thumb){const key=name.toLowerCase()+"|"+link;if(!seen.has(key)){seen.add(key);out.push({name:name||"Unnamed extension",link,thumb,isNew:Boolean(v.new||v.isNew||v.is_new)});}}
  Object.values(v).forEach(x=>walk(x,d+1));
  }
