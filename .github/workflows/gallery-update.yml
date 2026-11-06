@@ -1,6 +1,11 @@
 name: Update extension galleries
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/update-galleries.mjs"
+      - ".github/workflows/gallery-update.yml"
   schedule:
     - cron: "17 4 * * *"
   workflow_dispatch:
