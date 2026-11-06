@@ -68,8 +68,9 @@ function parseJsonTree(root, base) {
     if (link) {
       try { const u=new URL(link); link=absolute(u.searchParams.get("extension")||u.searchParams.get("url")||u.searchParams.get("src")||link,base); } catch {}
     }
-    const thumb = absolute(pick("thumbnail","thumbnailurl","thumbnail_url","image","icon","banner","cover","rawurl","raw_url"),base);
-    if (name && (isUsefulLink(link)||thumb)) found.push({name,link:isUsefulLink(link)?link:"",thumb:isImage(thumb)?thumb:thumb});
+    const thumbValue = pick("thumbnail","thumbnailurl","thumbnail_url","image","imageurl","image_url","icon","iconurl","icon_url","banner","bannerurl","banner_url","cover","coverurl","cover_url");
+    const thumb = absolute(thumbValue,base);
+    if (name && (isUsefulLink(link)||isImage(thumb))) found.push({name,link:isUsefulLink(link)?link:"",thumb:isImage(thumb)?thumb:""});
     Object.values(value).forEach(v=>visit(v,depth+1));
   };
   visit(root);
@@ -82,8 +83,9 @@ function fromHtml(html, base, kind) {
   const addCard = (card, forcedName) => {
     const el = $(card);
     const name = clean(forcedName || el.find("h1,h2,h3,h4,h5,.title,.name,.card-title,.extension-name,.extension-title,.libraryItemName,strong,[data-name]").first().text() || el.attr("data-name") || el.attr("aria-label") || el.find("img").first().attr("alt"));
-    const img = el.find("img,picture source,meta[property='og:image']").first();
-    const thumb = absolute(img.attr("src") || img.attr("data-src") || img.attr("data-lazy-src") || img.attr("srcset")?.split(",")[0]?.trim().split(/\s+/)[0] || img.attr("content"),base);
+    const img = el.find("img,picture source,meta[property='og:image'],meta[name='twitter:image']").first();
+    const thumbRaw = img.attr("src") || img.attr("data-src") || img.attr("data-lazy-src") || img.attr("data-original") || img.attr("data-image") || img.attr("data-thumb") || img.attr("data-srcset")?.split(",")[0]?.trim().split(/\s+/)[0] || img.attr("srcset")?.split(",")[0]?.trim().split(/\s+/)[0] || img.attr("content");
+    const thumb = thumbRaw && (/^https?:|^\//i.test(thumbRaw)) ? absolute(thumbRaw,base) : "";
     let link = "";
     const attrs = ["href","data-href","data-url","data-src","data-extension-url","data-code","data-link","data-copy","data-clipboard-text","download-url"];
     el.find("*").addBack().each((_,node)=>{
