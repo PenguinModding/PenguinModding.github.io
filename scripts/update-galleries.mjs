@@ -257,6 +257,67 @@ async function fetchDedicated(source, finalUrl, body) {
     }));
   }
 
+  if (source.kind === "sharkpool") {
+    const dataUrl = "https://raw.githubusercontent.com/SharkPool-SP/SharkPools-Extensions/main/Gallery%20Files/Extension-Keys.json";
+    const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
+    if (!response.ok) throw new Error("SharkPool extension index HTTP " + response.status);
+    const data = await response.json();
+    return uniq(Object.entries(data.extensions || {}).filter(([, item]) => !item.isDeprecated).map(([name, item]) => ({
+      name,
+      link: item.url ? absolute("extension-code/" + item.url, finalUrl) : "",
+      thumb: item.banner ? absolute("extension-thumbs/" + item.banner, finalUrl) : ""
+    })));
+  }
+
+  if (source.kind === "pooiod7") {
+    const dataUrl = absolute("extensions.json", finalUrl);
+    const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
+    if (!response.ok) throw new Error("Pooiod7 extension index HTTP " + response.status);
+    const data = await response.json();
+    const visible = data.filter(item => item.hidden !== true);
+    return uniq(visible.map(item => ({
+      name: item.title,
+      link: absolute("ext/" + encodeURIComponent(item.id) + "/main.js", finalUrl),
+      thumb: item.image ? absolute(item.image.replaceAll("[id]", item.id), finalUrl) : ""
+    })));
+  }
+
+  if (source.kind === "dde") {
+    const dataUrl = absolute("extensions/extensions.json", finalUrl);
+    const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
+    if (!response.ok) throw new Error("DDE extension index HTTP " + response.status);
+    const data = await response.json();
+    return uniq(data.filter(item => !item.hidden && item.canBeUsedOn?.nb).map(item => ({
+      name: item.name,
+      link: absolute("extensions/code/" + item.id, finalUrl),
+      thumb: absolute("extensions/thumbnail/" + item.id + "." + (item.imgFormat || "svg"), finalUrl)
+    })));
+  }
+
+  if (source.kind === "lemons") {
+    const dataUrl = absolute("extensions.json", finalUrl);
+    const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
+    if (!response.ok) throw new Error("Lemons extension index HTTP " + response.status);
+    const data = await response.json();
+    return uniq(data.map(item => ({
+      name: item.title,
+      link: item.url ? absolute(item.url, finalUrl) : "",
+      thumb: item.img ? absolute(item.img, finalUrl) : ""
+    })));
+  }
+
+  if (source.kind === "ruby") {
+    const dataUrl = "https://ruby-devs.vercel.app/data/extensions.json";
+    const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
+    if (!response.ok) throw new Error("Ruby extension index HTTP " + response.status);
+    const data = await response.json();
+    return uniq(data.map(item => ({
+      name: item.name,
+      link: item.url ? absolute(item.url, finalUrl) : "",
+      thumb: item.thumb ? absolute(item.thumb, finalUrl) : ""
+    })));
+  }
+
   if (source.kind === "allay") {
     const $ = load(body);
     const found = [];
