@@ -161,7 +161,7 @@ function parseJsObjectFeed(text, base, kind) {
     const field=(object,...keys)=>{
       for(const key of keys) {
         const escaped=key.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-        const match=object.match(new RegExp("(?:^|[,\\s])"+escaped+"\\s*:\\s*([\\\"'`])([\\s\\S]*?)\\1","i"));
+        const match=object.match(new RegExp("(?:^|\\{|[,\\s])"+escaped+"\\s*:\\s*([\\\"'`])([\\s\\S]*?)\\1","i"));
         if(match)return match[2].trim();
       }
       return "";
