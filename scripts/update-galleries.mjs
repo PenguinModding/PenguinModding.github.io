@@ -184,7 +184,7 @@ async function fetchDedicated(source, finalUrl, body) {
     return uniq(slugs.map(slug => ({
       name: slugName(slug),
       link: absolute(slug + ".js", "https://extensions.turbowarp.org/"),
-      thumb: absolute(slug + ".svg", "https://extensions.turbowarp.org/images/")
+      thumb: ""
     })));
   }
 
