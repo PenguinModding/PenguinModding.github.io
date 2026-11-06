@@ -89,8 +89,5 @@
     "https://p7scratchextensions.pages.dev/ext/PageOpener/cover.svg",
     "https://p7scratchextensions.pages.dev/ext/Fetch/cover.svg"
   ],
-  "newExtensions": [
-    "HTML Canvas",
-    "Ace Editor"
-  ]
+  "newExtensions": []
 }

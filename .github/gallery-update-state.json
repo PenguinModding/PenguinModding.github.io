@@ -1,6 +1,6 @@
 {
-  "lastCheckedAt": "2026-11-06T07:15:08.233Z",
-  "lastAttemptAt": "2026-11-06T07:15:08.233Z",
+  "lastCheckedAt": "2026-11-06T07:24:43.258Z",
+  "lastAttemptAt": "2026-11-06T07:24:43.258Z",
   "intervalDays": 15,
   "report": [
     {
@@ -63,7 +63,7 @@
       "id": "pooid7",
       "status": "ok",
       "count": 28,
-      "new": 2,
+      "new": 0,
       "file": "pooid7-extensions.json"
     },
     {
