@@ -25,101 +25,144 @@ function fromJSON(root){
 }
 function fromDOM(){
  const out=[],seen=new Set();
- const mergeByName=items=>{
-  const merged=new Map();
-  items.forEach(item=>{
-   const key=item.name.toLowerCase().replace(/\s+/g," ").trim();
-   const prior=merged.get(key);
-   if(!prior){merged.set(key,{...item});return;}
-   if(!prior.thumb&&item.thumb)prior.thumb=item.thumb;
-   if(!prior.link&&item.link)prior.link=item.link;
-   prior.isNew=prior.isNew||item.isNew;
-  });
-  return [...merged.values()];
+ const textOf=e=>clean(e?.innerText||e?.textContent||"");
+ const getHeading=e=>e.querySelector("h1,h2,h3,h4,h5,[class*=name i],[class*=title i],[data-name]");
+ const getName=e=>{
+  const h=getHeading(e);
+  let n=textOf(h)||clean(e.getAttribute?.("data-name")||e.getAttribute?.("aria-label")||"");
+  if(!n){
+   const lines=(e.innerText||"").split(/\n/).map(clean).filter(Boolean);
+   n=lines.find(x=>x.length>1&&x.length<90&&!/^(copy|copy link|copy url|try it out|details|new|updated|add to project|url)$/i.test(x))||"";
+  }
+  return n;
  };
- const getHeading=e=>e.querySelector("h1,h2,h3,h4,h5,[class*=name i],[class*=title i]");
- const getImage=e=>[...e.querySelectorAll("img,picture source")].map(x=>x.currentSrc||x.src||x.getAttribute("src")||x.getAttribute("data-src")||x.getAttribute("data-lazy-src")||x.getAttribute("srcset")?.split(",")[0]?.trim().split(" ")[0]).map(abs).find(Boolean)||"";
- const getStrings=(root,depth=0,seenObjects=new Set())=>{
-  if(!root||depth>4||seenObjects.has(root))return [];
+ const getThumb=e=>{
+  const m=[...e.querySelectorAll("img,picture source,meta[property='og:image']")];
+  for(const x of m){
+   const raw=x.currentSrc||x.src||x.getAttribute("src")||x.getAttribute("data-src")||x.getAttribute("data-lazy-src")||x.getAttribute("content")||x.getAttribute("srcset")?.split(",")[0]?.trim().split(/\s+/)[0];
+   const u=abs(raw);if(u)return u;
+  }
+  const bg=[e,...e.querySelectorAll("*")].map(x=>x.getAttribute?.("style")||"").join(" ").match(/url\(["']?(https?:\/\/[^"')]+)["']?\)/i);
+  return bg?abs(bg[1]):"";
+ };
+ const strings=(root,depth=0,visited=new Set())=>{
+  if(!root||depth>3||visited.has(root))return [];
   if(typeof root==="string")return [root];
   if(typeof root!=="object"&&typeof root!=="function")return [];
-  seenObjects.add(root);let values=[];
-  try{for(const k of Object.keys(root).slice(0,80)){let v;try{v=root[k]}catch{continue}if(typeof v==="string")values.push(v);else if(v&&typeof v==="object")values.push(...getStrings(v,depth+1,seenObjects));}}catch{}
-  return values;
+  visited.add(root);const vals=[];
+  try{for(const k of Object.keys(root).slice(0,60)){let v;try{v=root[k]}catch{continue}if(typeof v==="string")vals.push(v);else if(v&&typeof v==="object")vals.push(...strings(v,depth+1,visited));}}catch{}
+  return vals;
  };
- const extractLink=e=>{
-  const nodes=[e,...e.querySelectorAll("*")],values=[];
-  for(const el of nodes){
-   for(const k of ["href","data-href","data-url","data-src","data-extension-url","data-code","data-link","data-clipboard-text","data-copy","value","onclick"]){
+ const getLink=e=>{
+  const values=[];
+  for(const el of [e,...e.querySelectorAll("*")]){
+   for(const k of ["href","data-href","data-url","data-src","data-extension-url","data-code","data-link","data-clipboard-text","data-copy","download-url","value","onclick"]){
     const v=el.getAttribute?.(k);if(v)values.push(v);
    }
-   if(el.matches?.("button,[role=button]")&&/copy link/i.test(clean(el.innerText))){
-    const propsKey=Object.keys(el).find(k=>k.startsWith("__reactProps$"));
-    if(propsKey)values.push(...getStrings(el[propsKey]));
+   if(el.matches?.("button,[role=button]")){
+    const p=Object.keys(el).find(k=>k.startsWith("__reactProps$")||k.startsWith("__vueParentComponent"));
+    if(p)values.push(...strings(el[p]));
    }
   }
-  const urls=values.flatMap(v=>{const direct=abs(v);const matches=String(v).match(/https?:\/\/[^"'\s<>]+/g)||[];return [direct,...matches.map(abs)];});
-  for(const candidate of urls){try{const u=new URL(candidate);const embedded=u.searchParams.get("extension")||u.searchParams.get("url");if(embedded&&likelyLink(abs(embedded)))return abs(embedded);}catch{}}
-  return urls.find(v=>likelyLink(v)&&!/(github\.com\/[^/]+\/?$|twitter\.com|discord\.gg)/i.test(v))||"";
+  const expanded=[];
+  for(const v of values){
+   const raw=String(v);
+   if(/^https?:\/\//i.test(raw))expanded.push(raw);
+   expanded.push(...(raw.match(/https?:\/\/[^"'\\s<>)}]+/g)||[]));
+   for(const match of raw.matchAll(/(?:extension|url|src|code)=([^&"'\\s)]+)/gi)){try{expanded.push(decodeURIComponent(match[1]));}catch{}}
+  }
+  for(const candidate of expanded){
+   const u=abs(candidate);if(!u)continue;
+   try{const parsed=new URL(u);const embedded=parsed.searchParams.get("extension")||parsed.searchParams.get("url")||parsed.searchParams.get("src");if(embedded&&likelyLink(abs(embedded)))return abs(embedded);}catch{}
+   if(likelyLink(u)&&!/\/(profile|user|author)\//i.test(new URL(u).pathname))return u;
+  }
+  // Some galleries store the target in a button's data attributes or inline script text.
+  const cardText=e.innerHTML||"";
+  const rawUrls=cardText.match(/https?:\\?\/\\?\/[^"'\\s<>]+/g)||[];
+  for(const raw of rawUrls){const u=abs(raw.replace(/\\\//g,"/"));if(likelyLink(u))return u;}
+  return "";
  };
- // On galleries with explicit card actions, use those actions as the card boundary.
- const actionButtons=[...document.querySelectorAll("button,[role=button]")].filter(b=>/copy link|try it out/i.test(clean(b.innerText)));
- if(actionButtons.length){
-  actionButtons.forEach(button=>{
-   let card=button;
-   for(let i=0;i<7&&card&&card!==document.body;i++,card=card.parentElement){
-    const heading=getHeading(card),img=getImage(card);
-    const actions=[...card.querySelectorAll("button,[role=button]")];
-    if(heading&&img&&actions.some(b=>/copy link/i.test(clean(b.innerText))))break;
-   }
-   if(!card||card===document.body)return;
-   const heading=getHeading(card),thumb=getImage(card);
-   if(!heading||!thumb)return;
-   const name=clean(heading.innerText);
-   if(!name||name.length>120)return;
-   const link=extractLink(card);
-   const key=name.toLowerCase()+"|"+thumb;
-   if(seen.has(key))return;seen.add(key);
-   out.push({name,link,thumb,isNew:/\bnew\b/i.test(clean(card.innerText))||!!card.querySelector("[class*=new i],[aria-label*=new i]")});
-  });
-  if(out.length)return mergeByName(out);
+ const add=(e,opts={})=>{
+  if(!e||e===document.body||e===document.documentElement)return;
+  const name=clean(opts.name||getName(e)),thumb=abs(opts.thumb||getThumb(e)),link=abs(opts.link||getLink(e));
+  if(!name||name.length>120||/^(extensions?|filters?|categories|gallery|search|about|home)$/i.test(name))return;
+  if(!thumb&&!link&&!opts.allowText)return;
+  const key=name.toLowerCase().replace(/\s+/g," ").trim();
+  const prior=out.find(x=>x.name.toLowerCase().replace(/\s+/g," ").trim()===key);
+  if(prior){if(!prior.thumb&&thumb)prior.thumb=thumb;if(!prior.link&&link)prior.link=link;prior.isNew=prior.isNew||opts.isNew||/\bnew\b/i.test(textOf(e));return;}
+  out.push({name,link,thumb,isNew:!!opts.isNew||/\bnew\b/i.test(textOf(e))||!!e.querySelector?.("[class*=new i],[aria-label*=new i]")});
+ };
+ const host=location.hostname.toLowerCase();
+ // Custom-element gallery: metadata is attached directly to extension-div.
+ if(host.includes("sharkpools-extensions")||document.querySelector("extension-div")){
+  for(const e of document.querySelectorAll("extension-div")){const m=e.metaData||e.metadata||{};add(e,{name:m.id||m.name||m.title,thumb:m.banner,link:m.url?abs("extension-code/"+String(m.url).replace(/^\/+/,"")):""});}
  }
- // Generic fallback: only accept the smallest repeated card-like elements with a real heading.
- const candidates=[...document.querySelectorAll("article,[class*=card i],[class*=extension i],[class*=tile i],[class*=plugin i],li")];
- candidates.sort((a,b)=>a.querySelectorAll("*").length-b.querySelectorAll("*").length);
- candidates.forEach(e=>{
-  if(e.closest("#"+ID))return;
-  const heading=getHeading(e),thumb=getImage(e);
-  if(!heading||!thumb)return;
-  const name=clean(heading.innerText);
-  if(!name||name.length>120)return;
-  // Skip page-level headings and containers holding several titled cards.
-  if(e.querySelectorAll("h1,h2,h3,h4,h5").length>2)return;
-  const link=extractLink(e),key=name.toLowerCase()+"|"+thumb;
-  if(seen.has(key))return;seen.add(key);
-  out.push({name,link,thumb,isNew:/\bnew\b/i.test(clean(e.innerText))||!!e.querySelector("[class*=new i],[aria-label*=new i]")});
- });
-
- // Image-anchored fallback for galleries whose card wrappers use unrecognised class names.
- [...document.querySelectorAll("img")].forEach(mediaEl=>{
-  let card=mediaEl;
-  for(let i=0;i<8&&card&&card!==document.body;i++,card=card.parentElement){
-   const text=clean(card.innerText),imgs=card.querySelectorAll("img");
-   if(imgs.length>3||text.length<12||text.length>1400)continue;
-   const heading=getHeading(card);
-   const lines=text.split(/\n/).map(clean).filter(x=>x&&x.length<100);
-   const anchor=mediaEl.closest("a");
-   const label=clean(mediaEl.getAttribute("alt")||mediaEl.getAttribute("title")||anchor?.getAttribute("aria-label")||anchor?.getAttribute("title")||"");
-   const name=clean(heading?.innerText||label||lines.find(x=>!/^(new|updated|copy|details|try it out|add to project)$/i.test(x))||"");
-   const thumb=abs(mediaEl.currentSrc||mediaEl.src||mediaEl.getAttribute("data-src")||"");
-   if(!name||name.length>120||!thumb)continue;
-   const link=extractLink(card)||abs(anchor?.href||"");
-   const key=name.toLowerCase()+"|"+thumb;
-   if(!seen.has(key)){seen.add(key);out.push({name,link,thumb,isNew:/\bnew\b/i.test(text)||!!card.querySelector("[class*=new i],[aria-label*=new i]")});}
-   break;
+ // PenguinMod official extension gallery: cards are anchored around headings/images.
+ if(host==="extensions.penguinmod.com"||host.endsWith(".extensions.penguinmod.com")){
+  for(const h of document.querySelectorAll("h2,h3,h4")){
+   const n=textOf(h);if(!n||/extensions|filters|categories/i.test(n))continue;
+   let card=h;for(let i=0;i<5&&card.parentElement;i++){card=card.parentElement;if(getThumb(card)||getLink(card))break;}
+   add(card,{name:n});
   }
- });
- return mergeByName(out);
+ }
+ // TurboWarp's gallery uses headings; direct script links are not always present.
+ if(host==="extensions.turbowarp.org"){
+  for(const h of document.querySelectorAll("h2,h3")){
+   const n=textOf(h);if(!n||/turbowarp extension gallery/i.test(n))continue;
+   let card=h.parentElement||h;for(let i=0;i<3&&card.parentElement;i++){if(getThumb(card)||getLink(card))break;card=card.parentElement;}
+   let link=getLink(card);if(!link)link="https://extensions.turbowarp.org/"+n.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")+".js";
+   add(card,{name:n,link});
+  }
+ }
+ // Known card layouts from the saved importers.
+ const selectors=[
+  ".extension .name", ".extensions-outer .extensions > a", ".card .card-title",
+  "#gallery .extension", ".extensionHolder .extension", ".extension-library",
+  ".extension strong", ".extension .title", ".extension-card", ".extension-item",
+  ".extension-card-container", ".library-item", ".extensionTile", ".extension-tile"
+ ];
+ for(const selector of selectors){
+  for(const node of document.querySelectorAll(selector)){
+   const card=selector===".extension .name"||selector===".extension strong"||selector===".extension .title" ? node.closest(".extension")||node.parentElement : selector===".card .card-title" ? node.closest(".card")||node.parentElement : node;
+   add(card,{name:selector===".extension .name"||selector===".extension strong"||selector===".extension .title"||selector===".card .card-title"?textOf(node):undefined});
+  }
+ }
+ // Cards with action buttons, including sites that render text-only cards.
+ for(const button of document.querySelectorAll("button,[role=button],a")){
+  const label=textOf(button);
+  if(!/^(copy(?: direct)? link|copy url|try it out|url)$/i.test(label))continue;
+  let card=button;
+  for(let i=0;i<7&&card.parentElement&&card!==document.body;i++){
+   const parent=card.parentElement;
+   const n=getName(parent),t=textOf(parent);
+   if(n&&t.length<1500&&(getThumb(parent)||getLink(parent)||parent.querySelectorAll("button,[role=button]").length>=1)){card=parent;break;}
+   card=parent;
+  }
+  add(card,{allowText:true});
+ }
+ // Generic repeated card scan. Text-only cards are accepted only when they expose a usable link/action.
+ const candidates=[...document.querySelectorAll("article,[class*=card i],[class*=extension i],[class*=tile i],[class*=plugin i],li,[role=listitem]")];
+ candidates.sort((a,b)=>a.querySelectorAll("*").length-b.querySelectorAll("*").length);
+ for(const e of candidates){
+  const name=getName(e);if(!name||name.length>120)continue;
+  const link=getLink(e),thumb=getThumb(e);
+  if(!thumb&&!link&&!e.querySelector("button,[role=button]"))continue;
+  if(e.querySelectorAll("h1,h2,h3,h4,h5").length>3)continue;
+  add(e,{name,link,thumb,allowText:true});
+ }
+ // Image-anchored fallback for galleries with unusual wrappers or icon-only cards.
+ for(const media of document.querySelectorAll("img")){
+  let card=media;
+  for(let i=0;i<8&&card.parentElement&&card!==document.body;i++){
+   card=card.parentElement;
+   const t=textOf(card);
+   if(t.length<8||t.length>1300||card.querySelectorAll("img").length>4)continue;
+   const anchor=media.closest("a"),name=getName(card)||clean(media.alt||media.title||anchor?.getAttribute("aria-label")||anchor?.title);
+   if(name)add(card,{name,thumb:media.currentSrc||media.src,link:getLink(card)||anchor?.href,allowText:true});
+   if(name)break;
+  }
+ }
+ return out;
 }
 function scan(){
  const json=parsePageJSON(),j=json?fromJSON(json):[],d=fromDOM();
@@ -128,7 +171,7 @@ function scan(){
 let found=scan(),items=found.items;
 const host=document.createElement("div");host.id=ID;host.style.cssText="all:initial;position:fixed;inset:0;z-index:2147483647;font:14px system-ui;color:#eee;";
 const sh=host.attachShadow({mode:"open"});
-sh.innerHTML='<style>*{box-sizing:border-box}.bg{position:fixed;inset:0;background:#0009;display:flex;justify-content:flex-end}.panel{width:min(700px,100vw);height:100%;background:#171a21;display:flex;flex-direction:column;box-shadow:0 0 30px #000}.head,.meta,.foot{padding:14px 18px;border-bottom:1px solid #343a46}.head{display:flex;align-items:center;gap:12px}.head b{font-size:18px;flex:1}button{background:#2b3240;color:#fff;border:1px solid #4c5669;border-radius:7px;padding:8px 11px;cursor:pointer;font:inherit}.primary{background:#3569bd}.meta{background:#202530}.muted{color:#aeb8c8;font-size:12px;overflow-wrap:anywhere}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.list{overflow:auto;flex:1;padding:8px 18px}.entry{display:grid;grid-template-columns:50px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #343a46}.thumb{width:50px;height:46px;object-fit:contain;background:#2a303b;border-radius:5px}.name{font-weight:650;overflow-wrap:anywhere}.url{font-size:11px;color:#9db9ee;overflow-wrap:anywhere}.foot{border-top:1px solid #343a46;border-bottom:0;display:flex;justify-content:space-between}.pill{font-size:11px;background:#3b4555;border-radius:20px;padding:3px 7px}@media(max-width:480px){.panel{width:100vw}}</style><div class="bg"><section class="panel"><div class="head"><b>Gallery Extractor <span class="pill">v1.1</span></b><button id="close">✕</button></div><div class="meta"><b id="title"></b><div class="muted" id="url"></div><p id="method"></p><div class="muted" id="detail"></div><div class="actions"><button class="primary" id="download">Download JSON</button><button id="copy">Copy JSON</button><button id="rescan">Rescan</button></div></div><div class="list" id="list"></div><div class="foot"><span class="muted" id="count"></span><span class="muted">Review before exporting</span></div></section></div>';
+sh.innerHTML='<style>*{box-sizing:border-box}.bg{position:fixed;inset:0;background:#0009;display:flex;justify-content:flex-end}.panel{width:min(700px,100vw);height:100%;background:#171a21;display:flex;flex-direction:column;box-shadow:0 0 30px #000}.head,.meta,.foot{padding:14px 18px;border-bottom:1px solid #343a46}.head{display:flex;align-items:center;gap:12px}.head b{font-size:18px;flex:1}button{background:#2b3240;color:#fff;border:1px solid #4c5669;border-radius:7px;padding:8px 11px;cursor:pointer;font:inherit}.primary{background:#3569bd}.meta{background:#202530}.muted{color:#aeb8c8;font-size:12px;overflow-wrap:anywhere}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.list{overflow:auto;flex:1;padding:8px 18px}.entry{display:grid;grid-template-columns:50px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #343a46}.thumb{width:50px;height:46px;object-fit:contain;background:#2a303b;border-radius:5px}.name{font-weight:650;overflow-wrap:anywhere}.url{font-size:11px;color:#9db9ee;overflow-wrap:anywhere}.foot{border-top:1px solid #343a46;border-bottom:0;display:flex;justify-content:space-between}.pill{font-size:11px;background:#3b4555;border-radius:20px;padding:3px 7px}@media(max-width:480px){.panel{width:100vw}}</style><div class="bg"><section class="panel"><div class="head"><b>Gallery Extractor <span class="pill">v2.0</span></b><button id="close">✕</button></div><div class="meta"><b id="title"></b><div class="muted" id="url"></div><p id="method"></p><div class="muted" id="detail"></div><div class="actions"><button class="primary" id="download">Download JSON</button><button id="copy">Copy JSON</button><button id="rescan">Rescan</button></div></div><div class="list" id="list"></div><div class="foot"><span class="muted" id="count"></span><span class="muted">Review before exporting</span></div></section></div>';
 document.documentElement.appendChild(host);
 const $=id=>sh.getElementById(id);
 $("title").textContent=pageTitle;$("url").textContent=location.href;
