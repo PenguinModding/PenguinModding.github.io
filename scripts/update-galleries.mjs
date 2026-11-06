@@ -228,12 +228,103 @@ function parseCommentedJson(text) {
   return JSON.parse(output.replace(/,\s*([}\]])/g, "$1"));
 }
 
+
+function stripJsComments(source) {
+  let out = "", quote = "", escaped = false, line = false, block = false;
+  for (let i = 0; i < source.length; i++) {
+    const ch = source[i], next = source[i + 1];
+    if (line) { if (ch === "\n") { line = false; out += ch; } else out += " "; continue; }
+    if (block) { if (ch === "*" && next === "/") { block = false; out += "  "; i++; } else out += ch === "\n" ? "\n" : " "; continue; }
+    if (quote) { out += ch; if (escaped) escaped = false; else if (ch === "\\") escaped = true; else if (ch === quote) quote = ""; continue; }
+    if (ch === "'" || ch === '"' || ch === "`") { quote = ch; out += ch; continue; }
+    if (ch === "/" && next === "/") { line = true; out += "  "; i++; continue; }
+    if (ch === "/" && next === "*") { block = true; out += "  "; i++; continue; }
+    out += ch;
+  }
+  return out;
+}
+
+function extractObjectBlocks(source) {
+  const cleanSource = stripJsComments(source);
+  const blocks = [];
+  let quote = "", escaped = false, depth = 0, start = -1;
+  for (let i = 0; i < cleanSource.length; i++) {
+    const ch = cleanSource[i];
+    if (quote) { if (escaped) escaped = false; else if (ch === "\\") escaped = true; else if (ch === quote) quote = ""; continue; }
+    if (ch === "'" || ch === '"' || ch === "`") { quote = ch; continue; }
+    if (ch === "{") { if (depth === 0) start = i; depth++; }
+    else if (ch === "}" && depth > 0) { depth--; if (depth === 0 && start >= 0) { blocks.push(cleanSource.slice(start, i + 1)); start = -1; } }
+  }
+  return blocks;
+}
+
+function jsStringField(object, key) {
+  const match = object.match(new RegExp("\\b" + key + "\\s*:\\s*(['\"])([\\s\\S]*?)\\1"));
+  if (!match) return "";
+  return match[2].replace(/\\\\'/g, "'").replace(/\\\\\\\\/g, "\\\\").replace(/\\\\n/g, "\n");
+}
+
 function slugName(slug) {
   return clean(slug.split("/").pop().replace(/\.js$/i, "").replace(/[-_]+/g, " ").replace(/\b\w/g, c => c.toUpperCase()));
 }
 
 async function fetchDedicated(source, finalUrl, body) {
   console.log("[gallery-debug] fetchDedicated entered; id=" + String(source?.id) + "; kind=" + String(source?.kind));
+
+  if (source.kind === "dinosaur") {
+    const dataUrl = "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions.jsx";
+    const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
+    if (!response.ok) throw new Error("DinosaurMod extension index HTTP " + response.status);
+    const js = await response.text();
+    const imports = {};
+    for (const match of js.matchAll(/import\\s+([\\w$]+)\\s+from\\s+['"]\\.\\/icons\\/([^'"]+)['"]/g)) {
+      imports[match[1]] = absolute("src/icons/" + match[2], "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/");
+    }
+    const legacyBase = "https://gabsthecuriouskid.github.io/DinosaurModExtensions/";
+    const items = [];
+    for (const object of extractObjectBlocks(js)) {
+      const name = jsStringField(object, "name");
+      const extensionExpr = object.match(/\\bextensionId\\s*:\\s*extensionUrl\\s*\\+\\s*(['"])([^'"]+)\\1/);
+      if (!name || !extensionExpr) continue;
+      const iconExpr = object.match(/\\biconURL\\s*:\\s*([\\w$]+)(?:\\s*\\+\\s*(['"])([^'"]*)\\2)?/);
+      let thumb = "";
+      if (iconExpr) {
+        if (iconExpr[3] !== undefined && iconExpr[1] === "legacyExtensionUrl") thumb = absolute("images/" + iconExpr[3], legacyBase);
+        else if (iconExpr[3] !== undefined) thumb = absolute(iconExpr[3], "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/");
+        else thumb = imports[iconExpr[1]] || "";
+      }
+      items.push({
+        name,
+        link: absolute("src/extensions/" + extensionExpr[2], "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/"),
+        thumb
+      });
+    }
+    const result = uniq(items);
+    if (result.length < 5) throw new Error("DinosaurMod index returned only " + result.length + " usable extensions");
+    return result;
+  }
+
+  if (source.kind === "tutelmod") {
+    const dataUrl = "https://raw.githubusercontent.com/TurtleMod-Team/TurtleMod-ExtensionsGallery/main/src/lib/extensions.js";
+    const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
+    if (!response.ok) throw new Error("TutelMod extension index HTTP " + response.status);
+    const js = await response.text();
+    const base = "https://turtlemod-team.github.io/TurtleMod-ExtensionsGallery/";
+    const items = extractObjectBlocks(js).map(object => {
+      const name = jsStringField(object, "name");
+      const code = jsStringField(object, "code");
+      const banner = jsStringField(object, "banner");
+      return {
+        name,
+        link: code ? absolute("extensions/" + code, base) : "",
+        thumb: banner ? absolute("images/" + banner, base) : ""
+      };
+    });
+    const result = uniq(items);
+    if (result.length < 20) throw new Error("TutelMod index returned only " + result.length + " usable extensions");
+    return result;
+  }
+
   if (source.kind === "turbowarp") {
     const listUrl = "https://raw.githubusercontent.com/TurboWarp/extensions/master/extensions/extensions.json";
     const response = await fetch(listUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
