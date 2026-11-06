@@ -209,7 +209,7 @@ function parseCommentedJson(text) {
     }
     output += ch;
   }
-  return JSON.parse(output.replace(/,\\s*([}\\]])/g, "$1"));
+  return JSON.parse(output.replace(/,\s*([}\]])/g, "$1"));
 }
 
 function slugName(slug) {
