@@ -191,14 +191,14 @@ function parseCommentedJson(text) {
     if (inString) {
       output += ch;
       if (escaped) escaped = false;
-      else if (ch === "\\\\") escaped = true;
+      else if (ch === "\\") escaped = true;
       else if (ch === '"') inString = false;
       continue;
     }
     if (ch === '"') { inString = true; output += ch; continue; }
     if (ch === "/" && next === "/") {
-      while (i < text.length && text[i] !== "\\n") i++;
-      output += "\\n";
+      while (i < text.length && text[i] !== "\n") i++;
+      output += "\n";
       continue;
     }
     if (ch === "/" && next === "*") {
