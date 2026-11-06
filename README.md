@@ -37,3 +37,15 @@ The entries in these arrays match by position. For example, the first name goes 
 ## Using the data
 
 You can open any JSON link above to view the data, or use the URL in a project that can read JSON. The files are kept separate so each gallery can be updated without changing the others.
+
+## Universal gallery extractor
+
+The main browser extractor is hosted at [index.js](https://penguinmodding.github.io/index.js). It detects known gallery layouts and also tries generic card, image, action-button, and JSON-data extraction.
+
+Create a bookmark with this URL (replace the bookmark's URL field with the entire line):
+
+```javascript
+javascript:(()=>{const s=document.createElement('script');s.src='https://penguinmodding.github.io/index.js?'+Date.now();document.body.appendChild(s)})()
+```
+
+Open a gallery page, wait for its cards to load, then click the bookmark. Review the detected entries before exporting. Some sites may still require a dedicated adapter if they hide their extension URLs behind inaccessible APIs or unusual application state.
