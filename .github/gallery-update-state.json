@@ -1,6 +1,6 @@
 {
   "lastCheckedAt": null,
-  "lastAttemptAt": "2026-11-06T06:38:44.935Z",
+  "lastAttemptAt": "2026-11-06T06:40:15.755Z",
   "intervalDays": 15,
   "report": [
     {
@@ -124,7 +124,7 @@
       "id": "skybuilder",
       "status": "ok",
       "count": 3,
-      "new": 3,
+      "new": 0,
       "file": "skybuilder-extensions.json"
     },
     {

@@ -14,9 +14,5 @@
     "https://skybuilder-extensions.vercel.app/static/extensions/Sparrow.svg",
     "https://skybuilder-extensions.vercel.app/static/extensions/SK17.svg"
   ],
-  "newExtensions": [
-    "Geometry Dash Tools",
-    "Sparrow",
-    "SK17"
-  ]
+  "newExtensions": []
 }
