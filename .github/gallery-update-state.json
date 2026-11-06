@@ -1,6 +1,6 @@
 {
   "lastCheckedAt": null,
-  "lastAttemptAt": "2026-11-06T06:16:48.856Z",
+  "lastAttemptAt": "2026-11-06T06:30:03.082Z",
   "intervalDays": 15,
   "report": [
     {
@@ -20,8 +20,8 @@
     {
       "id": "sharkpool",
       "status": "ok",
-      "count": 68,
-      "new": 1,
+      "count": 67,
+      "new": 0,
       "file": "sharkpool-extensions.json"
     },
     {
@@ -55,7 +55,7 @@
     {
       "id": "coast",
       "status": "ok",
-      "count": 329,
+      "count": 53,
       "new": 0,
       "file": "coast-extensions.json"
     },
@@ -74,15 +74,15 @@
     {
       "id": "dde",
       "status": "ok",
-      "count": 11,
-      "new": 11,
+      "count": 14,
+      "new": 14,
       "file": "dde-extensions.json"
     },
     {
       "id": "lemons",
       "status": "ok",
       "count": 11,
-      "new": 11,
+      "new": 0,
       "file": "lemons-extensions.json"
     },
     {
@@ -96,7 +96,7 @@
       "id": "ruby",
       "status": "ok",
       "count": 14,
-      "new": 0,
+      "new": 1,
       "file": "ruby-extensions.json"
     },
     {
@@ -108,15 +108,13 @@
     },
     {
       "id": "electramod",
-      "status": "ok",
-      "count": 9,
-      "new": 0,
-      "file": "electramod-extensions.json"
+      "status": "error",
+      "error": "Error: Too few entries with verified links or thumbnails (0). Existing JSON left untouched."
     },
     {
       "id": "mgik",
       "status": "ok",
-      "count": 334,
+      "count": 303,
       "new": 0,
       "file": "mgik-extensions.json"
     },
@@ -143,7 +141,7 @@
       "id": "alejo",
       "status": "ok",
       "count": 8,
-      "new": 0,
+      "new": 1,
       "file": "alejo-extensions.json"
     },
     {
@@ -156,19 +154,21 @@
     {
       "id": "adacraft",
       "status": "ok",
-      "count": 149,
+      "count": 144,
       "new": 0,
       "file": "adacraft-extensions.json"
     },
     {
       "id": "tringlyman",
-      "status": "error",
-      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
+      "status": "ok",
+      "count": 6,
+      "new": 6,
+      "file": "tringlyman-extensions.json"
     },
     {
       "id": "kittenblock",
       "status": "ok",
-      "count": 147,
+      "count": 4,
       "new": 0,
       "file": "kittenblock-extensions.json"
     },

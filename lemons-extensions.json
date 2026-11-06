@@ -38,17 +38,5 @@
     "https://bludisanlemon.github.io/lemons-gallery/images/Lemon/TurboAST.png",
     "https://bludisanlemon.github.io/lemons-gallery/images/Lemon/Waveforms.png"
   ],
-  "newExtensions": [
-    "Hello World",
-    "SQLSnap! Fileshare",
-    "Weather API",
-    "Screenshot (Slow)",
-    "Auto Clicker Detection",
-    "Bluetooth Request",
-    "Live Keyboard Input",
-    "URL Music extension",
-    "IndexedDB",
-    "TurboAST",
-    "Waveforms"
-  ]
+  "newExtensions": []
 }

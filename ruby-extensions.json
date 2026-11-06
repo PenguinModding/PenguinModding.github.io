@@ -23,7 +23,7 @@
     "https://ruby-devs.vercel.app/cdn/extensions/speechtotext.js",
     "https://ruby-devs.vercel.app/cdn/extensions/toastnotifs.js",
     "https://ruby-devs.vercel.app/cdn/extensions/1mb.js",
-    "https://extensions.penguinmod.com/images/MubiLop/penguingpt.png",
+    "",
     "https://ruby-devs.vercel.app/cdn/extensions/gofile.js",
     "https://ruby-devs.vercel.app/cdn/extensions/geminiai.js",
     "https://ruby-devs.vercel.app/cdn/extensions/penguinhook.js",
@@ -47,5 +47,7 @@
     "https://ruby-devs.vercel.app/cdn/thumbnails/analytics.webp",
     "https://ruby-devs.vercel.app/cdn/thumbnails/turboweather.webp"
   ],
-  "newExtensions": []
+  "newExtensions": [
+    "PenguinGPT"
+  ]
 }
