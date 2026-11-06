@@ -553,6 +553,26 @@ async function fetchSource(source) {
   if(source.kind==="json" || /^\s*[\[{]/.test(body)) {
     try { const data=JSON.parse(body); const items=parseJsonTree(data,finalUrl); if(items.length)return items; } catch {}
   }
+  if(source.id==="kylekart" || source.kind==="kylekart") {
+    const $=load(body);
+    const banners={
+      "pitchano":"get/banners/pitchano.svg",
+      "legacy blocks":"get/banners/legacy.svg",
+      "theme color":"get/banners/theme-color.svg"
+    };
+    const items=[];
+    $(".extensions-outer .extensions > a").each((_,node)=>{
+      const card=$(node);
+      const name=clean(card.find("h3").first().text());
+      const link=absolute(card.attr("href"),finalUrl);
+      const image=card.find("img").first().attr("src") || card.find("meta[property='og:image']").attr("content");
+      const thumb=image?absolute(image,finalUrl):(banners[name.toLowerCase()]?absolute(banners[name.toLowerCase()],finalUrl):"");
+      if(name && isUsefulLink(link)) items.push({name,link,thumb:isImage(thumb)?thumb:""});
+    });
+    if(items.length<10) throw new Error("ElmoBear gallery returned only "+items.length+" usable extension cards");
+    console.log("[kylekart] parsed "+items.length+" cards; "+items.filter(x=>x.thumb).length+" have published banner images");
+    return uniq(items);
+  }
   if(source.kind==="penguinmod") {
     const feed="https://raw.githubusercontent.com/PenguinMod/PenguinMod-ExtensionsGallery/main/src/lib/extensions.js";
     const fr=await fetch(feed,{headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
