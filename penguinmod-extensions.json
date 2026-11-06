@@ -239,14 +239,5 @@
     "",
     ""
   ],
-  "newExtensions": [
-    "iCastRays",
-    "Scope Variables",
-    "PenguinAI",
-    "Block AI",
-    "Format Numbers",
-    "Online Captcha",
-    "Better Storage",
-    "Mouth Washer"
-  ]
+  "newExtensions": []
 }

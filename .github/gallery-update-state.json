@@ -1,13 +1,13 @@
 {
   "lastCheckedAt": null,
-  "lastAttemptAt": "2026-11-06T05:52:08.690Z",
+  "lastAttemptAt": "2026-11-06T05:58:34.232Z",
   "intervalDays": 15,
   "report": [
     {
       "id": "penguinmod",
       "status": "ok",
       "count": 78,
-      "new": 8,
+      "new": 0,
       "file": "penguinmod-extensions.json"
     },
     {
@@ -34,10 +34,8 @@
     },
     {
       "id": "allay",
-      "status": "ok",
-      "count": 6,
-      "new": 0,
-      "file": "allay-extensions.json"
+      "status": "error",
+      "error": "Error: No reliable extension cards or data found"
     },
     {
       "id": "kylekart",
@@ -97,7 +95,7 @@
       "id": "mgik",
       "status": "ok",
       "count": 334,
-      "new": 334,
+      "new": 0,
       "file": "mgik-extensions.json"
     },
     {
@@ -109,28 +107,28 @@
       "id": "m0v0",
       "status": "ok",
       "count": 1,
-      "new": 1,
+      "new": 0,
       "file": "m0v0-extensions.json"
     },
     {
       "id": "goofywarp",
       "status": "ok",
       "count": 97,
-      "new": 97,
+      "new": 0,
       "file": "goofywarp-extensions.json"
     },
     {
       "id": "alejo",
       "status": "ok",
       "count": 8,
-      "new": 8,
+      "new": 0,
       "file": "alejo-extensions.json"
     },
     {
       "id": "tutelmod",
       "status": "ok",
       "count": 1,
-      "new": 1,
+      "new": 0,
       "file": "tutelmod-extensions.json"
     },
     {
