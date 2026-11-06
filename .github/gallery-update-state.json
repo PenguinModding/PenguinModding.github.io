@@ -1,6 +1,6 @@
 {
   "lastCheckedAt": null,
-  "lastAttemptAt": "2026-11-06T07:01:25.830Z",
+  "lastAttemptAt": "2026-11-06T07:04:41.808Z",
   "intervalDays": 15,
   "report": [
     {
@@ -62,7 +62,7 @@
     {
       "id": "pooid7",
       "status": "error",
-      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
+      "error": "Error: [pooid7] dedicated adapter returned fewer than 3 records"
     },
     {
       "id": "cst",
