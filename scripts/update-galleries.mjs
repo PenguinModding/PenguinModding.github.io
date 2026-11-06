@@ -193,7 +193,7 @@ async function main() {
   let state={lastCheckedAt:null};
   try { state=JSON.parse(await fs.readFile(STATE_PATH,"utf8")); } catch {}
   const last=state.lastCheckedAt?Date.parse(state.lastCheckedAt):0;
-  if(last && NOW.getTime()-last<INTERVAL_MS) {
+  if(last && NOW.getTime()-last<INTERVAL_MS && process.env.GITHUB_EVENT_NAME!=="workflow_dispatch") {
     console.log("Not due yet. Last complete scan: "+state.lastCheckedAt);
     return;
   }
@@ -221,8 +221,8 @@ async function main() {
     }
   }
   await fs.mkdir(path.dirname(STATE_PATH),{recursive:true});
-  await fs.writeFile(STATE_PATH,JSON.stringify({lastCheckedAt:NOW.toISOString(),intervalDays:15,report},null,2)+"\n");
   const failures=report.filter(x=>x.status==="error").length;
+  await fs.writeFile(STATE_PATH,JSON.stringify({lastCheckedAt:failures===0?NOW.toISOString():(state.lastCheckedAt||null),lastAttemptAt:NOW.toISOString(),intervalDays:15,report},null,2)+"\n");
   console.log("Scan finished: "+(report.length-failures)+" succeeded, "+failures+" failed.");
   if(failures===report.length)process.exitCode=1;
 }
