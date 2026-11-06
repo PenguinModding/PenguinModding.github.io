@@ -1,6 +1,6 @@
 {
   "lastCheckedAt": null,
-  "lastAttemptAt": "2026-11-06T06:10:45.681Z",
+  "lastAttemptAt": "2026-11-06T06:13:04.963Z",
   "intervalDays": 15,
   "report": [
     {
@@ -12,8 +12,10 @@
     },
     {
       "id": "turbowarp",
-      "status": "error",
-      "error": "SyntaxError: Expected ',' or ']' after array element in JSON at position 2265 (line 106 column 18)"
+      "status": "ok",
+      "count": 104,
+      "new": 87,
+      "file": "turbowarp-extensions.json"
     },
     {
       "id": "sharkpool",
