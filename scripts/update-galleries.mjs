@@ -82,7 +82,8 @@ function fromHtml(html, base, kind) {
   const found = [];
   const addCard = (card, forcedName) => {
     const el = $(card);
-    const name = clean(forcedName || el.find("h1,h2,h3,h4,h5,.title,.name,.card-title,.extension-name,.extension-title,.libraryItemName,strong,[data-name]").first().text() || el.attr("data-name") || el.attr("aria-label") || el.find("img").first().attr("alt"));
+    const rowName = el.is("tr") ? el.find("td").first().text() : "";
+    const name = clean(forcedName || rowName || el.find("h1,h2,h3,h4,h5,.title,.name,.card-title,.extension-name,.extension-title,.libraryItemName,strong,[data-name]").first().text() || el.attr("data-name") || el.attr("aria-label") || el.find("img").first().attr("alt"));
     const img = el.find("img,picture source,meta[property='og:image'],meta[name='twitter:image']").first();
     const thumbRaw = img.attr("src") || img.attr("data-src") || img.attr("data-lazy-src") || img.attr("data-original") || img.attr("data-image") || img.attr("data-thumb") || img.attr("data-srcset")?.split(",")[0]?.trim().split(/\s+/)[0] || img.attr("srcset")?.split(",")[0]?.trim().split(/\s+/)[0] || img.attr("content");
     const thumb = thumbRaw && (/^https?:|^\//i.test(thumbRaw)) ? absolute(thumbRaw,base) : "";
@@ -106,14 +107,14 @@ function fromHtml(html, base, kind) {
     sharkpool: ["extension-div"],
     allay: [".extension"],
     kylekart: [".extensions-outer .extensions > a"],
-    pooid7: [".card"],
+    pooid7: [".card","tr"],
     cst: ["a:has(img)"],
     dde: ["#gallery .extension"],
     lemons: [".extension"],
     pen: [".extensionHolder .extension"],
     ruby: [".extension"],
     dinosaur: [".extension-library"],
-    electra: [".extension","[class*=card i]"],
+    electra: [".extension","[class*=card i]","h2","h3"],
     tutelmod: ["article","[class*=card i]","[class*=extension i]"]
   };
   const chosen = selectors[kind] || ["article","[class*=card i]","[class*=extension i]","[class*=tile i]","[class*=plugin i]","[role=listitem]","li","h1","h2","h3","h4"];
@@ -189,9 +190,9 @@ async function fetchSource(source) {
     if(items.length)return items;
   }
   let items=fromHtml(body,finalUrl,source.kind);
-  if(items.length)return items;
 
-  // Inspect first-party JS bundles for client-rendered gallery data.
+  // Inspect first-party JS bundles for client-rendered gallery data, even when
+  // the initial HTML contains a partial list. Merge rather than replacing it.
   const $=load(body);
   const scriptUrls=$("script[src]").toArray().map(node=>absolute($(node).attr("src"),finalUrl)).filter(Boolean).slice(0,12);
   const bundleItems=[];
@@ -209,7 +210,7 @@ async function fetchSource(source) {
       }
     } catch {}
   }
-  items=uniq(bundleItems);
+  items=uniq([...items,...bundleItems]);
   if(items.length)return items;
   throw new Error("No reliable extension cards or data found (HTML and linked JS inspected)");
 }
