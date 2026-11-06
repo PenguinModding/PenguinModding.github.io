@@ -23,54 +23,69 @@ function fromJSON(root){
  walk(root,0);return out;
 }
 function fromDOM(){
- const candidates=new Set();
- // Start from visible headings and walk upward to find the smallest card-like container.
- document.querySelectorAll("h1,h2,h3,h4,h5,[class*=name i],[class*=title i]").forEach(h=>{
-  let node=h;
-  for(let level=0;level<6&&node&&node!==document.body;level++,node=node.parentElement){
-   if(node.closest("#"+ID))continue;
-   const text=clean(node.innerText);
-   const images=node.querySelectorAll("img,picture source");
-   const buttons=node.querySelectorAll("button,[role=button]");
-   if(text.length>20&&text.length<1800&&(images.length||buttons.length))candidates.add(node);
-  }
- });
- // Also inspect common card wrappers even when their content has no anchor.
- ["article","[class*=card i]","[class*=extension i]","[class*=tile i]","[class*=plugin i]","li"].forEach(sel=>{
-  document.querySelectorAll(sel).forEach(node=>{
-   if(!node.closest("#"+ID)&&clean(node.innerText).length<1800&&(node.querySelector("img")||node.querySelector("button,[role=button]")))candidates.add(node);
-  });
- });
  const out=[],seen=new Set();
- candidates.forEach(e=>{
-  const text=clean(e.innerText);
-  if(!text||text.length>1800)return;
-  const heading=e.querySelector("h1,h2,h3,h4,h5,[class*=name i],[class*=title i]");
-  const anchors=[...e.querySelectorAll("a[href]")];
-  const linkEl=anchors.find(a=>likelyLink(a.href));
-  const attrs=[...e.querySelectorAll("*")].flatMap(el=>["href","data-href","data-url","data-src","data-extension-url","data-code","value"].map(k=>el.getAttribute(k)).filter(Boolean));
-  const buttons=[...e.querySelectorAll("button,[role=button]")];
-  const buttonData=buttons.flatMap(b=>["data-url","data-href","data-src","data-code","data-extension-url","value"].map(k=>b.getAttribute(k)).filter(Boolean));
-  const possible=[...(linkEl?[linkEl.href]:[]),...attrs,...buttonData];
-  const link=possible.map(abs).find(likelyLink)||"";
-  const img=[...e.querySelectorAll("img,picture source")].map(x=>x.currentSrc||x.src||x.getAttribute("src")||x.getAttribute("data-src")||x.getAttribute("data-lazy-src")||x.getAttribute("srcset")?.split(",")[0]?.trim().split(" ")[0]).map(abs).find(Boolean)||"";
-  let name=clean(heading?.innerText||linkEl?.innerText||"");
-  if(!name){
-   name=text.split(/\n/).map(clean).find(line=>line&&line.length<100&&!/^(copy|copied|new|updated)$/i.test(line))||"";
+ const getHeading=e=>e.querySelector("h1,h2,h3,h4,h5,[class*=name i],[class*=title i]");
+ const getImage=e=>[...e.querySelectorAll("img,picture source")].map(x=>x.currentSrc||x.src||x.getAttribute("src")||x.getAttribute("data-src")||x.getAttribute("data-lazy-src")||x.getAttribute("srcset")?.split(",")[0]?.trim().split(" ")[0]).map(abs).find(Boolean)||"";
+ const getStrings=(root,depth=0,seenObjects=new Set())=>{
+  if(!root||depth>4||seenObjects.has(root))return [];
+  if(typeof root==="string")return [root];
+  if(typeof root!=="object"&&typeof root!=="function")return [];
+  seenObjects.add(root);let values=[];
+  try{for(const k of Object.keys(root).slice(0,80)){let v;try{v=root[k]}catch{continue}if(typeof v==="string")values.push(v);else if(v&&typeof v==="object")values.push(...getStrings(v,depth+1,seenObjects));}}catch{}
+  return values;
+ };
+ const extractLink=e=>{
+  const nodes=[e,...e.querySelectorAll("*")],values=[];
+  for(const el of nodes){
+   for(const k of ["href","data-href","data-url","data-src","data-extension-url","data-code","data-link","data-clipboard-text","data-copy","value","onclick"]){
+    const v=el.getAttribute?.(k);if(v)values.push(v);
+   }
+   if(el.matches?.("button,[role=button]")&&/copy link/i.test(clean(el.innerText))){
+    const propsKey=Object.keys(el).find(k=>k.startsWith("__reactProps$"));
+    if(propsKey)values.push(...getStrings(el[propsKey]));
+   }
   }
-  if(!name||name.length>120||(!img&&!link&&!buttons.length))return;
-  // Avoid selecting a large wrapper containing multiple separate extension cards.
-  if(e.querySelectorAll("h1,h2,h3,h4,h5").length>5)return;
-  const key=name.toLowerCase()+"|"+link+"|"+img;
-  if(seen.has(key))return;
-  seen.add(key);
-  out.push({name,link,thumb:img,isNew:/\bnew\b/i.test(text)||!!e.querySelector("[class*=new i],[aria-label*=new i]")});
+  const urls=values.flatMap(v=>{const direct=abs(v);const matches=String(v).match(/https?:\\/\\/[^"'\\s<>]+/g)||[];return [direct,...matches.map(abs)];});
+  return urls.find(v=>likelyLink(v)&&!/(github\\.com\\/[^/]+\\/?$|twitter\\.com|discord\\.gg)/i.test(v))||"";
+ };
+ // On galleries with explicit card actions, use those actions as the card boundary.
+ const actionButtons=[...document.querySelectorAll("button,[role=button]")].filter(b=>/copy link|try it out/i.test(clean(b.innerText)));
+ if(actionButtons.length){
+  actionButtons.forEach(button=>{
+   let card=button;
+   for(let i=0;i<7&&card&&card!==document.body;i++,card=card.parentElement){
+    const heading=getHeading(card),img=getImage(card);
+    const actions=[...card.querySelectorAll("button,[role=button]")];
+    if(heading&&img&&actions.some(b=>/copy link/i.test(clean(b.innerText))))break;
+   }
+   if(!card||card===document.body)return;
+   const heading=getHeading(card),thumb=getImage(card);
+   if(!heading||!thumb)return;
+   const name=clean(heading.innerText);
+   if(!name||name.length>120)return;
+   const link=extractLink(card);
+   const key=name.toLowerCase()+"|"+thumb;
+   if(seen.has(key))return;seen.add(key);
+   out.push({name,link,thumb,isNew:/\\bnew\\b/i.test(clean(card.innerText))||!!card.querySelector("[class*=new i],[aria-label*=new i]")});
+  });
+  if(out.length)return out;
+ }
+ // Generic fallback: only accept the smallest repeated card-like elements with a real heading.
+ const candidates=[...document.querySelectorAll("article,[class*=card i],[class*=extension i],[class*=tile i],[class*=plugin i],li")];
+ candidates.sort((a,b)=>a.querySelectorAll("*").length-b.querySelectorAll("*").length);
+ candidates.forEach(e=>{
+  if(e.closest("#"+ID))return;
+  const heading=getHeading(e),thumb=getImage(e);
+  if(!heading||!thumb)return;
+  const name=clean(heading.innerText);
+  if(!name||name.length>120)return;
+  // Skip page-level headings and containers holding several titled cards.
+  if(e.querySelectorAll("h1,h2,h3,h4,h5").length>2)return;
+  const link=extractLink(e),key=name.toLowerCase()+"|"+thumb;
+  if(seen.has(key))return;seen.add(key);
+  out.push({name,link,thumb,isNew:/\\bnew\\b/i.test(clean(e.innerText))||!!e.querySelector("[class*=new i],[aria-label*=new i]")});
  });
- // Prefer entries that have a real heading and image, then collapse duplicate nested wrappers.
- const ranked=out.sort((a,b)=>(Number(Boolean(b.thumb))+Number(Boolean(b.link)))-(Number(Boolean(a.thumb))+Number(Boolean(a.link))));
- const final=[],keys=new Set();
- ranked.forEach(item=>{const key=item.name.toLowerCase()+"|"+item.link;if(!keys.has(key)){keys.add(key);final.push(item);}});
- return final;
+ return out;
 }
 function scan(){
  const json=parsePageJSON(),j=json?fromJSON(json):[],d=fromDOM();
