@@ -1,0 +1,157 @@
+{
+  "lastCheckedAt": null,
+  "lastAttemptAt": "2026-11-06T05:52:08.690Z",
+  "intervalDays": 15,
+  "report": [
+    {
+      "id": "penguinmod",
+      "status": "ok",
+      "count": 78,
+      "new": 8,
+      "file": "penguinmod-extensions.json"
+    },
+    {
+      "id": "turbowarp",
+      "status": "error",
+      "error": "Error: No reliable extension cards or data found"
+    },
+    {
+      "id": "sharkpool",
+      "status": "error",
+      "error": "Error: No reliable extension cards or data found"
+    },
+    {
+      "id": "godslayer",
+      "status": "ok",
+      "count": 7,
+      "new": 0,
+      "file": "godslayer-extensions.json"
+    },
+    {
+      "id": "ziplox",
+      "status": "error",
+      "error": "Error: No reliable extension cards or data found"
+    },
+    {
+      "id": "allay",
+      "status": "ok",
+      "count": 6,
+      "new": 0,
+      "file": "allay-extensions.json"
+    },
+    {
+      "id": "kylekart",
+      "status": "ok",
+      "count": 16,
+      "new": 0,
+      "file": "kylekart-extensions.json"
+    },
+    {
+      "id": "coast",
+      "status": "error",
+      "error": "Error: No reliable extension cards or data found"
+    },
+    {
+      "id": "pooid7",
+      "status": "error",
+      "error": "Error: No reliable extension cards or data found"
+    },
+    {
+      "id": "cst",
+      "status": "ok",
+      "count": 9,
+      "new": 0,
+      "file": "cst-extensions.json"
+    },
+    {
+      "id": "dde",
+      "status": "error",
+      "error": "Error: No reliable extension cards or data found"
+    },
+    {
+      "id": "lemons",
+      "status": "error",
+      "error": "Error: No reliable extension cards or data found"
+    },
+    {
+      "id": "pen",
+      "status": "error",
+      "error": "Error: No reliable extension cards or data found"
+    },
+    {
+      "id": "ruby",
+      "status": "error",
+      "error": "Error: No reliable extension cards or data found"
+    },
+    {
+      "id": "dinosaurmod",
+      "status": "error",
+      "error": "Error: No reliable extension cards or data found"
+    },
+    {
+      "id": "electramod",
+      "status": "error",
+      "error": "Error: No reliable extension cards or data found"
+    },
+    {
+      "id": "mgik",
+      "status": "ok",
+      "count": 334,
+      "new": 334,
+      "file": "mgik-extensions.json"
+    },
+    {
+      "id": "skybuilder",
+      "status": "error",
+      "error": "Error: No reliable extension cards or data found"
+    },
+    {
+      "id": "m0v0",
+      "status": "ok",
+      "count": 1,
+      "new": 1,
+      "file": "m0v0-extensions.json"
+    },
+    {
+      "id": "goofywarp",
+      "status": "ok",
+      "count": 97,
+      "new": 97,
+      "file": "goofywarp-extensions.json"
+    },
+    {
+      "id": "alejo",
+      "status": "ok",
+      "count": 8,
+      "new": 8,
+      "file": "alejo-extensions.json"
+    },
+    {
+      "id": "tutelmod",
+      "status": "ok",
+      "count": 1,
+      "new": 1,
+      "file": "tutelmod-extensions.json"
+    },
+    {
+      "id": "adacraft",
+      "status": "error",
+      "error": "Error: No reliable extension cards or data found"
+    },
+    {
+      "id": "tringlyman",
+      "status": "error",
+      "error": "Error: No reliable extension cards or data found"
+    },
+    {
+      "id": "kittenblock",
+      "status": "error",
+      "error": "Error: No reliable extension cards or data found"
+    },
+    {
+      "id": "turbololder",
+      "status": "error",
+      "error": "Error: No reliable extension cards or data found"
+    }
+  ]
+}
