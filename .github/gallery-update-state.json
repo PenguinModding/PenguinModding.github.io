@@ -1,6 +1,6 @@
 {
   "lastCheckedAt": null,
-  "lastAttemptAt": "2026-11-06T06:13:04.963Z",
+  "lastAttemptAt": "2026-11-06T06:16:48.856Z",
   "intervalDays": 15,
   "report": [
     {
@@ -14,13 +14,15 @@
       "id": "turbowarp",
       "status": "ok",
       "count": 104,
-      "new": 87,
+      "new": 0,
       "file": "turbowarp-extensions.json"
     },
     {
       "id": "sharkpool",
-      "status": "error",
-      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
+      "status": "ok",
+      "count": 68,
+      "new": 1,
+      "file": "sharkpool-extensions.json"
     },
     {
       "id": "godslayer",
@@ -71,13 +73,17 @@
     },
     {
       "id": "dde",
-      "status": "error",
-      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
+      "status": "ok",
+      "count": 11,
+      "new": 11,
+      "file": "dde-extensions.json"
     },
     {
       "id": "lemons",
-      "status": "error",
-      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
+      "status": "ok",
+      "count": 11,
+      "new": 11,
+      "file": "lemons-extensions.json"
     },
     {
       "id": "pen",
@@ -88,8 +94,10 @@
     },
     {
       "id": "ruby",
-      "status": "error",
-      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
+      "status": "ok",
+      "count": 14,
+      "new": 0,
+      "file": "ruby-extensions.json"
     },
     {
       "id": "dinosaurmod",
