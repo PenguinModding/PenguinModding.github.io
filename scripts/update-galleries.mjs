@@ -233,6 +233,7 @@ function slugName(slug) {
 }
 
 async function fetchDedicated(source, finalUrl, body) {
+  console.log("[gallery-debug] fetchDedicated entered; id=" + String(source?.id) + "; kind=" + String(source?.kind));
   if (source.kind === "turbowarp") {
     const listUrl = "https://raw.githubusercontent.com/TurboWarp/extensions/master/extensions/extensions.json";
     const response = await fetch(listUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
