@@ -572,8 +572,8 @@ async function fetchSource(source) {
       if(!name||!code)continue;
       items.push({
         name,
-        link:absolute("extensions/"+code.replace(/^\\/+/, ""),"https://extensions.penguinmod.com/"),
-        thumb:banner?absolute("images/"+banner.replace(/^\\/+/, ""),"https://extensions.penguinmod.com/"):""
+        link:absolute("extensions/"+code.replace(/^\/+/, ""),"https://extensions.penguinmod.com/"),
+        thumb:banner?absolute("images/"+banner.replace(/^\/+/, ""),"https://extensions.penguinmod.com/"):""
       });
     }
     if(items.length>=10)return uniq(items);
