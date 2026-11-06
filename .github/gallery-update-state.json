@@ -1,6 +1,6 @@
 {
-  "lastCheckedAt": "2026-11-06T23:37:09.013Z",
-  "lastAttemptAt": "2026-11-06T23:37:09.013Z",
+  "lastCheckedAt": "2026-11-06T23:47:05.897Z",
+  "lastAttemptAt": "2026-11-06T23:47:05.897Z",
   "intervalDays": 15,
   "report": [
     {
@@ -48,7 +48,7 @@
     {
       "id": "kylekart",
       "status": "ok",
-      "count": 16,
+      "count": 12,
       "new": 0,
       "file": "kylekart-extensions.json"
     },
