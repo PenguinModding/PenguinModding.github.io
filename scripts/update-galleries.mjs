@@ -277,16 +277,16 @@ async function fetchDedicated(source, finalUrl, body) {
     if (!response.ok) throw new Error("DinosaurMod extension index HTTP " + response.status);
     const js = await response.text();
     const imports = {};
-    for (const match of js.matchAll(/import\\s+([\\w$]+)\\s+from\\s+['"]\\.\\/icons\\/([^'"]+)['"]/g)) {
+    for (const match of js.matchAll(/import\s+([\w$]+)\s+from\s+['"]\.\/icons\/([^'"]+)['"]/g)) {
       imports[match[1]] = absolute("src/icons/" + match[2], "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/");
     }
     const legacyBase = "https://gabsthecuriouskid.github.io/DinosaurModExtensions/";
     const items = [];
     for (const object of extractObjectBlocks(js)) {
       const name = jsStringField(object, "name");
-      const extensionExpr = object.match(/\\bextensionId\\s*:\\s*extensionUrl\\s*\\+\\s*(['"])([^'"]+)\\1/);
+      const extensionExpr = object.match(/\bextensionId\s*:\s*extensionUrl\s*\+\s*(['"])([^'"]+)\1/);
       if (!name || !extensionExpr) continue;
-      const iconExpr = object.match(/\\biconURL\\s*:\\s*([\\w$]+)(?:\\s*\\+\\s*(['"])([^'"]*)\\2)?/);
+      const iconExpr = object.match(/\biconURL\s*:\s*([\w$]+)(?:\s*\+\s*(['"])([^'"]*)\2)?/);
       let thumb = "";
       if (iconExpr) {
         if (iconExpr[3] !== undefined && iconExpr[1] === "legacyExtensionUrl") thumb = absolute("images/" + iconExpr[3], legacyBase);
