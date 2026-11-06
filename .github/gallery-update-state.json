@@ -1,6 +1,6 @@
 {
   "lastCheckedAt": null,
-  "lastAttemptAt": "2026-11-06T05:58:34.232Z",
+  "lastAttemptAt": "2026-11-06T06:01:40.201Z",
   "intervalDays": 15,
   "report": [
     {
@@ -13,12 +13,12 @@
     {
       "id": "turbowarp",
       "status": "error",
-      "error": "Error: No reliable extension cards or data found"
+      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
     },
     {
       "id": "sharkpool",
       "status": "error",
-      "error": "Error: No reliable extension cards or data found"
+      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
     },
     {
       "id": "godslayer",
@@ -29,13 +29,15 @@
     },
     {
       "id": "ziplox",
-      "status": "error",
-      "error": "Error: No reliable extension cards or data found"
+      "status": "ok",
+      "count": 6,
+      "new": 1,
+      "file": "ziplox-extensions.json"
     },
     {
       "id": "allay",
       "status": "error",
-      "error": "Error: No reliable extension cards or data found"
+      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
     },
     {
       "id": "kylekart",
@@ -46,13 +48,15 @@
     },
     {
       "id": "coast",
-      "status": "error",
-      "error": "Error: No reliable extension cards or data found"
+      "status": "ok",
+      "count": 329,
+      "new": 329,
+      "file": "coast-extensions.json"
     },
     {
       "id": "pooid7",
       "status": "error",
-      "error": "Error: No reliable extension cards or data found"
+      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
     },
     {
       "id": "cst",
@@ -64,32 +68,34 @@
     {
       "id": "dde",
       "status": "error",
-      "error": "Error: No reliable extension cards or data found"
+      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
     },
     {
       "id": "lemons",
       "status": "error",
-      "error": "Error: No reliable extension cards or data found"
+      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
     },
     {
       "id": "pen",
       "status": "error",
-      "error": "Error: No reliable extension cards or data found"
+      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
     },
     {
       "id": "ruby",
       "status": "error",
-      "error": "Error: No reliable extension cards or data found"
+      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
     },
     {
       "id": "dinosaurmod",
-      "status": "error",
-      "error": "Error: No reliable extension cards or data found"
+      "status": "ok",
+      "count": 1,
+      "new": 1,
+      "file": "dinosaurmod-extensions.json"
     },
     {
       "id": "electramod",
       "status": "error",
-      "error": "Error: No reliable extension cards or data found"
+      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
     },
     {
       "id": "mgik",
@@ -101,7 +107,7 @@
     {
       "id": "skybuilder",
       "status": "error",
-      "error": "Error: No reliable extension cards or data found"
+      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
     },
     {
       "id": "m0v0",
@@ -113,8 +119,8 @@
     {
       "id": "goofywarp",
       "status": "ok",
-      "count": 97,
-      "new": 0,
+      "count": 98,
+      "new": 1,
       "file": "goofywarp-extensions.json"
     },
     {
@@ -133,23 +139,29 @@
     },
     {
       "id": "adacraft",
-      "status": "error",
-      "error": "Error: No reliable extension cards or data found"
+      "status": "ok",
+      "count": 149,
+      "new": 149,
+      "file": "adacraft-extensions.json"
     },
     {
       "id": "tringlyman",
       "status": "error",
-      "error": "Error: No reliable extension cards or data found"
+      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
     },
     {
       "id": "kittenblock",
-      "status": "error",
-      "error": "Error: No reliable extension cards or data found"
+      "status": "ok",
+      "count": 147,
+      "new": 147,
+      "file": "kittenblock-extensions.json"
     },
     {
       "id": "turbololder",
-      "status": "error",
-      "error": "Error: No reliable extension cards or data found"
+      "status": "ok",
+      "count": 4,
+      "new": 4,
+      "file": "turbololder-extensions.json"
     }
   ]
 }

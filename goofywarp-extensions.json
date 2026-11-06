@@ -96,7 +96,8 @@
     "itch.io",
     "Game Jolt",
     "Newgrounds",
-    "McUtils"
+    "McUtils",
+    "GoofyWarp Extension Gallery"
   ],
   "links": [
     "https://extensions.turbowarp.org/lab/text.js",
@@ -195,7 +196,8 @@
     "https://extensions.turbowarp.org/itchio.js",
     "https://extensions.turbowarp.org/gamejolt.js",
     "https://extensions.turbowarp.org/obviousAlexC/newgroundsIO.js",
-    "https://extensions.turbowarp.org/Lily/McUtils.js"
+    "https://extensions.turbowarp.org/Lily/McUtils.js",
+    "https://packager.turbowarp.org/"
   ],
   "thumbnails": [
     "",
@@ -294,7 +296,10 @@
     "",
     "",
     "",
+    "",
     ""
   ],
-  "newExtensions": []
+  "newExtensions": [
+    "GoofyWarp Extension Gallery"
+  ]
 }
