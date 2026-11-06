@@ -24,6 +24,18 @@ function fromJSON(root){
 }
 function fromDOM(){
  const out=[],seen=new Set();
+ const mergeByName=items=>{
+  const merged=new Map();
+  items.forEach(item=>{
+   const key=item.name.toLowerCase().replace(/\s+/g," ").trim();
+   const prior=merged.get(key);
+   if(!prior){merged.set(key,{...item});return;}
+   if(!prior.thumb&&item.thumb)prior.thumb=item.thumb;
+   if(!prior.link&&item.link)prior.link=item.link;
+   prior.isNew=prior.isNew||item.isNew;
+  });
+  return [...merged.values()];
+ };
  const getHeading=e=>e.querySelector("h1,h2,h3,h4,h5,[class*=name i],[class*=title i]");
  const getImage=e=>[...e.querySelectorAll("img,picture source")].map(x=>x.currentSrc||x.src||x.getAttribute("src")||x.getAttribute("data-src")||x.getAttribute("data-lazy-src")||x.getAttribute("srcset")?.split(",")[0]?.trim().split(" ")[0]).map(abs).find(Boolean)||"";
  const getStrings=(root,depth=0,seenObjects=new Set())=>{
@@ -46,6 +58,7 @@ function fromDOM(){
    }
   }
   const urls=values.flatMap(v=>{const direct=abs(v);const matches=String(v).match(/https?:\/\/[^"'\s<>]+/g)||[];return [direct,...matches.map(abs)];});
+  for(const candidate of urls){try{const u=new URL(candidate);const embedded=u.searchParams.get("extension")||u.searchParams.get("url");if(embedded&&likelyLink(abs(embedded)))return abs(embedded);}catch{}}
   return urls.find(v=>likelyLink(v)&&!/(github\.com\/[^/]+\/?$|twitter\.com|discord\.gg)/i.test(v))||"";
  };
  // On galleries with explicit card actions, use those actions as the card boundary.
@@ -68,7 +81,7 @@ function fromDOM(){
    if(seen.has(key))return;seen.add(key);
    out.push({name,link,thumb,isNew:/\bnew\b/i.test(clean(card.innerText))||!!card.querySelector("[class*=new i],[aria-label*=new i]")});
   });
-  if(out.length)return out;
+  if(out.length)return mergeByName(out);
  }
  // Generic fallback: only accept the smallest repeated card-like elements with a real heading.
  const candidates=[...document.querySelectorAll("article,[class*=card i],[class*=extension i],[class*=tile i],[class*=plugin i],li")];
@@ -85,7 +98,7 @@ function fromDOM(){
   if(seen.has(key))return;seen.add(key);
   out.push({name,link,thumb,isNew:/\bnew\b/i.test(clean(e.innerText))||!!e.querySelector("[class*=new i],[aria-label*=new i]")});
  });
- return out;
+ return mergeByName(out);
 }
 function scan(){
  const json=parsePageJSON(),j=json?fromJSON(json):[],d=fromDOM();
