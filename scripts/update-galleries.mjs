@@ -39,18 +39,36 @@ const clean = value => String(value ?? "").replace(/\s+/g, " ").trim();
 const absolute = (value, base) => { try { return value ? new URL(value, base).href : ""; } catch { return ""; } };
 const isImage = value => /\.(png|jpe?g|gif|webp|svg|avif)(?:[?#]|$)/i.test(value || "") || /(?:\/image\/|\/images?\/|cloudinary|imgur|\.svg\?)/i.test(value || "");
 const isUsefulLink = value => /^https?:/i.test(value || "") && !isImage(value) && !/^(?:javascript:|mailto:|tel:)/i.test(value || "");
+const normalizedUrl = value => {
+  try {
+    const url = new URL(value);
+    url.hash = "";
+    url.hostname = url.hostname.toLowerCase();
+    if (url.pathname.length > 1) url.pathname = url.pathname.replace(/\\/+$/, "");
+    return url.href;
+  } catch { return ""; }
+};
+const identityKeys = item => {
+  const link = normalizedUrl(item.link);
+  const name = clean(item.name).toLocaleLowerCase("en");
+  return [link && "url:" + link, name && "name:" + name].filter(Boolean);
+};
 const uniq = items => {
-  const map = new Map();
+  const map = new Map(), aliases = new Map();
   for (const item of items) {
     const name = clean(item.name), link = clean(item.link), thumb = clean(item.thumb);
     if (!name || name.length > 140 || /^(extensions?|filters?|categories|gallery|search|about|home|try it out|copy link)$/i.test(name) || /extension gallery$/i.test(name)) continue;
-    const key = (link || name).toLowerCase();
+    const keys = identityKeys({name,link});
+    let key = keys.map(k => aliases.get(k) || k).find(k => map.has(k)) || keys[0];
+    if (!key) continue;
     if (!map.has(key)) map.set(key, {name, link, thumb});
     else {
       const prior = map.get(key);
-      if (!prior.thumb && thumb) prior.thumb = thumb;
+      if ((!prior.thumb || !isImage(prior.thumb)) && thumb) prior.thumb = thumb;
       if (!prior.link && link) prior.link = link;
+      if (name.length > prior.name.length && prior.name === slugName(prior.name)) prior.name = name;
     }
+    for (const alias of keys) aliases.set(alias,key);
   }
   return [...map.values()];
 };
@@ -430,13 +448,58 @@ async function readExisting(file) {
   try { return JSON.parse(await fs.readFile(path.join(ROOT,file),"utf8")); }
   catch { return {names:[],links:[],thumbnails:[],newExtensions:[]}; }
 }
-function validSnapshot(items, existing) {
+async function probeUrl(value) {
+  if (!value) return false;
+  try {
+    const options = {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(12000)};
+    let response = await fetch(value,{...options,method:"HEAD"});
+    if (response.ok) return true;
+    // Some static hosts reject HEAD but correctly serve GET.
+    if ([403,405,501].includes(response.status)) {
+      response = await fetch(value,{...options,method:"GET",headers:{...options.headers,range:"bytes=0-0"}});
+      return response.ok || response.status===206;
+    }
+    return false;
+  } catch { return false; }
+}
+async function mapLimit(items, limit, mapper) {
+  const output = new Array(items.length);
+  let next = 0;
+  await Promise.all(Array.from({length:Math.min(limit,items.length)},async()=>{
+    while(next<items.length){const index=next++;output[index]=await mapper(items[index],index);}
+  }));
+  return output;
+}
+function mergeKnownFields(items, existing) {
+  const previous = new Map();
+  (existing.names||[]).forEach((name,i)=>{
+    const item={name,link:existing.links?.[i]||"",thumb:existing.thumbnails?.[i]||""};
+    for(const key of identityKeys(item)) if(!previous.has(key)) previous.set(key,item);
+  });
+  return items.map(item=>{
+    const match=identityKeys(item).map(key=>previous.get(key)).find(Boolean);
+    return match?{
+      name:item.name||match.name,
+      link:item.link||match.link,
+      thumb:item.thumb||match.thumb
+    }:item;
+  });
+}
+async function validSnapshot(items, existing) {
   const min = Math.max(1, Math.min(3, Math.ceil((existing.names?.length||0)*0.2)));
   const previousCount=existing.names?.length||0;
   const safeMinimum=previousCount>=10?Math.max(min,Math.ceil(previousCount*0.5)):min;
   if(items.length<safeMinimum)throw new Error("Only "+items.length+" entries found; safety minimum is "+safeMinimum+" (50% of previous "+previousCount+"). Existing JSON left untouched.");
-  const complete=items.filter(x=>x.name && (x.link||x.thumb));
-  if(complete.length<min)throw new Error("Too few usable entries. Existing JSON left untouched.");
+  const merged=mergeKnownFields(uniq(items),existing);
+  const checked=await mapLimit(merged,8,async item=>{
+    const [linkOk,thumbOk]=await Promise.all([
+      item.link?probeUrl(item.link):Promise.resolve(false),
+      item.thumb?probeUrl(item.thumb):Promise.resolve(false)
+    ]);
+    return {...item,link:linkOk?item.link:"",thumb:thumbOk?item.thumb:""};
+  });
+  const complete=checked.filter(x=>x.name && (x.link||x.thumb));
+  if(complete.length<min)throw new Error("Too few entries with verified links or thumbnails ("+complete.length+"). Existing JSON left untouched.");
   return uniq(complete);
 }
 
@@ -453,10 +516,12 @@ async function main() {
     try {
       const existing=await readExisting(source.file);
       const fetched=await fetchSource(source);
-      const items=validSnapshot(fetched,existing);
-      const oldLinks=new Set((existing.links||[]).filter(Boolean));
-      const oldNames=new Set(existing.names||[]);
-      const newItems=items.filter(x=>x.link?!oldLinks.has(x.link):!oldNames.has(x.name));
+      const items=await validSnapshot(fetched,existing);
+      const oldKeys=new Set();
+      (existing.names||[]).forEach((name,i)=>{
+        for(const key of identityKeys({name,link:existing.links?.[i]||""}))oldKeys.add(key);
+      });
+      const newItems=items.filter(item=>!identityKeys(item).some(key=>oldKeys.has(key)));
       const output={
         names:items.map(x=>x.name),
         links:items.map(x=>x.link||""),
