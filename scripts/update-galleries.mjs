@@ -37,8 +37,8 @@ const SOURCES = [
 
 const clean = value => String(value ?? "").replace(/\s+/g, " ").trim();
 const absolute = (value, base) => { try { return value ? new URL(value, base).href : ""; } catch { return ""; } };
-const isImage = value => /\.(png|jpe?g|gif|webp|svg|avif)(?:[?#]|$)/i.test(value || "");
-const isUsefulLink = value => /^https?:/i.test(value || "") && !isImage(value);
+const isImage = value => /\.(png|jpe?g|gif|webp|svg|avif)(?:[?#]|$)/i.test(value || "") || /(?:\/image\/|\/images?\/|cloudinary|imgur|\.svg\?)/i.test(value || "");
+const isUsefulLink = value => /^https?:/i.test(value || "") && !isImage(value) && !/^(?:javascript:|mailto:|tel:)/i.test(value || "");
 const uniq = items => {
   const map = new Map();
   for (const item of items) {
@@ -87,11 +87,11 @@ function fromHtml(html, base, kind) {
     const thumbRaw = img.attr("src") || img.attr("data-src") || img.attr("data-lazy-src") || img.attr("data-original") || img.attr("data-image") || img.attr("data-thumb") || img.attr("data-srcset")?.split(",")[0]?.trim().split(/\s+/)[0] || img.attr("srcset")?.split(",")[0]?.trim().split(/\s+/)[0] || img.attr("content");
     const thumb = thumbRaw && (/^https?:|^\//i.test(thumbRaw)) ? absolute(thumbRaw,base) : "";
     let link = "";
-    const attrs = ["href","data-href","data-url","data-src","data-extension-url","data-code","data-link","data-copy","data-clipboard-text","download-url"];
+    const attrs = ["href","data-href","data-url","data-src","data-extension-url","data-code","data-link","data-copy","data-clipboard-text","download-url","value"];
     el.find("*").addBack().each((_,node)=>{
       const n=$(node);
       for(const a of attrs){const v=n.attr(a);if(v){const u=absolute(v,base);if(isUsefulLink(u)&&u!==base){link=u;break;}}}
-      if(!link){const raw=n.attr("onclick")||"";const m=raw.match(/https?:\/\/[^"'\\s<>]+/);if(m)link=absolute(m[0],base);}
+      if(!link){const raw=[n.attr("onclick"),n.attr("onmousedown"),n.attr("data-clipboard-text"),n.attr("data-copy")].filter(Boolean).join(" ");const m=raw.match(/(?:https?:\/\/|\.\/|\.\.\/|\/)[^"'\\s<>]+/);if(m)link=absolute(m[0],base);}
       if(link)return false;
     });
     if (!link) {
@@ -116,20 +116,34 @@ function fromHtml(html, base, kind) {
     electra: [".extension","[class*=card i]"],
     tutelmod: ["article","[class*=card i]","[class*=extension i]"]
   };
-  const chosen = selectors[kind] || ["article","[class*=card i]","[class*=extension i]","[class*=tile i]","[class*=plugin i]","[role=listitem]","li"];
+  const chosen = selectors[kind] || ["article","[class*=card i]","[class*=extension i]","[class*=tile i]","[class*=plugin i]","[role=listitem]","li","h1","h2","h3","h4"];
   for (const selector of chosen) {
     $(selector).each((_,node)=>{
-      if (kind==="turbowarp" && !/^H[23]$/.test(node.tagName)) return;
+      if (["turbowarp","pooid7","electra","generic","dinosaur","ruby","turbololder","skybuilder","dde","lemons","pen"].includes(kind) && !/^H[1-4]$/.test(node.tagName) && ["turbowarp","pooid7","turbololder"].includes(kind)) return;
       if (kind==="cst" && node.tagName!=="a") return;
       if (kind==="penguinmod" && node.tagName==="a" && !$(node).find("img").length && !clean($(node).text())) return;
       let card=node;
-      if (["h2","h3"].includes(node.tagName)) card=$(node).parent().get(0) || node;
-      addCard(card, ["H2","H3"].includes(node.tagName)?$(node).text():undefined);
+      if (/^h[1-4]$/i.test(node.tagName)) {
+        card=$(node).closest("article,[class*=card i],[class*=extension i],[class*=item i],[class*=entry i],li").get(0) || $(node).parent().get(0) || node;
+      }
+      addCard(card, /^h[1-4]$/i.test(node.tagName)?$(node).text():undefined);
     });
   }
   // Handle JSON embedded in script tags and framework hydration state.
-  $("script[type='application/json'],script#__NEXT_DATA__").each((_,node)=>{
+  $("script[type='application/json'],script#__NEXT_DATA__,script[type='application/ld+json']").each((_,node)=>{
     try { found.push(...parseJsonTree(JSON.parse($(node).text()),base)); } catch {}
+  });
+  // Some galleries render cards from inline JavaScript rather than HTML/JSON script tags.
+  $("script:not([src])").each((_,node)=>{
+    const raw=$(node).text();
+    const patterns=[
+      /(?:name|title)\s*:\s*["']([^"']{2,100})["'][\s\S]{0,900}?(?:extensionId|extensionURL|extensionUrl|code|url|href)\s*:\s*["']([^"']{4,500})["']/gi,
+      /(?:extensionId|extensionURL|extensionUrl|code|url|href)\s*:\s*["']([^"']{4,500})["'][\s\S]{0,900}?(?:name|title)\s*:\s*["']([^"']{2,100})["']/gi
+    ];
+    for(let p=0;p<patterns.length;p++) for(const m of raw.matchAll(patterns[p])) {
+      const name=p===0?m[1]:m[2], rawLink=p===0?m[2]:m[1], link=absolute(rawLink,base);
+      if(name && isUsefulLink(link)) found.push({name,link,thumb:""});
+    }
   });
   return uniq(found);
 }
@@ -174,9 +188,30 @@ async function fetchSource(source) {
     }
     if(items.length)return items;
   }
-  const items=fromHtml(body,finalUrl,source.kind);
+  let items=fromHtml(body,finalUrl,source.kind);
   if(items.length)return items;
-  throw new Error("No reliable extension cards or data found");
+
+  // Inspect first-party JS bundles for client-rendered gallery data.
+  const $=load(body);
+  const scriptUrls=$("script[src]").toArray().map(node=>absolute($(node).attr("src"),finalUrl)).filter(Boolean).slice(0,12);
+  const bundleItems=[];
+  for(const scriptUrl of scriptUrls) {
+    try {
+      const sr=await fetch(scriptUrl,{headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0","accept":"*/*"},signal:AbortSignal.timeout(20000)});
+      if(!sr.ok)continue;
+      const js=await sr.text();
+      const parsed=fromHtml("<script>"+js.replace(/</g,"\\u003c")+"</script>",scriptUrl,source.kind);
+      bundleItems.push(...parsed);
+      const rx=/(?:name|title)\\s*:\\s*["']([^"']{2,100})["'][\\s\\S]{0,1200}?(?:extensionId|extensionURL|extensionUrl|code|url|href)\\s*:\\s*["']([^"']{4,500})["']/gi;
+      for(const m of js.matchAll(rx)) {
+        const link=absolute(m[2],scriptUrl);
+        if(isUsefulLink(link))bundleItems.push({name:m[1],link,thumb:""});
+      }
+    } catch {}
+  }
+  items=uniq(bundleItems);
+  if(items.length)return items;
+  throw new Error("No reliable extension cards or data found (HTML and linked JS inspected)");
 }
 
 async function readExisting(file) {
@@ -185,7 +220,9 @@ async function readExisting(file) {
 }
 function validSnapshot(items, existing) {
   const min = Math.max(1, Math.min(3, Math.ceil((existing.names?.length||0)*0.2)));
-  if(items.length<min)throw new Error("Only "+items.length+" entries found; safety minimum is "+min+". Existing JSON left untouched.");
+  const previousCount=existing.names?.length||0;
+  const safeMinimum=previousCount>=10?Math.max(min,Math.ceil(previousCount*0.5)):min;
+  if(items.length<safeMinimum)throw new Error("Only "+items.length+" entries found; safety minimum is "+safeMinimum+" (50% of previous "+previousCount+"). Existing JSON left untouched.");
   const complete=items.filter(x=>x.name && (x.link||x.thumb));
   if(complete.length<min)throw new Error("Too few usable entries. Existing JSON left untouched.");
   return uniq(complete);
