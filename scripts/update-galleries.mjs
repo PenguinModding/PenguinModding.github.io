@@ -15,7 +15,7 @@ const SOURCES = [
   { id:"allay", file:"allay-extensions.json", url:"https://greedyallay.github.io/extensions/", kind:"allay" },
   { id:"kylekart", file:"kylekart-extensions.json", url:"https://kylekart.github.io/ScratchExtensions/?ref=mistium&source=Joshuaknowsmaths", kind:"kylekart" },
   { id:"coast", file:"coast-extensions.json", url:"https://studio.penguinmod.com/fullscreen.html?fps=60&interpolate&offscreen&source=Joshuaknowsmaths#0255145410", kind:"generic" },
-  { id:"pooid7", file:"pooid7-extensions.json", url:"https://p7scratchextensions.pages.dev/", kind:"pooid7" },
+  { id:"pooiod7", file:"pooiod7-extensions.json", url:"https://p7scratchextensions.pages.dev/", kind:"pooiod7" },
   { id:"cst", file:"cst-extensions.json", url:"https://cst1229.eu.org/extensions", kind:"cst" },
   { id:"dde", file:"dde-extensions.json", url:"https://dde-ext-gallery.vercel.app/", kind:"dde" },
   { id:"lemons", file:"lemons-extensions.json", url:"https://bludisanlemon.github.io/lemons-gallery/", kind:"lemons" },
@@ -123,7 +123,7 @@ function fromHtml(html, base, kind) {
     sharkpool: ["extension-div"],
     allay: [".extension"],
     kylekart: [".extensions-outer .extensions > a"],
-    pooid7: [".card","tr"],
+    pooiod7: [".card","tr"],
     cst: ["a:has(img)"],
     dde: ["#gallery .extension"],
     lemons: [".extension"],
@@ -136,7 +136,7 @@ function fromHtml(html, base, kind) {
   const chosen = selectors[kind] || ["article","[class*=card i]","[class*=extension i]","[class*=tile i]","[class*=plugin i]","[role=listitem]","li","h1","h2","h3","h4"];
   for (const selector of chosen) {
     $(selector).each((_,node)=>{
-      if (["turbowarp","pooid7","electra","generic","dinosaur","ruby","turbololder","skybuilder","dde","lemons","pen"].includes(kind) && !/^H[1-4]$/.test(node.tagName) && ["turbowarp","pooid7","turbololder"].includes(kind)) return;
+      if (["turbowarp","pooiod7","electra","generic","dinosaur","ruby","turbololder","skybuilder","dde","lemons","pen"].includes(kind) && !/^H[1-4]$/.test(node.tagName) && ["turbowarp","pooiod7","turbololder"].includes(kind)) return;
       if (kind==="cst" && node.tagName!=="a") return;
       if (kind==="penguinmod" && node.tagName==="a" && !$(node).find("img").length && !clean($(node).text())) return;
       let card=node;
@@ -377,7 +377,7 @@ async function fetchDedicated(source, finalUrl, body) {
     })));
   }
 
-  if (source.id === "pooid7" || source.kind === "pooid7") {
+  if (source.id === "pooiod7" || source.kind === "pooiod7") {
     // The gallery publishes its source list as extensions.json. The live
     // site and the project's source repository are both supported so a
     // temporary Pages/CDN fetch issue does not make the whole gallery vanish.
@@ -387,18 +387,18 @@ async function fetchDedicated(source, finalUrl, body) {
     ];
     let data = null;
     const errors = [];
-    console.log("[pooid7] starting dedicated JSON index lookup");
+    console.log("[pooiod7] starting dedicated JSON index lookup");
     for (const dataUrl of urls) {
       try {
         const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0","accept":"application/json"},signal:AbortSignal.timeout(35000)});
-        console.log("[pooid7] " + dataUrl + " -> HTTP " + response.status);
+        console.log("[pooiod7] " + dataUrl + " -> HTTP " + response.status);
         if (!response.ok) throw new Error("HTTP " + response.status);
         const parsed = await response.json();
         if (!Array.isArray(parsed) || !parsed.length) throw new Error("Extension index was empty or not an array");
-        console.log("[pooid7] parsed raw entries=" + parsed.length);
+        console.log("[pooiod7] parsed raw entries=" + parsed.length);
         data = parsed;
         break;
-      } catch (error) { console.log("[pooid7] index error: " + String(error)); errors.push(dataUrl + ": " + String(error)); }
+      } catch (error) { console.log("[pooiod7] index error: " + String(error)); errors.push(dataUrl + ": " + String(error)); }
     }
     // Last-resort source: GitHub's contents API. This avoids depending on
     // either the Pages deployment or raw-content CDN being available to CI.
@@ -415,10 +415,10 @@ async function fetchDedicated(source, finalUrl, body) {
         data = parsed;
       } catch (error) { errors.push("GitHub contents API: " + String(error)); }
     }
-    if (!data) throw new Error("[pooid7] extension index unavailable. " + errors.join(" | "));
-    console.log("[pooid7] loaded raw entries=" + data.length);
+    if (!data) throw new Error("[pooiod7] extension index unavailable. " + errors.join(" | "));
+    console.log("[pooiod7] loaded raw entries=" + data.length);
     const visibleEntries = data.filter(item => item && item.hidden !== true);
-    console.log("[pooid7] visible entries=" + visibleEntries.length);
+    console.log("[pooiod7] visible entries=" + visibleEntries.length);
     const items = uniq(visibleEntries.map(item => {
       const id = String(item.id || "").trim();
       const name = clean(item.title || item.name || id);
@@ -429,8 +429,8 @@ async function fetchDedicated(source, finalUrl, body) {
       const thumb = imagePath ? absolute(imagePath, "https://p7scratchextensions.pages.dev/") : "";
       return {name,link,thumb};
     }));
-    console.log("[pooid7] usable unique entries=" + items.length);
-    if (items.length < 3) throw new Error("[pooid7] index parsed but only " + items.length + " usable entries were extracted");
+    console.log("[pooiod7] usable unique entries=" + items.length);
+    if (items.length < 3) throw new Error("[pooiod7] index parsed but only " + items.length + " usable entries were extracted");
     return items;
   }
 
@@ -555,12 +555,12 @@ async function fetchDedicated(source, finalUrl, body) {
 async function fetchSource(source) {
   // Route by stable source ID as well as kind, and emit a trace so CI proves
   // which adapter actually ran.
-  if (source.id === "pooid7" || source.kind === "pooid7") {
-    console.log("[pooid7] fetchSource adapter entered; kind=" + source.kind);
-    const result = await fetchDedicated({...source, kind:"pooid7"}, source.url, "");
-    console.log("[pooid7] adapter returned " + result.length + " unique records");
+  if (source.id === "pooiod7" || source.kind === "pooiod7") {
+    console.log("[pooiod7] fetchSource adapter entered; kind=" + source.kind);
+    const result = await fetchDedicated({...source, kind:"pooiod7"}, source.url, "");
+    console.log("[pooiod7] adapter returned " + result.length + " unique records");
     if (!Array.isArray(result) || result.length < 3) {
-      throw new Error("[pooid7] dedicated adapter returned fewer than 3 records");
+      throw new Error("[pooiod7] dedicated adapter returned fewer than 3 records");
     }
     return result;
   }
