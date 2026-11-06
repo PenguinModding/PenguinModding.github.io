@@ -1,0 +1,46 @@
+{
+  "names": [
+    "Debugger Console",
+    "Lazy Multi-lines",
+    "Jul Mik Utilities",
+    "GLSL Custom Shader",
+    "E2EE",
+    "WebRTC",
+    "ElectraAPI",
+    "ElectraGPT",
+    "Markdown to HTML"
+  ],
+  "links": [
+    "https://electramod-extensions-gallery.vercel.app/Aness6040/debuggerconsole.js",
+    "https://electramod-extensions-gallery.vercel.app/Aness6040/lazymultilines.js",
+    "https://electramod-extensions-gallery.vercel.app/julmik6478/julmik_utilities.js",
+    "https://electramod-extensions-gallery.vercel.app/Aness6040/custom-shader.js",
+    "https://electramod-extensions-gallery.vercel.app/MikeDev101/e2ee.js",
+    "https://electramod-extensions-gallery.vercel.app/MikeDev101/webrtc.js",
+    "https://electramod-extensions-gallery.vercel.app/Aness6040/electraapi.js",
+    "https://electramod-extensions-gallery.vercel.app/MubiLop/electragpt.js",
+    "https://electramod-extensions-gallery.vercel.app/Aness6040/md2html.js"
+  ],
+  "thumbnails": [
+    "https://electramod-extensions-gallery.vercel.app/Aness6040/debuggerconsole.svg",
+    "https://electramod-extensions-gallery.vercel.app/Aness6040/lazymultilines.svg",
+    "https://electramod-extensions-gallery.vercel.app/julmik6478/julmik_utilities.svg",
+    "https://electramod-extensions-gallery.vercel.app/PROMISE/custom_shader.png",
+    "https://electramod-extensions-gallery.vercel.app/MikeDev101/e2ee.svg",
+    "https://electramod-extensions-gallery.vercel.app/MikeDev101/webrtc.png",
+    "https://electramod-extensions-gallery.vercel.app/Aness6040/electraapi.svg",
+    "https://electramod-extensions-gallery.vercel.app/MubiLop/electragpt.png",
+    "https://electramod-extensions-gallery.vercel.app/Aness6040/md2html.png"
+  ],
+  "newExtensions": [
+    "Debugger Console",
+    "Lazy Multi-lines",
+    "Jul Mik Utilities",
+    "GLSL Custom Shader",
+    "E2EE",
+    "WebRTC",
+    "ElectraAPI",
+    "ElectraGPT",
+    "Markdown to HTML"
+  ]
+}

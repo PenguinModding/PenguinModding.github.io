@@ -8,12 +8,12 @@
     "Simple Hashing"
   ],
   "links": [
-    "",
-    "",
-    "",
-    "",
-    "",
-    ""
+    "https://greedyallay.github.io/extensions/resources/extensions/html.js",
+    "https://greedyallay.github.io/extensions/resources/extensions/tiles.js",
+    "https://greedyallay.github.io/extensions/resources/extensions/controls.js",
+    "https://greedyallay.github.io/extensions/resources/extensions/console.js",
+    "https://greedyallay.github.io/extensions/resources/extensions/ollama.js",
+    "https://greedyallay.github.io/extensions/resources/extensions/hashing.js"
   ],
   "thumbnails": [
     "https://greedyallay.github.io/extensions/resources/html.png",
@@ -23,5 +23,12 @@
     "https://greedyallay.github.io/extensions/resources/ollama.png",
     "https://greedyallay.github.io/extensions/resources/hashing.png"
   ],
-  "newExtensions": []
+  "newExtensions": [
+    "HTML",
+    "Tiles (UPDATED)",
+    "On-screen Controls",
+    "Simple Console",
+    "Ollama",
+    "Simple Hashing"
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "lastCheckedAt": null,
-  "lastAttemptAt": "2026-11-06T06:03:06.536Z",
+  "lastAttemptAt": "2026-11-06T06:05:33.048Z",
   "intervalDays": 15,
   "report": [
     {
@@ -13,7 +13,7 @@
     {
       "id": "turbowarp",
       "status": "error",
-      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
+      "error": "SyntaxError: Expected ',' or ']' after array element in JSON at position 2265 (line 106 column 18)"
     },
     {
       "id": "sharkpool",
@@ -36,8 +36,10 @@
     },
     {
       "id": "allay",
-      "status": "error",
-      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
+      "status": "ok",
+      "count": 6,
+      "new": 6,
+      "file": "allay-extensions.json"
     },
     {
       "id": "kylekart",
@@ -77,8 +79,10 @@
     },
     {
       "id": "pen",
-      "status": "error",
-      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
+      "status": "ok",
+      "count": 5,
+      "new": 0,
+      "file": "pen-extensions.json"
     },
     {
       "id": "ruby",
@@ -94,8 +98,10 @@
     },
     {
       "id": "electramod",
-      "status": "error",
-      "error": "Error: No reliable extension cards or data found (HTML and linked JS inspected)"
+      "status": "ok",
+      "count": 9,
+      "new": 9,
+      "file": "electramod-extensions.json"
     },
     {
       "id": "mgik",

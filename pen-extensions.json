@@ -3,7 +3,7 @@
     "Pen+",
     "Shaded",
     "Render Control",
-    "Customizable\nAnti-Aliasing",
+    "Customizable Anti-Aliasing",
     "Effective"
   ],
   "links": [
@@ -20,11 +20,5 @@
     "https://pen-group.github.io/extensions/extensions/PenAA/thumbnail.png",
     "https://pen-group.github.io/extensions/extensions/effective/thumbnail.svg"
   ],
-  "newExtensions": [
-    "Pen+",
-    "Shaded",
-    "Render Control",
-    "Customizable\nAnti-Aliasing",
-    "Effective"
-  ]
+  "newExtensions": []
 }
