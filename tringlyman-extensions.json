@@ -23,12 +23,5 @@
     "https://tringlyman.github.io/Scratch-Extensions/Images/logos/logos__Raw%20Logo.svg",
     "https://tringlyman.github.io/Scratch-Extensions/Images/logos/logos__Raw+%20Logo.svg"
   ],
-  "newExtensions": [
-    "JS",
-    "math+",
-    "Save",
-    "website",
-    "Raw",
-    "Raw+"
-  ]
+  "newExtensions": []
 }

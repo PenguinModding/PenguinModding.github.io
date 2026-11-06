@@ -47,20 +47,5 @@
     "https://dde-ext-gallery.vercel.app/extensions/thumbnail/posenet2scratch.png",
     "https://dde-ext-gallery.vercel.app/extensions/thumbnail/facemesh2scratch.png"
   ],
-  "newExtensions": [
-    "Sprite Controller",
-    "Sweet Alerts",
-    "String Mutilation",
-    "Date Format",
-    "Measurement Format",
-    "Speech Synthesis",
-    "Nasa Media Search",
-    "Super Booleans",
-    "Potato Extension",
-    "Poop Extension",
-    "Subway Surfers",
-    "Subway Surfers V2",
-    "Posenet2Scratch",
-    "Facemesh2Scratch"
-  ]
+  "newExtensions": []
 }

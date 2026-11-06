@@ -47,7 +47,5 @@
     "https://ruby-devs.vercel.app/cdn/thumbnails/analytics.webp",
     "https://ruby-devs.vercel.app/cdn/thumbnails/turboweather.webp"
   ],
-  "newExtensions": [
-    "PenguinGPT"
-  ]
+  "newExtensions": []
 }
