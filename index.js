@@ -99,6 +99,26 @@ function fromDOM(){
   if(seen.has(key))return;seen.add(key);
   out.push({name,link,thumb,isNew:/\bnew\b/i.test(clean(e.innerText))||!!e.querySelector("[class*=new i],[aria-label*=new i]")});
  });
+
+ // Image-anchored fallback for galleries whose card wrappers use unrecognised class names.
+ [...document.querySelectorAll("img")].forEach(mediaEl=>{
+  let card=mediaEl;
+  for(let i=0;i<8&&card&&card!==document.body;i++,card=card.parentElement){
+   const text=clean(card.innerText),imgs=card.querySelectorAll("img");
+   if(imgs.length>3||text.length<12||text.length>1400)continue;
+   const heading=getHeading(card);
+   const lines=text.split(/\n/).map(clean).filter(x=>x&&x.length<100);
+   const anchor=mediaEl.closest("a");
+   const label=clean(mediaEl.getAttribute("alt")||mediaEl.getAttribute("title")||anchor?.getAttribute("aria-label")||anchor?.getAttribute("title")||"");
+   const name=clean(heading?.innerText||label||lines.find(x=>!/^(new|updated|copy|details|try it out|add to project)$/i.test(x))||"");
+   const thumb=abs(mediaEl.currentSrc||mediaEl.src||mediaEl.getAttribute("data-src")||"");
+   if(!name||name.length>120||!thumb)continue;
+   const link=extractLink(card)||abs(anchor?.href||"");
+   const key=name.toLowerCase()+"|"+thumb;
+   if(!seen.has(key)){seen.add(key);out.push({name,link,thumb,isNew:/\bnew\b/i.test(text)||!!card.querySelector("[class*=new i],[aria-label*=new i]")});}
+   break;
+  }
+ });
  return mergeByName(out);
 }
 function scan(){
