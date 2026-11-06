@@ -24,7 +24,7 @@ const SOURCES = [
   { id:"dinosaurmod", file:"dinosaurmod-extensions.json", url:"https://dinosaurmod.github.io/extensions/", kind:"dinosaur" },
   { id:"electramod", file:"electramod-extensions.json", url:"https://electramod-extensions-gallery.vercel.app/", kind:"electra" },
   { id:"mgik", file:"mgik-extensions.json", url:"https://s.mgik.dev/CRAZYextensionlistwow.json?ref=ListOfAllExtensionDiscord", kind:"json" },
-  { id:"skybuilder", file:"skybuilder-extensions.json", url:"https://skybuilder-extensions.vercel.app/?ref=ListOfAllExtensionDiscord", kind:"generic" },
+  { id:"skybuilder", file:"skybuilder-extensions.json", url:"https://skybuilder-extensions.vercel.app/", kind:"skybuilder" },
   { id:"m0v0", file:"m0v0-extensions.json", url:"https://m0v0.github.io/Website/?ref=ListOfAllExtensionDiscord", kind:"generic" },
   { id:"goofywarp", file:"goofywarp-extensions.json", url:"https://goofywarp.github.io/extensions/?ref=ListOfAllExtensionDiscord", kind:"generic" },
   { id:"alejo", file:"alejo-extensions.json", url:"https://alejo14.vercel.app/extensions.html", kind:"generic" },
@@ -286,15 +286,63 @@ async function fetchDedicated(source, finalUrl, body) {
   }
 
   if (source.kind === "pooiod7") {
-    const dataUrl = absolute("extensions.json", finalUrl);
-    const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
-    if (!response.ok) throw new Error("Pooiod7 extension index HTTP " + response.status);
+    // The gallery publishes its source list as extensions.json. The live
+    // site and the project's source repository are both supported so a
+    // temporary Pages/CDN fetch issue does not make the whole gallery vanish.
+    const urls = [
+      "https://p7scratchextensions.pages.dev/extensions.json",
+      "https://raw.githubusercontent.com/pooiod/ScratchExtensions/main/extensions.json"
+    ];
+    let data = null;
+    let lastError = "";
+    for (const dataUrl of urls) {
+      try {
+        const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0","accept":"application/json"},signal:AbortSignal.timeout(35000)});
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        const parsed = await response.json();
+        if (!Array.isArray(parsed) || !parsed.length) throw new Error("Extension index was empty or not an array");
+        data = parsed;
+        break;
+      } catch (error) { lastError = String(error); }
+    }
+    if (!data) throw new Error("Pooiod7 extension index unavailable: " + lastError);
+    return uniq(data.filter(item => item && item.hidden !== true).map(item => {
+      const id = String(item.id || "");
+      const viewButton = (item.buttons || []).find(button => /view extension/i.test(button.text || ""));
+      const buildPath = viewButton?.link || "/view/#/[id]";
+      // The site's viewer loads /ext/<id>/main.js by default. Its button
+      // URL is a viewer route, not the executable extension URL.
+      const link = id ? absolute("ext/" + encodeURIComponent(id) + "/main.js", "https://p7scratchextensions.pages.dev/") : "";
+      const thumb = item.image && id
+        ? absolute(item.image.replaceAll("[id]", id), "https://p7scratchextensions.pages.dev/")
+        : "";
+      return {name:item.title,link,thumb};
+    }));
+  }
+
+  if (source.kind === "skybuilder") {
+    const dataUrl = "https://skybuilder-extensions.vercel.app/extensions-list.json";
+    const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0","accept":"application/json"},signal:AbortSignal.timeout(35000)});
+    if (!response.ok) throw new Error("SkyBuilder extension index HTTP " + response.status);
     const data = await response.json();
-    const visible = data.filter(item => item.hidden !== true);
-    return uniq(visible.map(item => ({
-      name: item.title,
-      link: absolute("ext/" + encodeURIComponent(item.id) + "/main.js", finalUrl),
-      thumb: item.image ? absolute(item.image.replaceAll("[id]", item.id), finalUrl) : ""
+    if (!Array.isArray(data)) throw new Error("SkyBuilder extension index was not an array");
+    return uniq(await Promise.all(data.map(async item => {
+      const id = String(item.id || "");
+      let thumb = "";
+      if (id) {
+        for (const ext of [".png",".svg"]) {
+          const candidate = absolute("static/extensions/" + encodeURIComponent(id) + ext, "https://skybuilder-extensions.vercel.app/");
+          try {
+            const check = await fetch(candidate,{method:"HEAD",headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(10000)});
+            if (check.ok) { thumb=candidate; break; }
+          } catch {}
+        }
+      }
+      return {
+        name:item.name,
+        link:id?absolute("extensions/"+encodeURIComponent(id)+".js","https://skybuilder-extensions.vercel.app/"):"",
+        thumb
+      };
     })));
   }
 
