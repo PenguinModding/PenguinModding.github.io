@@ -182,11 +182,34 @@ function parseJsObjectFeed(text, base, kind) {
 
 
 function parseCommentedJson(text) {
-  const stripped = text
-    .replace(/^\s*\/\/.*$/gm, "")
-    .replace(/,(\s*)\/\/[^\n]*/g, ",")
-    .replace(/,\s*([}\]])/g, "$1");
-  return JSON.parse(stripped);
+  // Remove JSONC comments without touching // inside quoted strings.
+  let output = "";
+  let inString = false;
+  let escaped = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i], next = text[i + 1];
+    if (inString) {
+      output += ch;
+      if (escaped) escaped = false;
+      else if (ch === "\\\\") escaped = true;
+      else if (ch === '"') inString = false;
+      continue;
+    }
+    if (ch === '"') { inString = true; output += ch; continue; }
+    if (ch === "/" && next === "/") {
+      while (i < text.length && text[i] !== "\\n") i++;
+      output += "\\n";
+      continue;
+    }
+    if (ch === "/" && next === "*") {
+      i += 2;
+      while (i < text.length && !(text[i] === "*" && text[i + 1] === "/")) i++;
+      i++;
+      continue;
+    }
+    output += ch;
+  }
+  return JSON.parse(output.replace(/,\\s*([}\\]])/g, "$1"));
 }
 
 function slugName(slug) {
@@ -199,11 +222,24 @@ async function fetchDedicated(source, finalUrl, body) {
     const response = await fetch(listUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
     if (!response.ok) throw new Error("TurboWarp extension index HTTP " + response.status);
     const slugs = parseCommentedJson(await response.text()).filter(x => typeof x === "string");
-    return uniq(slugs.map(slug => ({
-      name: slugName(slug),
-      link: absolute(slug + ".js", "https://extensions.turbowarp.org/"),
-      thumb: ""
-    })));
+    const items = await Promise.all(slugs.map(async slug => {
+      const imageBase = "https://extensions.turbowarp.org/images/" + slug;
+      let thumb = "";
+      for (const extension of [".svg", ".png", ".jpg", ".jpeg", ".webp"]) {
+        const candidate = imageBase + extension;
+        try {
+          const check = await fetch(candidate, {method:"HEAD",headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(10000)});
+          if (check.ok) { thumb = candidate; break; }
+        } catch {}
+      }
+      if (!thumb) thumb = "https://extensions.turbowarp.org/images/unknown.svg";
+      return {
+        name: slugName(slug),
+        link: absolute(slug + ".js", "https://extensions.turbowarp.org/"),
+        thumb
+      };
+    }));
+    return uniq(items);
   }
 
   if (source.kind === "pen") {
