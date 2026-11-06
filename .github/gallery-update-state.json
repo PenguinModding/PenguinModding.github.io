@@ -1,6 +1,6 @@
 {
-  "lastCheckedAt": null,
-  "lastAttemptAt": "2026-11-06T07:08:50.982Z",
+  "lastCheckedAt": "2026-11-06T07:15:08.233Z",
+  "lastAttemptAt": "2026-11-06T07:15:08.233Z",
   "intervalDays": 15,
   "report": [
     {
@@ -61,8 +61,10 @@
     },
     {
       "id": "pooid7",
-      "status": "error",
-      "error": "Error: [pooid7] dedicated adapter returned fewer than 3 records"
+      "status": "ok",
+      "count": 28,
+      "new": 2,
+      "file": "pooid7-extensions.json"
     },
     {
       "id": "cst",
