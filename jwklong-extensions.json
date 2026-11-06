@@ -1,0 +1,18 @@
+{
+  "names": [
+    "Mathematics",
+    "Project Page"
+  ],
+  "thumbnails": [
+    "",
+    ""
+  ],
+  "links": [
+    "https://raw.githubusercontent.com/PenguinMod/PenguinMod-ExtensionsGallery/main/static/extensions/jwklong/mathematics.js",
+    "https://raw.githubusercontent.com/PenguinMod/PenguinMod-ExtensionsGallery/main/static/extensions/jwklong/projectpage.js"
+  ],
+  "newExtensions": [
+    "Mathematics",
+    "Project Page"
+  ]
+}
