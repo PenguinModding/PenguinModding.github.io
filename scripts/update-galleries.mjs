@@ -308,8 +308,6 @@ async function fetchDedicated(source, finalUrl, body) {
     if (!data) throw new Error("Pooiod7 extension index unavailable: " + lastError);
     return uniq(data.filter(item => item && item.hidden !== true).map(item => {
       const id = String(item.id || "");
-      const viewButton = (item.buttons || []).find(button => /view extension/i.test(button.text || ""));
-      const buildPath = viewButton?.link || "/view/#/[id]";
       // The site's viewer loads /ext/<id>/main.js by default. Its button
       // URL is a viewer route, not the executable extension URL.
       const link = id ? absolute("ext/" + encodeURIComponent(id) + "/main.js", "https://p7scratchextensions.pages.dev/") : "";
@@ -333,8 +331,11 @@ async function fetchDedicated(source, finalUrl, body) {
         for (const ext of [".png",".svg"]) {
           const candidate = absolute("static/extensions/" + encodeURIComponent(id) + ext, "https://skybuilder-extensions.vercel.app/");
           try {
-            const check = await fetch(candidate,{method:"HEAD",headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(10000)});
-            if (check.ok) { thumb=candidate; break; }
+            let check = await fetch(candidate,{method:"HEAD",headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(10000)});
+            if ([403,405,501].includes(check.status)) {
+              check = await fetch(candidate,{headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0","range":"bytes=0-0"},signal:AbortSignal.timeout(10000)});
+            }
+            if (check.ok || check.status===206) { thumb=candidate; break; }
           } catch {}
         }
       }
