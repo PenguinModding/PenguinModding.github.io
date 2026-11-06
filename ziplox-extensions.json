@@ -1,14 +1,12 @@
 {
   "names": [
-    "Ziplox's Extension Gallery",
-    "musicplus",
-    "blockdates",
-    "tempvariables",
-    "nodes",
-    "ciphers"
+    "Music Plus",
+    "Block Dates",
+    "Temporary Variables",
+    "Nodes and Links",
+    "Ciphers"
   ],
   "links": [
-    "",
     "https://ziplox.neocities.org/extensions/scripts/musicplus.js",
     "https://ziplox.neocities.org/extensions/scripts/blockdates.js",
     "https://ziplox.neocities.org/extensions/scripts/tempvar.js",
@@ -16,12 +14,11 @@
     "https://ziplox.neocities.org/extensions/scripts/ciphers.js"
   ],
   "thumbnails": [
-    "https://ziplox.neocities.org/extensions/images/dog.ico",
-    "",
-    "",
-    "",
-    "",
-    ""
+    "https://ziplox.neocities.org/extensions/banners/musicplus.svg",
+    "https://ziplox.neocities.org/extensions/banners/blockdates.svg",
+    "https://ziplox.neocities.org/extensions/banners/tempvar.svg",
+    "https://ziplox.neocities.org/extensions/banners/nodes.svg",
+    "https://ziplox.neocities.org/extensions/banners/ciphers.svg"
   ],
   "newExtensions": []
 }
