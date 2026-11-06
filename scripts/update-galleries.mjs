@@ -162,6 +162,100 @@ function parseJsObjectFeed(text, base, kind) {
   return uniq(found);
 }
 
+
+function parseCommentedJson(text) {
+  const stripped = text
+    .replace(/^\s*\/\/.*$/gm, "")
+    .replace(/,(\s*)\/\/[^\n]*/g, ",")
+    .replace(/,\s*([}\]])/g, "$1");
+  return JSON.parse(stripped);
+}
+
+function slugName(slug) {
+  return clean(slug.split("/").pop().replace(/\.js$/i, "").replace(/[-_]+/g, " ").replace(/\b\w/g, c => c.toUpperCase()));
+}
+
+async function fetchDedicated(source, finalUrl, body) {
+  if (source.kind === "turbowarp") {
+    const listUrl = "https://raw.githubusercontent.com/TurboWarp/extensions/master/extensions/extensions.json";
+    const response = await fetch(listUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
+    if (!response.ok) throw new Error("TurboWarp extension index HTTP " + response.status);
+    const slugs = parseCommentedJson(await response.text()).filter(x => typeof x === "string");
+    return uniq(slugs.map(slug => ({
+      name: slugName(slug),
+      link: absolute(slug + ".js", "https://extensions.turbowarp.org/"),
+      thumb: absolute(slug + ".svg", "https://extensions.turbowarp.org/images/")
+    })));
+  }
+
+  if (source.kind === "pen") {
+    const jsonUrl = absolute("extensions.json", finalUrl);
+    const response = await fetch(jsonUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
+    if (!response.ok) throw new Error("Pen Group extension index HTTP " + response.status);
+    const data = await response.json();
+    return uniq(data.map(item => {
+      const version = item.latestVersion || item.versions?.[item.versions.length - 1]?.filename;
+      return {
+        name: item.name,
+        link: version ? absolute("extensions/" + encodeURIComponent(item.id) + "/" + encodeURIComponent(version), finalUrl) : "",
+        thumb: absolute("extensions/" + encodeURIComponent(item.id) + "/thumbnail." + (item.thumbnailFormat || "svg"), finalUrl)
+      };
+    }));
+  }
+
+  if (source.kind === "allay") {
+    const $ = load(body);
+    const found = [];
+    $(".extension").each((_, card) => {
+      const el = $(card);
+      const name = clean(el.find(".name").first().text());
+      const image = el.find("img").first().attr("src");
+      const script = el.find("[onclick]").toArray().map(n => $(n).attr("onclick") || "").join(" ");
+      const match = script.match(/copyExtension\(\s*['"`'"]([^'"`]+)['"`"]\s*\)/);
+      const file = match?.[1];
+      if (name && file) found.push({
+        name,
+        link: absolute("resources/extensions/" + file, finalUrl),
+        thumb: image ? absolute(image, finalUrl) : ""
+      });
+    });
+    return uniq(found);
+  }
+
+  if (source.kind === "tringlyman") {
+    const $ = load(body);
+    const found = [];
+    $("a[download][href]").each((_, node) => {
+      const href = $(node).attr("href");
+      if (!/\.js(?:[?#]|$)/i.test(href || "")) return;
+      let filename = "";
+      try { filename = decodeURIComponent(href.split("/").pop().split("?")[0]); } catch {}
+      const name = clean(filename.replace(/\.js$/i, "").replace(/\s+Extension$/i, "").replace(/^Tringlyman's\s+/i, ""));
+      const card = $(node).closest("div");
+      const img = card.find("img").first().attr("src");
+      if (name) found.push({name,link:absolute(href,finalUrl),thumb:img?absolute(img,finalUrl):""});
+    });
+    return uniq(found);
+  }
+
+  if (source.kind === "electra") {
+    const jsUrl = "https://raw.githubusercontent.com/ElectraMod/ElectraMod-ExtensionsGallery/main/src/lib/extensions.js";
+    const response = await fetch(jsUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
+    if (!response.ok) throw new Error("ElectraMod extension data HTTP " + response.status);
+    const js = await response.text();
+    const found = [];
+    const re = /\{\s*name\s*:\s*["']([^"']+)["'][\s\S]*?code\s*:\s*["']([^"']+)["'][\s\S]*?banner\s*:\s*["']([^"']+)["'][\s\S]*?\}/g;
+    for (const match of js.matchAll(re)) found.push({
+      name: match[1],
+      link: absolute(match[2], "https://electramod-extensions-gallery.vercel.app/"),
+      thumb: absolute(match[3], "https://electramod-extensions-gallery.vercel.app/")
+    });
+    return uniq(found);
+  }
+
+  return [];
+}
+
 async function fetchSource(source) {
   const response = await fetch(source.url,{redirect:"follow",headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0 (+https://github.com/PenguinModding/PenguinModding.github.io)","accept":"text/html,application/json,text/plain,*/*"},signal:AbortSignal.timeout(35000)});
   if(!response.ok) throw new Error("HTTP "+response.status);
@@ -189,6 +283,8 @@ async function fetchSource(source) {
     }
     if(items.length)return items;
   }
+  const dedicated = await fetchDedicated(source, finalUrl, body);
+  if (dedicated.length) return dedicated;
   let items=fromHtml(body,finalUrl,source.kind);
 
   // Inspect first-party JS bundles for client-rendered gallery data, even when
