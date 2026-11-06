@@ -559,8 +559,23 @@ async function fetchSource(source) {
     if(!fr.ok)throw new Error("Official extension feed HTTP "+fr.status);
     const js=await fr.text();
     const items=[];
-    const re=/\{\s*name\s*:\s*["']([^"']+)["'][\s\S]*?code\s*:\s*["']([^"']+)["'][\s\S]*?(?:banner\s*:\s*["']([^"']*)["'])?[\s\S]*?\}/g;
-    for(const m of js.matchAll(re))items.push({name:m[1],link:absolute("extensions/"+m[2].replace(/^\/+/,""),"https://extensions.penguinmod.com/"),thumb:m[3]?absolute("images/"+m[3].replace(/^\/+/,""),"https://extensions.penguinmod.com/"):""});
+    // Parse each catalogue object separately so the banner field cannot be skipped.
+    const objects=js.match(/\{[^{}]*\}/g)||[];
+    const readField=(object,key)=>{
+      const match=object.match(new RegExp("(?:^|[,\\s])"+key+"\\s*:\\s*([\\\"\'])(.*?)\\1","s"));
+      return match?match[2].trim():"";
+    };
+    for(const object of objects){
+      const name=readField(object,"name");
+      const code=readField(object,"code");
+      const banner=readField(object,"banner");
+      if(!name||!code)continue;
+      items.push({
+        name,
+        link:absolute("extensions/"+code.replace(/^\\/+/, ""),"https://extensions.penguinmod.com/"),
+        thumb:banner?absolute("images/"+banner.replace(/^\\/+/, ""),"https://extensions.penguinmod.com/"):""
+      });
+    }
     if(items.length>=10)return uniq(items);
   }
   if(source.kind==="ziplox" || source.kind==="godslayer") {
