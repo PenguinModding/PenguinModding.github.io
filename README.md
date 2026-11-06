@@ -20,6 +20,8 @@ A collection of extension lists gathered from different Scratch and PenguinMod g
 | Lemon's Gallery | [View JSON](https://penguinmodding.github.io/lemons-extensions.json) |
 | Pen Group | [View JSON](https://penguinmodding.github.io/pen-extensions.json) |
 | Ruby Devs | [View JSON](https://penguinmodding.github.io/ruby-extensions.json) |
+| jwklong | [View JSON](https://penguinmodding.github.io/jwklong-extensions.json) |
+| Custom Extension Gallery UI | [View JSON](https://penguinmodding.github.io/custom-extensions.json) |
 
 ## JSON format
 
