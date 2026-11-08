@@ -526,7 +526,7 @@ async function fetchDedicated(source, finalUrl, body) {
     for (const match of js.matchAll(re)) found.push({
       name: match[1],
       link: absolute(match[2], "https://electramod-extensions-gallery.vercel.app/"),
-      thumb: absolute(match[3], "https://electramod-extensions-gallery.vercel.app/")
+      thumb: absolute(match[3], "https://electramod-extensions-gallery.vercel.app/images/")
     });
     return uniq(found);
   }
