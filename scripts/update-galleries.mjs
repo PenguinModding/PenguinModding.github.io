@@ -642,7 +642,7 @@ async function fetchSource(source) {
   }
   items=uniq([...items,...bundleItems]);
   // Keep the GoofyWarp "Files" extension, but intentionally omit its thumbnail.
-  if(source.id==="goofywarp") items=items.map(item=>/^files$/i.test(clean(item.name))?{...item,thumb:""}:item);
+  if(source.id==="goofywarp") items=items.map(item=>/^files$/i.test(clean(item.name))?{...item,thumb:"cnt"}:item);
   if(items.length)return items;
   throw new Error("No reliable extension cards or data found (HTML and linked JS inspected)");
 }
