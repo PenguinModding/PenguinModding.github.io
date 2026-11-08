@@ -641,8 +641,24 @@ async function fetchSource(source) {
     } catch {}
   }
   items=uniq([...items,...bundleItems]);
-  // Keep the GoofyWarp "Files" extension, but intentionally omit its thumbnail.
-  if(source.id==="goofywarp") items=items.map(item=>/^files$/i.test(clean(item.name))?{...item,thumb:"cnt"}:item);
+  if(source.id==="goofywarp") {
+    // GoofyWarp mirrors the TurboWarp extension catalogue. Its page does not
+    // expose reliable image elements, so resolve each published TurboWarp
+    // extension path against the gallery's standard /images/<slug> assets.
+    items = await mapLimit(items, 8, async item => {
+      if (/^files$/i.test(clean(item.name))) return {...item, thumb:"cnt"};
+      try {
+        const parsed = new URL(item.link);
+        if (parsed.hostname !== "extensions.turbowarp.org" || !/\\.js$/i.test(parsed.pathname)) return item;
+        const slug = parsed.pathname.replace(/^\\//, "").replace(/\\.js$/i, "");
+        for (const ext of [".svg", ".png", ".jpg", ".jpeg", ".webp"]) {
+          const candidate = "https://extensions.turbowarp.org/images/" + slug + ext;
+          if (await probeUrl(candidate)) return {...item, thumb:candidate};
+        }
+      } catch {}
+      return item;
+    });
+  }
   if(items.length)return items;
   throw new Error("No reliable extension cards or data found (HTML and linked JS inspected)");
 }
@@ -708,7 +724,7 @@ async function validSnapshot(items, existing) {
   return uniq(merged.map(item => ({
     name: clean(item.name),
     link: isUsefulLink(item.link) ? item.link : "",
-    thumb: isImage(item.thumb) ? item.thumb : ""
+    thumb: item.thumb === "cnt" ? "cnt" : (isImage(item.thumb) ? item.thumb : "")
   })));
 }
 
