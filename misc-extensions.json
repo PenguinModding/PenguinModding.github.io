@@ -77,7 +77,6 @@
     "Debugger Console",
     "Display-Text",
     "Money-Utilities",
-    "Geolocation",
     "Fetch-Plus",
     "Text-to-Speech",
     "Pause-Utilities",
@@ -103,7 +102,6 @@
   "thumbnails": [
     "https://turbololder.vercel.app/images/Mr_Beast_Utilitities.svg",
     "https://turbololder.vercel.app/images/none.png",
-    "",
     "",
     "",
     "",
@@ -279,7 +277,6 @@
     "https://electramod-extensions-gallery.vercel.app/extensions/Aness6040/debuggerconsole.js",
     "https://sharkpools-extensions.vercel.app/extension-code/Display-Text.js",
     "https://sharkpools-extensions.vercel.app/extension-code/Money-Utilities.js",
-    "https://sharkpools-extensions.vercel.app/extension-code/Geolocation.js",
     "https://sharkpools-extensions.vercel.app/extension-code/Fetch-Plus.js",
     "https://sharkpools-extensions.vercel.app/extension-code/Text-to-Speech.js",
     "https://sharkpools-extensions.vercel.app/extension-code/Pause-Utilities.js",
