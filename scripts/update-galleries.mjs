@@ -93,7 +93,7 @@ function parseJsonTree(root, base) {
   return uniq(found);
 }
 
-function fromHtml(html, base, kind) {
+function fromHtml(html, base, kind, sourceId = "") {
   const $ = load(html);
   const found = [];
   const addCard = (card, forcedName) => {
@@ -101,7 +101,14 @@ function fromHtml(html, base, kind) {
     const rowName = el.is("tr") ? el.find("td").first().text() : "";
     const name = clean(forcedName || rowName || el.find("h1,h2,h3,h4,h5,.title,.name,.card-title,.extension-name,.extension-title,.libraryItemName,strong,[data-name]").first().text() || el.attr("data-name") || el.attr("aria-label") || el.find("img").first().attr("alt"));
     const img = el.find("img,picture source,meta[property='og:image'],meta[name='twitter:image']").first();
-    const thumbRaw = img.attr("src") || img.attr("data-src") || img.attr("data-lazy-src") || img.attr("data-original") || img.attr("data-image") || img.attr("data-thumb") || img.attr("data-srcset")?.split(",")[0]?.trim().split(/\s+/)[0] || img.attr("srcset")?.split(",")[0]?.trim().split(/\s+/)[0] || img.attr("content");
+    const styleThumbRaw = sourceId === "goofywarp"
+      ? el.find("*").addBack().toArray().map(node => {
+          const style = $(node).attr("style") || "";
+          const match = style.match(/background(?:-image)?\\s*:[^;]*?url\\(\\s*([\'"]?)(.*?)\\1\\s*\\)/i);
+          return match?.[2] || "";
+        }).find(Boolean) || ""
+      : "";
+    const thumbRaw = img.attr("src") || img.attr("data-src") || img.attr("data-lazy-src") || img.attr("data-original") || img.attr("data-image") || img.attr("data-thumb") || img.attr("data-srcset")?.split(",")[0]?.trim().split(/\\s+/)[0] || img.attr("srcset")?.split(",")[0]?.trim().split(/\\s+/)[0] || img.attr("content") || styleThumbRaw;
     const thumb = thumbRaw && (/^https?:|^\//i.test(thumbRaw)) ? absolute(thumbRaw,base) : "";
     let link = "";
     const attrs = ["href","data-href","data-url","data-src","data-extension-url","data-code","data-link","data-copy","data-clipboard-text","download-url","value"];
@@ -612,7 +619,7 @@ async function fetchSource(source) {
   }
   const dedicated = await fetchDedicated(source, finalUrl, body);
   if (dedicated.length) return dedicated;
-  let items=fromHtml(body,finalUrl,source.kind);
+  let items=fromHtml(body,finalUrl,source.kind,source.id);
 
   // Inspect first-party JS bundles for client-rendered gallery data, even when
   // the initial HTML contains a partial list. Merge rather than replacing it.
@@ -624,7 +631,7 @@ async function fetchSource(source) {
       const sr=await fetch(scriptUrl,{headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0","accept":"*/*"},signal:AbortSignal.timeout(20000)});
       if(!sr.ok)continue;
       const js=await sr.text();
-      const parsed=fromHtml("<script>"+js.replace(/</g,"\\u003c")+"</script>",scriptUrl,source.kind);
+      const parsed=fromHtml("<script>"+js.replace(/</g,"\\u003c")+"</script>",scriptUrl,source.kind,source.id);
       bundleItems.push(...parsed);
       const rx=/(?:name|title)\s*:\s*["']([^"']{2,100})["'][\s\S]{0,1200}?(?:extensionId|extensionURL|extensionUrl|code|url|href)\s*:\s*["']([^"']{4,500})["']/gi;
       for(const m of js.matchAll(rx)) {
@@ -634,6 +641,8 @@ async function fetchSource(source) {
     } catch {}
   }
   items=uniq([...items,...bundleItems]);
+  // Keep the GoofyWarp "Files" extension, but intentionally omit its thumbnail.
+  if(source.id==="goofywarp") items=items.map(item=>/^files$/i.test(clean(item.name))?{...item,thumb:""}:item);
   if(items.length)return items;
   throw new Error("No reliable extension cards or data found (HTML and linked JS inspected)");
 }
