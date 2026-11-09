@@ -104,7 +104,7 @@ function fromHtml(html, base, kind, sourceId = "") {
     const styleThumbRaw = sourceId === "goofywarp"
       ? el.find("*").addBack().toArray().map(node => {
           const style = $(node).attr("style") || "";
-          const match = style.match(/background(?:-image)?\\s*:[^;]*?url\\(\\s*([\'"]?)(.*?)\\1\\s*\\)/i);
+          const match = style.match(/background(?:-image)?\s*:[^;]*?url\(\s*(['"]?)(.*?)\1\s*\)/i);
           return match?.[2] || "";
         }).find(Boolean) || ""
       : "";
@@ -653,11 +653,11 @@ async function fetchSource(source) {
     if (!treeResponse.ok) throw new Error("GoofyWarp image index HTTP " + treeResponse.status);
     const treeData = await treeResponse.json();
     const imageBySlug = new Map((treeData.tree || [])
-      .filter(entry => entry.type === "blob" && /^images\\//i.test(entry.path) && /\\.(png|jpe?g|gif|webp|svg|avif)$/i.test(entry.path))
-      .map(entry => [entry.path.slice(7).replace(/\\.[^.]+$/,"").toLowerCase(), entry.path]));
+      .filter(entry => entry.type === "blob" && /^images\//i.test(entry.path) && /\.(png|jpe?g|gif|webp|svg|avif)$/i.test(entry.path))
+      .map(entry => [entry.path.slice(7).replace(/\.[^.]+$/,"").toLowerCase(), entry.path]));
     items = items.map(item => {
       try {
-        const slug = item.link.replace(/^https?:\\/\\/[^/]+\\//,"").replace(/\\.js(?:[?#].*)?$/i,"");
+        const slug = item.link.replace(/^https?:\/\/[^/]+\//,"").replace(/\.js(?:[?#].*)?$/i,"");
         const imagePath = imageBySlug.get(slug.toLowerCase());
         return imagePath
           ? {...item, thumb:"https://raw.githubusercontent.com/goofywarp/extensions/master/" + imagePath}
