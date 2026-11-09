@@ -655,6 +655,7 @@ async function fetchSource(source) {
       .filter(entry => entry.type === "blob" && /^images\//i.test(entry.path) && /\.(png|jpe?g|gif|webp|svg|avif)$/i.test(entry.path))
       .map(entry => [entry.path.slice(7).replace(/\.[^.]+$/,"").toLowerCase(), entry.path]));
     items = items.map(item => {
+      if (item.name.trim().toLowerCase() === "files") return {...item, thumb:"cnt"};
       try {
         const slug = item.link.replace(/^https?:\/\/[^/]+\//,"").replace(/\.js(?:[?#].*)?$/i,"");
         const imagePath = imageBySlug.get(slug.toLowerCase()) || "images/unknown.svg";
