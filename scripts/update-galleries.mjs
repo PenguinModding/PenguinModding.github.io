@@ -14,7 +14,6 @@ const SOURCES = [
   { id:"ziplox", file:"ziplox-extensions.json", url:"https://ziplox.neocities.org/extensions/", kind:"ziplox" },
   { id:"allay", file:"allay-extensions.json", url:"https://greedyallay.github.io/extensions/", kind:"allay" },
   { id:"kylekart", file:"kylekart-extensions.json", url:"https://kylekart.github.io/ScratchExtensions/?ref=mistium&source=Joshuaknowsmaths", kind:"kylekart" },
-  { id:"coast", file:"coast-extensions.json", url:"https://studio.penguinmod.com/fullscreen.html?fps=60&interpolate&offscreen&source=Joshuaknowsmaths#0255145410", kind:"generic" },
   { id:"pooiod7", file:"pooiod7-extensions.json", url:"https://p7scratchextensions.pages.dev/", kind:"pooiod7" },
   { id:"cst", file:"cst-extensions.json", url:"https://cst1229.eu.org/extensions", kind:"cst" },
   { id:"dde", file:"dde-extensions.json", url:"https://dde-ext-gallery.vercel.app/", kind:"dde" },
@@ -770,7 +769,7 @@ async function main() {
   // Rebuild the master index from every gallery JSON in the repository.
   // The description field records the originating gallery (e.g. penguinmod.json).
   const galleryFiles=(await fs.readdir(ROOT))
-    .filter(file=>file.endsWith("-extensions.json") && file!=="all-extensions.json")
+    .filter(file=>file.endsWith("-extensions.json") && file!=="all-extensions.json" && file!=="coast-extensions.json")
     .sort((a,b)=>a.localeCompare(b));
   const allExtensions={names:[],links:[],thumbnails:[],description:[]};
   for(const file of galleryFiles) {
