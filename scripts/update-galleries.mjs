@@ -20,7 +20,7 @@ const SOURCES = [
   { id:"lemons", file:"lemons-extensions.json", url:"https://bludisanlemon.github.io/lemons-gallery/", kind:"lemons" },
   { id:"pen", file:"pen-extensions.json", url:"https://pen-group.github.io/extensions/", kind:"pen" },
   { id:"ruby", file:"ruby-extensions.json", url:"https://ruby-devs.vercel.app/gallery", kind:"ruby" },
-  { id:"dinosaurmod", file:"dinosaurmod-extensions.json", url:"https://dinosaurmod.github.io/extensions/", kind:"dinosaur" },
+  { id:"adacraft", file:"adacraft-extensions.json", url:"https://dinosaurmod.github.io/extensions/", kind:"dinosaur" },
   { id:"electramod", file:"electramod-extensions.json", url:"https://electramod-extensions-gallery.vercel.app/", kind:"electra" },
   { id:"mgik", file:"mgik-extensions.json", url:"https://s.mgik.dev/CRAZYextensionlistwow.json?ref=ListOfAllExtensionDiscord", kind:"json" },
   { id:"skybuilder", file:"skybuilder-extensions.json", url:"https://skybuilder-extensions.vercel.app/", kind:"skybuilder" },
@@ -28,9 +28,9 @@ const SOURCES = [
   { id:"goofywarp", file:"goofywarp-extensions.json", url:"https://goofywarp.github.io/extensions/?ref=ListOfAllExtensionDiscord", kind:"generic" },
   { id:"alejo", file:"alejo-extensions.json", url:"https://alejo14.vercel.app/extensions.html", kind:"generic" },
   { id:"tutelmod", file:"tutelmod-extensions.json", url:"https://extensions.tutelmod.com/?editor=true", kind:"tutelmod" },
-  { id:"adacraft", file:"adacraft-extensions.json", url:"https://www.adacraft.org/studio/?ref=ListOfAllExtensionDiscord", kind:"generic" },
+
   { id:"tringlyman", file:"tringlyman-extensions.json", url:"https://tringlyman.github.io/Scratch-Extensions/", kind:"tringlyman" },
-  { id:"kittenblock", file:"kittenblock-extensions.json", url:"https://kblock.kittenbot.cc/?ref=ListOfAllExtensionDiscord", kind:"generic" },
+  { id:"kittenblock", file:"kittenblock-extensions.json", url:"https://snail-ide.js.org/editor.html", kind:"snail" },
   { id:"turbololder", file:"turbololder-extensions.json", url:"https://turbololder.vercel.app/", kind:"generic" }
 ];
 
@@ -307,6 +307,38 @@ async function fetchDedicated(source, finalUrl, body) {
     }
     const result = uniq(items);
     if (result.length < 5) throw new Error("DinosaurMod index returned only " + result.length + " usable extensions");
+    return result;
+  }
+
+  if (source.kind === "snail") {
+    const dataUrl = "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/index.jsx";
+    const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
+    if (!response.ok) throw new Error("Snail IDE extension index HTTP " + response.status);
+    const js = await response.text();
+    const imports = {};
+    for (const match of js.matchAll(/import\s+([\w$]+)\s+from\s+['"]\.\/([^'"]+)['"]/g)) {
+      imports[match[1]] = absolute(match[2], "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/");
+    }
+    const items = [];
+    for (const object of extractObjectBlocks(js)) {
+      const name = jsStringField(object, "name");
+      const extensionMatch = object.match(/\bextensionId\s*:\s*(['"])(https?:\/\/[^'"]+|[^'"]+\.js)\1/);
+      if (!name || !extensionMatch) continue;
+      const iconMatch = object.match(/\biconURL\s*:\s*([\w$]+|(['"])(.*?)\2)/);
+      let thumb = "";
+      if (iconMatch) {
+        const literal = iconMatch[3];
+        const variable = iconMatch[1];
+        thumb = literal !== undefined ? absolute(literal, "https://snail-ide.js.org/") : (imports[variable] || "");
+      }
+      items.push({
+        name,
+        link: absolute(extensionMatch[2], "https://snail-ide.js.org/"),
+        thumb
+      });
+    }
+    const result = uniq(items);
+    if (result.length < 10) throw new Error("Snail IDE index returned only " + result.length + " usable extensions");
     return result;
   }
 
