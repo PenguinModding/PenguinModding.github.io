@@ -108,7 +108,7 @@ function fromHtml(html, base, kind, sourceId = "") {
           return match?.[2] || "";
         }).find(Boolean) || ""
       : "";
-    const thumbRaw = img.attr("src") || img.attr("data-src") || img.attr("data-lazy-src") || img.attr("data-original") || img.attr("data-image") || img.attr("data-thumb") || img.attr("data-srcset")?.split(",")[0]?.trim().split(/\\s+/)[0] || img.attr("srcset")?.split(",")[0]?.trim().split(/\\s+/)[0] || img.attr("content") || styleThumbRaw;
+    const thumbRaw = img.attr("src") || img.attr("data-src") || img.attr("data-lazy-src") || img.attr("data-original") || img.attr("data-image") || img.attr("data-thumb") || img.attr("data-srcset")?.split(",")[0]?.trim().split(/\s+/)[0] || img.attr("srcset")?.split(",")[0]?.trim().split(/\s+/)[0] || img.attr("content") || styleThumbRaw;
     const thumb = thumbRaw && (/^https?:|^\//i.test(thumbRaw)) ? absolute(thumbRaw,base) : "";
     let link = "";
     const attrs = ["href","data-href","data-url","data-src","data-extension-url","data-code","data-link","data-copy","data-clipboard-text","download-url","value"];
@@ -642,22 +642,30 @@ async function fetchSource(source) {
   }
   items=uniq([...items,...bundleItems]);
   if(source.id==="goofywarp") {
-    // GoofyWarp mirrors the TurboWarp extension catalogue. Its page does not
-    // expose reliable image elements, so resolve each published TurboWarp
-    // extension path against the gallery's standard /images/<slug> assets.
-    items = await mapLimit(items, 8, async item => {
-      if (/^files$/i.test(clean(item.name))) return {...item, thumb:"cnt"};
-      try {
-        const parsed = new URL(item.link);
-        if (parsed.hostname !== "extensions.turbowarp.org" || !/\\.js$/i.test(parsed.pathname)) return item;
-        const slug = parsed.pathname.replace(/^\\//, "").replace(/\\.js$/i, "");
-        for (const ext of [".svg", ".png", ".jpg", ".jpeg", ".webp"]) {
-          const candidate = "https://extensions.turbowarp.org/images/" + slug + ext;
-          if (await probeUrl(candidate)) return {...item, thumb:candidate};
-        }
-      } catch {}
-      return item;
+    // GoofyWarp's gallery is backed by goofywarp/extensions. Its thumbnails
+    // live in that repository's images/ tree, often nested under creator IDs.
+    // Read the tree once and map each extension's published slug to its exact
+    // image filename (including case and file extension).
+    const treeResponse = await fetch("https://api.github.com/repos/goofywarp/extensions/git/trees/master?recursive=1", {
+      headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0","accept":"application/vnd.github+json"},
+      signal:AbortSignal.timeout(35000)
     });
+    if (!treeResponse.ok) throw new Error("GoofyWarp image index HTTP " + treeResponse.status);
+    const treeData = await treeResponse.json();
+    const imageBySlug = new Map((treeData.tree || [])
+      .filter(entry => entry.type === "blob" && /^images\\//i.test(entry.path) && /\\.(png|jpe?g|gif|webp|svg|avif)$/i.test(entry.path))
+      .map(entry => [entry.path.slice(7).replace(/\\.[^.]+$/,"").toLowerCase(), entry.path]));
+    items = items.map(item => {
+      try {
+        const slug = item.link.replace(/^https?:\\/\\/[^/]+\\//,"").replace(/\\.js(?:[?#].*)?$/i,"");
+        const imagePath = imageBySlug.get(slug.toLowerCase());
+        return imagePath
+          ? {...item, thumb:"https://raw.githubusercontent.com/goofywarp/extensions/master/" + imagePath}
+          : item;
+      } catch { return item; }
+    });
+    const withThumbs = items.filter(item => item.thumb && /^https?:/i.test(item.thumb)).length;
+    console.log("[goofywarp] matched " + withThumbs + "/" + items.length + " thumbnails from the source image tree");
   }
   if(items.length)return items;
   throw new Error("No reliable extension cards or data found (HTML and linked JS inspected)");
