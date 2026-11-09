@@ -658,10 +658,8 @@ async function fetchSource(source) {
     items = items.map(item => {
       try {
         const slug = item.link.replace(/^https?:\/\/[^/]+\//,"").replace(/\.js(?:[?#].*)?$/i,"");
-        const imagePath = imageBySlug.get(slug.toLowerCase());
-        return imagePath
-          ? {...item, thumb:"https://raw.githubusercontent.com/goofywarp/extensions/master/" + imagePath}
-          : item;
+        const imagePath = imageBySlug.get(slug.toLowerCase()) || "images/unknown.svg";
+        return {...item, thumb:"https://raw.githubusercontent.com/goofywarp/extensions/master/" + imagePath};
       } catch { return item; }
     });
     const withThumbs = items.filter(item => item.thumb && /^https?:/i.test(item.thumb)).length;
