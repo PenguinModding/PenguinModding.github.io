@@ -767,6 +767,30 @@ async function main() {
       console.error("FAILED "+source.id+": "+String(error));
     }
   }
+  // Rebuild the master index from every gallery JSON in the repository.
+  // The description field records the originating gallery (e.g. penguinmod.json).
+  const galleryFiles=(await fs.readdir(ROOT))
+    .filter(file=>file.endsWith("-extensions.json") && file!=="all-extensions.json")
+    .sort((a,b)=>a.localeCompare(b));
+  const allExtensions={names:[],links:[],thumbnails:[],description:[]};
+  for(const file of galleryFiles) {
+    let gallery;
+    try {
+      gallery=JSON.parse(await fs.readFile(path.join(ROOT,file),"utf8"));
+    } catch(error) {
+      console.warn("Skipping unreadable gallery "+file+": "+String(error));
+      continue;
+    }
+    const names=Array.isArray(gallery.names)?gallery.names:[];
+    for(let i=0;i<names.length;i++) {
+      allExtensions.names.push(names[i]??"");
+      allExtensions.links.push(gallery.links?.[i]??"");
+      allExtensions.thumbnails.push(gallery.thumbnails?.[i]??"");
+      allExtensions.description.push(file.replace(/-extensions\.json$/i,"")+".json");
+    }
+  }
+  await fs.writeFile(path.join(ROOT,"all-extensions.json"),JSON.stringify(allExtensions,null,2)+"\n");
+  console.log("Updated all-extensions.json: "+allExtensions.names.length+" entries from "+galleryFiles.length+" gallery files.");
   await fs.mkdir(path.dirname(STATE_PATH),{recursive:true});
   const failures=report.filter(x=>x.status==="error").length;
   await fs.writeFile(STATE_PATH,JSON.stringify({lastCheckedAt:failures===0?NOW.toISOString():(state.lastCheckedAt||null),lastAttemptAt:NOW.toISOString(),intervalDays:15,report},null,2)+"\n");
