@@ -1,6 +1,6 @@
 {
-  "lastCheckedAt": "2026-11-10T01:28:28.380Z",
-  "lastAttemptAt": "2026-11-10T01:28:28.380Z",
+  "lastCheckedAt": "2026-11-10T01:29:53.430Z",
+  "lastAttemptAt": "2026-11-10T01:29:53.430Z",
   "intervalDays": 15,
   "report": [
     {
@@ -140,7 +140,7 @@
       "id": "alejo",
       "status": "ok",
       "count": 8,
-      "new": 0,
+      "new": 1,
       "file": "alejo-extensions.json"
     },
     {
