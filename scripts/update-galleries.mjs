@@ -20,7 +20,7 @@ const SOURCES = [
   { id:"lemons", file:"lemons-extensions.json", url:"https://bludisanlemon.github.io/lemons-gallery/", kind:"lemons" },
   { id:"pen", file:"pen-extensions.json", url:"https://pen-group.github.io/extensions/", kind:"pen" },
   { id:"ruby", file:"ruby-extensions.json", url:"https://ruby-devs.vercel.app/gallery", kind:"ruby" },
-  { id:"adacraft", file:"adacraft-extensions.json", url:"https://dinosaurmod.github.io/extensions/", kind:"dinosaur" },
+  { id:"dinosaurmod", file:"dinosaurmod-extensions.json", url:"https://dinosaurmod.github.io/extensions/", kind:"dinosaur" },
   { id:"electramod", file:"electramod-extensions.json", url:"https://electramod-extensions-gallery.vercel.app/", kind:"electra" },
   { id:"mgik", file:"mgik-extensions.json", url:"https://s.mgik.dev/CRAZYextensionlistwow.json?ref=ListOfAllExtensionDiscord", kind:"json" },
   { id:"skybuilder", file:"skybuilder-extensions.json", url:"https://skybuilder-extensions.vercel.app/", kind:"skybuilder" },
@@ -816,11 +816,36 @@ async function validSnapshot(items, existing) {
   })));
 }
 
+async function rebuildAllExtensions() {
+  // Rebuild the master index from current gallery JSON files. Ignore legacy
+  // Adacraft/Kittenblock filenames so stale artefacts cannot return.
+  const galleryFiles=(await fs.readdir(ROOT))
+    .filter(file => file.endsWith("-extensions.json")
+      && !["adacraft-extensions.json","kittenblock-extensions.json"].includes(file.toLowerCase()))
+    .sort((a,b)=>a.localeCompare(b));
+  const allExtensions={names:[],links:[],thumbnails:[],description:[]};
+  for(const file of galleryFiles) {
+    let gallery;
+    try { gallery=JSON.parse(await fs.readFile(path.join(ROOT,file),"utf8")); }
+    catch(error) { console.warn("Skipping unreadable gallery "+file+": "+String(error)); continue; }
+    const names=Array.isArray(gallery.names)?gallery.names:[];
+    for(let i=0;i<names.length;i++) {
+      allExtensions.names.push(names[i]??"");
+      allExtensions.links.push(gallery.links?.[i]??"");
+      allExtensions.thumbnails.push(gallery.thumbnails?.[i]??"");
+      allExtensions.description.push(file.replace(/-extensions\.json$/i,"")+".json");
+    }
+  }
+  await fs.writeFile(path.join(ROOT,"all-extensions.json"),JSON.stringify(allExtensions,null,2)+"\n");
+  console.log("Updated all-extensions.json: "+allExtensions.names.length+" entries from "+galleryFiles.length+" gallery files.");
+}
+
 async function main() {
   let state={lastCheckedAt:null};
   try { state=JSON.parse(await fs.readFile(STATE_PATH,"utf8")); } catch {}
   const last=state.lastCheckedAt?Date.parse(state.lastCheckedAt):0;
   if(last && NOW.getTime()-last<INTERVAL_MS && process.env.GITHUB_EVENT_NAME!=="workflow_dispatch") {
+    await rebuildAllExtensions();
     console.log("Not due yet. Last complete scan: "+state.lastCheckedAt);
     return;
   }
@@ -849,30 +874,7 @@ async function main() {
       console.error("FAILED "+source.id+": "+String(error));
     }
   }
-  // Rebuild the master index from every gallery JSON in the repository.
-  // The description field records the originating gallery (e.g. penguinmod.json).
-  const galleryFiles=(await fs.readdir(ROOT))
-    .filter(file=>file.endsWith("-extensions.json") && file!=="all-extensions.json")
-    .sort((a,b)=>a.localeCompare(b));
-  const allExtensions={names:[],links:[],thumbnails:[],description:[]};
-  for(const file of galleryFiles) {
-    let gallery;
-    try {
-      gallery=JSON.parse(await fs.readFile(path.join(ROOT,file),"utf8"));
-    } catch(error) {
-      console.warn("Skipping unreadable gallery "+file+": "+String(error));
-      continue;
-    }
-    const names=Array.isArray(gallery.names)?gallery.names:[];
-    for(let i=0;i<names.length;i++) {
-      allExtensions.names.push(names[i]??"");
-      allExtensions.links.push(gallery.links?.[i]??"");
-      allExtensions.thumbnails.push(gallery.thumbnails?.[i]??"");
-      allExtensions.description.push(file.replace(/-extensions\.json$/i,"")+".json");
-    }
-  }
-  await fs.writeFile(path.join(ROOT,"all-extensions.json"),JSON.stringify(allExtensions,null,2)+"\n");
-  console.log("Updated all-extensions.json: "+allExtensions.names.length+" entries from "+galleryFiles.length+" gallery files.");
+  await rebuildAllExtensions();
   await fs.mkdir(path.dirname(STATE_PATH),{recursive:true});
   const failures=report.filter(x=>x.status==="error").length;
   await fs.writeFile(STATE_PATH,JSON.stringify({lastCheckedAt:failures===0?NOW.toISOString():(state.lastCheckedAt||null),lastAttemptAt:NOW.toISOString(),intervalDays:15,report},null,2)+"\n");
