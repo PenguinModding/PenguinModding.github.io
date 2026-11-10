@@ -854,7 +854,8 @@ async function main() {
     try {
       const existing=await readExisting(source.file);
       const fetched=await fetchSource(source);
-      const items=await validSnapshot(fetched,existing);
+      const filtered=source.id==="alejo" ? fetched.filter(item=>!/^coming\\s+soon(?:\\s*\\.{3}|…)?$/i.test(clean(item.name))) : fetched;
+      const items=await validSnapshot(filtered,existing);
       const oldKeys=new Set();
       (existing.names||[]).forEach((name,i)=>{
         for(const key of identityKeys({name,link:existing.links?.[i]||""}))oldKeys.add(key);
