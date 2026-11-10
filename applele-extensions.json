@@ -1,0 +1,27 @@
+{
+  "names": [
+    "Applele Blocks",
+    "Applele Runtime",
+    "Joeify",
+    "Green-Applele Shops",
+    "Applele Gemini",
+    "MEGA Operators!"
+  ],
+  "links": [
+    "https://raw.githubusercontent.com/Dimixixixiixix/Applele-extensions-idk-/refs/heads/main/Extensions/Applele.js",
+    "https://raw.githubusercontent.com/Dimixixixiixix/Applele-extensions-idk-/refs/heads/main/Extensions/Applele%20Runtime%20(EXTFORGE).js",
+    "https://raw.githubusercontent.com/Dimixixixiixix/Applele-extensions-idk-/refs/heads/main/Extensions/joe.js",
+    "https://raw.githubusercontent.com/Dimixixixiixix/Applele-extensions-idk-/refs/heads/main/Extensions/green-applele.js",
+    "https://raw.githubusercontent.com/Dimixixixiixix/Applele-extensions-idk-/refs/heads/main/Extensions/Gemini.js",
+    "https://raw.githubusercontent.com/Dimixixixiixix/Applele-extensions-idk-/refs/heads/main/Extensions/megaop.js"
+  ],
+  "thumbnails": [
+    "https://dimixixixiixix.github.io/Applele-extensions-idk-/banners/applele.png",
+    "https://dimixixixiixix.github.io/Applele-extensions-idk-/banners/runtime.png",
+    "https://dimixixixiixix.github.io/Applele-extensions-idk-/banners/joe.png",
+    "https://dimixixixiixix.github.io/Applele-extensions-idk-/banners/green-applele.png",
+    "https://dimixixixiixix.github.io/Applele-extensions-idk-/banners/Gemini.png",
+    "https://dimixixixiixix.github.io/Applele-extensions-idk-/banners/megaop.png"
+  ],
+  "newExtensions": []
+}
