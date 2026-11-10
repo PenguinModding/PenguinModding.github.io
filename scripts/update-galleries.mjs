@@ -639,9 +639,12 @@ async function fetchSource(source) {
   const body=await response.text();
   const finalUrl=response.url||source.url;
   if(source.kind==="json" || /^\s*[\[{]/.test(body)) {
-    try { const data=JSON.parse(body); const items=parseJsonTree(data,finalUrl); if(items.length)return items; } catch {}
-  
-    if(source.id==="mgik") { const keep=new Set(["Clipboard V2","USB Pause","* Storage","Buffers","Web History API","Compiler Injector","Fake Crashes","Try Catch V2","More Buttons","HTML Entitys","DOMPurify","Right Click Menu","MimeDB","Spell Check","Document Events","Breaking Eternity","Since 2000","Microbit Extended","Periodic Table","Switch Case","Script Management","NicheToolbox","Placeholder","roturVoice Advanced","Virtual File System","USB","URI Utilities","TabUtils","SoundUtils","Random","KeyHistory Legacy","InputManager","Faster Blur Uri","Faster Blur Uri Legacy","Faster Blur Uri Legacy 2","Fast_List_Set","FastObject","ExportSpriteDataURI","Compiled Comments","Cloudlink4_Improved","roturVoice","WebsocketPlus","Tables","Rotur","RDF","OASM","MistFetch","Mist's Utils","MediaUtils","KeyHistory","Iframe+","HTMLInputs","Github","EvalPlus","DiscordBot","Canvas","Async Skins","Captchas","Pause-Utilities","Particle-Tools","Better-Input","How many lines?","Background Remover","Spritesheeter","Scope Variable","GPU.sb3","Simple GPT3","Revert the Script","Reflow's MEGA Extension Script!"]); const filtered=items.filter(item=>keep.has(clean(item.name))); console.log("[mgik] retained "+filtered.length+" approved entries"); return filtered; }
+    try {
+      const data=JSON.parse(body);
+      const items=parseJsonTree(data,finalUrl);
+      if(source.id==="mgik") { const keep=new Set(["Clipboard V2","USB Pause","* Storage","Buffers","Web History API","Compiler Injector","Fake Crashes","Try Catch V2","More Buttons","HTML Entitys","DOMPurify","Right Click Menu","MimeDB","Spell Check","Document Events","Breaking Eternity","Since 2000","Microbit Extended","Periodic Table","Switch Case","Script Management","NicheToolbox","Placeholder","roturVoice Advanced","Virtual File System","USB","URI Utilities","TabUtils","SoundUtils","Random","KeyHistory Legacy","InputManager","Faster Blur Uri","Faster Blur Uri Legacy","Faster Blur Uri Legacy 2","Fast_List_Set","FastObject","ExportSpriteDataURI","Compiled Comments","Cloudlink4_Improved","roturVoice","WebsocketPlus","Tables","Rotur","RDF","OASM","MistFetch","Mist's Utils","MediaUtils","KeyHistory","Iframe+","HTMLInputs","Github","EvalPlus","DiscordBot","Canvas","Async Skins","Captchas","Pause-Utilities","Particle-Tools","Better-Input","How many lines?","Background Remover","Spritesheeter","Scope Variable","GPU.sb3","Simple GPT3","Revert the Script","Reflow's MEGA Extension Script!"]); const filtered=items.filter(item=>keep.has(clean(item.name))); console.log("[mgik] retained "+filtered.length+" approved entries"); return filtered; }
+      if(items.length)return items;
+    } catch {}
   }
   if(source.id==="kylekart" || source.kind==="kylekart") {
     const $=load(body);
