@@ -641,7 +641,8 @@
     "Block Dates",
     "Temporary Variables",
     "Nodes and Links",
-    "Ciphers"
+    "Ciphers",
+    "Assets Store"
   ],
   "links": [
     "https://beacons.ai/alejo.2014",
@@ -1285,7 +1286,8 @@
     "https://ziplox.neocities.org/extensions/scripts/blockdates.js",
     "https://ziplox.neocities.org/extensions/scripts/tempvar.js",
     "https://ziplox.neocities.org/extensions/scripts/nodes.js",
-    "https://ziplox.neocities.org/extensions/scripts/ciphers.js"
+    "https://ziplox.neocities.org/extensions/scripts/ciphers.js",
+    "https://raw.githubusercontent.com/bahr-projects/bahr-projects.github.io/refs/heads/main/turbostore/versions/v0.1.js"
   ],
   "thumbnails": [
     "https://i.imgur.com/tMm0Kfe.png",
@@ -1929,7 +1931,8 @@
     "https://ziplox.neocities.org/extensions/banners/blockdates.svg",
     "https://ziplox.neocities.org/extensions/banners/tempvar.svg",
     "https://ziplox.neocities.org/extensions/banners/nodes.svg",
-    "https://ziplox.neocities.org/extensions/banners/ciphers.svg"
+    "https://ziplox.neocities.org/extensions/banners/ciphers.svg",
+    "https://bahr-projects.github.io/turbostore/icon.svg"
   ],
   "description": [
     "alejo.json",
@@ -2573,6 +2576,7 @@
     "ziplox.json",
     "ziplox.json",
     "ziplox.json",
-    "ziplox.json"
+    "ziplox.json",
+    "misc.json"
   ]
 }
