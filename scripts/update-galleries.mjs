@@ -30,7 +30,7 @@ const SOURCES = [
   { id:"tutelmod", file:"tutelmod-extensions.json", url:"https://extensions.tutelmod.com/?editor=true", kind:"tutelmod" },
 
   { id:"tringlyman", file:"tringlyman-extensions.json", url:"https://tringlyman.github.io/Scratch-Extensions/", kind:"tringlyman" },
-  { id:"kittenblock", file:"kittenblock-extensions.json", url:"https://snail-ide.js.org/editor.html", kind:"snail" },
+  { id:"snail-ide", file:"snail-ide-extensions.json", url:"https://snail-ide.js.org/editor.html", kind:"snail" },
   { id:"turbololder", file:"turbololder-extensions.json", url:"https://turbololder.vercel.app/", kind:"turbololder" }
 ];
 
