@@ -27,6 +27,7 @@ const SOURCES = [
   { id:"m0v0", file:"m0v0-extensions.json", url:"https://m0v0.github.io/Website/?ref=ListOfAllExtensionDiscord", kind:"generic" },
   { id:"goofywarp", file:"goofywarp-extensions.json", url:"https://goofywarp.github.io/extensions/?ref=ListOfAllExtensionDiscord", kind:"generic" },
   { id:"alejo", file:"alejo-extensions.json", url:"https://alejo14.vercel.app/extensions.html", kind:"generic" },
+  { id:"applele", file:"applele-extensions.json", url:"https://raw.githubusercontent.com/Dimixixixiixix/Applele-extensions-idk-/main/code/extensions.json", kind:"applele" },
   { id:"tutelmod", file:"tutelmod-extensions.json", url:"https://extensions.tutelmod.com/?editor=true", kind:"tutelmod" },
 
   { id:"tringlyman", file:"tringlyman-extensions.json", url:"https://tringlyman.github.io/Scratch-Extensions/", kind:"tringlyman" },
@@ -633,6 +634,17 @@ async function fetchSource(source) {
       throw new Error("[pooiod7] dedicated adapter returned fewer than 3 records");
     }
     return result;
+  }
+  if(source.kind==="applele") {
+    const response=await fetch(source.url,{redirect:"follow",headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0","accept":"application/json"},signal:AbortSignal.timeout(35000)});
+    if(!response.ok) throw new Error("Applele gallery JSON HTTP "+response.status);
+    const records=await response.json();
+    if(!Array.isArray(records)) throw new Error("Applele gallery JSON is not an array");
+    const base="https://dimixixixiixix.github.io/Applele-extensions-idk-/";
+    const items=records.map(item=>({name:clean(item.name),link:absolute(item.copyLink||item.link,base),thumb:absolute(item.image,base)})).filter(item=>item.name&&isUsefulLink(item.link));
+    if(items.length<1) throw new Error("Applele gallery returned no valid extensions");
+    console.log("[applele] parsed "+items.length+" extensions");
+    return uniq(items);
   }
   const response = await fetch(source.url,{redirect:"follow",headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0 (+https://github.com/PenguinModding/PenguinModding.github.io)","accept":"text/html,application/json,text/plain,*/*"},signal:AbortSignal.timeout(35000)});
   if(!response.ok) throw new Error("HTTP "+response.status);
