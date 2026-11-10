@@ -1,6 +1,6 @@
 {
-  "lastCheckedAt": "2026-11-08T12:53:29.768Z",
-  "lastAttemptAt": "2026-11-08T12:53:29.768Z",
+  "lastCheckedAt": "2026-11-10T00:48:08.445Z",
+  "lastAttemptAt": "2026-11-10T00:48:08.445Z",
   "intervalDays": 15,
   "report": [
     {
@@ -53,13 +53,6 @@
       "file": "kylekart-extensions.json"
     },
     {
-      "id": "coast",
-      "status": "ok",
-      "count": 329,
-      "new": 0,
-      "file": "coast-extensions.json"
-    },
-    {
       "id": "pooiod7",
       "status": "ok",
       "count": 28,
@@ -102,11 +95,11 @@
       "file": "ruby-extensions.json"
     },
     {
-      "id": "dinosaurmod",
+      "id": "adacraft",
       "status": "ok",
       "count": 9,
-      "new": 0,
-      "file": "dinosaurmod-extensions.json"
+      "new": 9,
+      "file": "adacraft-extensions.json"
     },
     {
       "id": "electramod",
@@ -158,13 +151,6 @@
       "file": "tutelmod-extensions.json"
     },
     {
-      "id": "adacraft",
-      "status": "ok",
-      "count": 149,
-      "new": 0,
-      "file": "adacraft-extensions.json"
-    },
-    {
       "id": "tringlyman",
       "status": "ok",
       "count": 6,
@@ -172,11 +158,11 @@
       "file": "tringlyman-extensions.json"
     },
     {
-      "id": "kittenblock",
+      "id": "snail-ide",
       "status": "ok",
-      "count": 147,
-      "new": 0,
-      "file": "kittenblock-extensions.json"
+      "count": 45,
+      "new": 45,
+      "file": "snail-ide-extensions.json"
     },
     {
       "id": "turbololder",

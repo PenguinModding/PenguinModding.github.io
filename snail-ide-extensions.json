@@ -1,227 +1,190 @@
-[
-  {
-    "name": "Monitors Plus",
-    "link": "https://sharkpools-extensions.vercel.app/extension-code/Monitors-Plus.js",
-    "thumb": "https://sharkpools-extensions.vercel.app/extension-thumbs/Monitors-Plus.svg"
-  },
-  {
-    "name": "Tune Shark",
-    "link": "https://sharkpools-extensions.vercel.app/extension-code/Tune-Shark.js",
-    "thumb": "https://sharkpools-extensions.vercel.app/extension-thumbs/Tune-Shark.svg"
-  },
-  {
-    "name": "Lazy Collisions",
-    "link": "https://snail-ide.js.org/Lazy-Collisions.js",
-    "thumb": "https://sharkpools-extensions.vercel.app/extension-thumbs/Lazy-Collisions.svg"
-  },
-  {
-    "name": "Newgrounds Audio",
-    "link": "https://sharkpools-extensions.vercel.app/extension-code/Newgrounds-Audio.js",
-    "thumb": "https://sharkpools-extensions.vercel.app/extension-thumbs/Newgrounds-Audio.svg"
-  },
-  {
-    "name": "Scratch Utitlites",
-    "link": "https://sharkpools-extensions.vercel.app/extension-code/Scratch-Utilities.js",
-    "thumb": "https://sharkpools-extensions.vercel.app/extension-thumbs/Scratch-Utilities.svg"
-  },
-  {
-    "name": "VideoSharing",
-    "link": "https://snail-ide.js.org/VideoSharing.js",
-    "thumb": "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/VidShare/VideoSharing.svg"
-  },
-  {
-    "name": "Prompts",
-    "link": "https://snail-ide.js.org/Prompts.js",
-    "thumb": "https://snail-ide.js.org/Prompts.png"
-  },
-  {
-    "name": "SnailShare API",
-    "link": "https://snail-ide.js.org/api.js",
-    "thumb": "https://snail-ide.js.org/snailideapiext.png"
-  },
-  {
-    "name": "Pang API",
-    "link": "https://extensions.penguinmod.com/extensions/SammerLOL/pangapi.js",
-    "thumb": "https://extensions.penguinmod.com/images/SammerLOL/pangapi.png"
-  },
-  {
-    "name": "Tile Grids",
-    "link": "https://sharkpools-extensions.vercel.app/extension-code/Tile-Grids.js",
-    "thumb": "https://sharkpools-extensions.vercel.app/extension-thumbs/Tile-Grids.svg"
-  },
-  {
-    "name": "Key Simulation",
-    "link": "https://extensions.turbowarp.org/CubesterYT/KeySimulation.js",
-    "thumb": "https://extensions.turbowarp.org/images/CubesterYT/KeySimulation.svg"
-  },
-  {
-    "name": "Random Utils",
-    "link": "https://snail-ide.js.org/random_utils.js",
-    "thumb": "https://snail-ide.js.org/random.png"
-  },
-  {
-    "name": "Save Data",
-    "link": "https://snail-ide.js.org/save.js",
-    "thumb": "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/snailsavedata/cool.svg"
-  },
-  {
-    "name": "Grayscale",
-    "link": "https://snail-ide.js.org/grayscale.js",
-    "thumb": "https://snail-ide.js.org/grayscale.svg"
-  },
-  {
-    "name": "Randomly Blocks",
-    "link": "https://snail-ide.js.org/randomlyBlocks.js",
-    "thumb": "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/randomly/randomlyBlocks.svg"
-  },
-  {
-    "name": "Objects",
-    "link": "https://extensions.penguinmod.com/extensions/skyhigh173/object.js",
-    "thumb": "https://extensions.penguinmod.com/images/skyhigh173/object.svg"
-  },
-  {
-    "name": "Money Utilities",
-    "link": "https://sharkpools-extensions.vercel.app/extension-code/Money-Utilities.js",
-    "thumb": "https://sharkpools-extensions.vercel.app/extension-thumbs/Money-Utilities.svg"
-  },
-  {
-    "name": "Cloud Storage",
-    "link": "https://snail-ide.js.org/cloudstorage.js",
-    "thumb": "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/cloudstorage/CloudStorage.svg"
-  },
-  {
-    "name": "SuperStorage",
-    "link": "https://snail-ide.js.org/SuperStorage.js",
-    "thumb": "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/SuperStorage/SuperStorage.svg"
-  },
-  {
-    "name": "Text to Speech 2.0",
-    "link": "https://sharkpools-extensions.vercel.app/extension-code/Text-to-Speech.js",
-    "thumb": "https://sharkpools-extensions.vercel.app/extension-thumbs/Text-to-Speech.svg"
-  },
-  {
-    "name": "Asset Manager",
-    "link": "https://extensions.turbowarp.org/Lily/Assets.js",
-    "thumb": "https://extensions.turbowarp.org/images/Lily/Assets.svg"
-  },
-  {
-    "name": "Search Params",
-    "link": "https://extensions.turbowarp.org/ZXMushroom63/searchApi.js",
-    "thumb": "https://extensions.turbowarp.org/images/ZXMushroom63/searchApi.svg"
-  },
-  {
-    "name": "Numerical Encoding V2",
-    "link": "https://extensions.turbowarp.org/numerical-encoding-2.js",
-    "thumb": "https://extensions.turbowarp.org/images/numerical-encoding-2.svg"
-  },
-  {
-    "name": "Augmented Reality",
-    "link": "https://extensions.turbowarp.org/ar.js",
-    "thumb": "https://extensions.turbowarp.org/images/ar.svg"
-  },
-  {
-    "name": "Camera Sensing Plus",
-    "link": "https://sharkpools-extensions.vercel.app/extension-code/Camera-Sensing-Plus.js",
-    "thumb": "https://sharkpools-extensions.vercel.app/extension-thumbs/Camera-Sensing-Plus.svg"
-  },
-  {
-    "name": "Cats",
-    "link": "https://extensions.penguinmod.com/extensions/Gen1x/CATS.js",
-    "thumb": "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/cats/download.png"
-  },
-  {
-    "name": "Zip",
-    "link": "https://extensions.turbowarp.org/CST1229/zip.js",
-    "thumb": "https://extensions.turbowarp.org/images/CST1229/zip.svg"
-  },
-  {
-    "name": "Physics",
-    "link": "https://extensions.turbowarp.org/box2d.js",
-    "thumb": "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/penguinmod/extensions/griffpatch_physics.png"
-  },
-  {
-    "name": "Clones+",
-    "link": "https://extensions.turbowarp.org/Lily/ClonesPlus.js",
-    "thumb": "https://extensions.turbowarp.org/images/Lily/ClonesPlus.svg"
-  },
-  {
-    "name": "CloudLink 4",
-    "link": "https://extensions.penguinmod.com/extensions/MikeDev101/cloudlink.js",
-    "thumb": "https://extensions.penguinmod.com/images/MikeDev101/cloudlink.svg"
-  },
-  {
-    "name": "McUtils",
-    "link": "https://extensions.turbowarp.org/Lily/McUtils.js",
-    "thumb": "https://extensions.turbowarp.org/images/Lily/McUtils.png"
-  },
-  {
-    "name": "Skins",
-    "link": "https://extensions.turbowarp.org/Lily/Skins.js",
-    "thumb": "https://extensions.turbowarp.org/images/Lily/Skins.svg"
-  },
-  {
-    "name": "Longman Dictionary",
-    "link": "https://extensions.turbowarp.org/veggiecan/LongmanDictionary.js",
-    "thumb": "https://extensions.turbowarp.org/images/veggiecan/LongmanDictionary.svg"
-  },
-  {
-    "name": "Beepbox Player",
-    "link": "https://extensions.penguinmod.com/extensions/DogeisCut/BeepBoxPlayer.js",
-    "thumb": "https://extensions.penguinmod.com/images/DogeisCut/BeepBoxPlayer.svg"
-  },
-  {
-    "name": "Pointer Lock",
-    "link": "https://extensions.turbowarp.org/pointerlock.js",
-    "thumb": "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/penguinmod/extensions/pointerlock.svg"
-  },
-  {
-    "name": "Mouse Cursor",
-    "link": "https://extensions.turbowarp.org/cursor.js",
-    "thumb": "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/penguinmod/extensions/cursor.svg"
-  },
-  {
-    "name": "Video",
-    "link": "https://extensions.turbowarp.org/Lily/Video.js",
-    "thumb": "https://extensions.turbowarp.org/images/Lily/Video.svg"
-  },
-  {
-    "name": "Time Utils",
-    "link": "https://snail-ide.js.org/Time_Utilities.js",
-    "thumb": "https://snail-ide.js.org/time.svg"
-  },
-  {
-    "name": "Screen Resolution",
-    "link": "https://extensions.turbowarp.org/shreder95ua/resolution.js",
-    "thumb": "https://extensions.turbowarp.org/images/shreder95ua/resolution.svg"
-  },
-  {
-    "name": "Better Input",
-    "link": "https://extensions.penguinmod.com/extensions/SharkPool/BetterInput.js",
-    "thumb": "https://extensions.penguinmod.com/images/SharkPool/BetterInput.svg"
-  },
-  {
-    "name": "GD API",
-    "link": "https://sharkpools-extensions.vercel.app/extension-code/Geometry-Dash-API.js",
-    "thumb": "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/gdapi/Capture.png"
-  },
-  {
-    "name": "ISS",
-    "link": "https://snail-ide.js.org/iss.js",
-    "thumb": "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/snail-ide/iss.jpg"
-  },
-  {
-    "name": "Browser & OS Information",
-    "link": "https://snail-ide.js.org/browserandosinfo.js",
-    "thumb": "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/browserandosinfo/browserandosinfo.png"
-  },
-  {
-    "name": "URL Information",
-    "link": "https://snail-ide.js.org/urlinfo.js",
-    "thumb": "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/urlinfo/urlinfo.png"
-  },
-  {
-    "name": "CloudLink Ω",
-    "link": "https://snail-ide.js.org/clomega.js",
-    "thumb": "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/cloudlink/clomega.svg"
-  }
-]
+{
+  "names": [
+    "Monitors Plus",
+    "Tune Shark",
+    "Lazy Collisions",
+    "Newgrounds Audio",
+    "Scratch Utitlites",
+    "VideoSharing",
+    "Prompts",
+    "SnailShare API",
+    "Pang API",
+    "Tile Grids",
+    "Key Simulation",
+    "Random Utils",
+    "Save Data",
+    "Grayscale",
+    "Randomly Blocks",
+    "Objects",
+    "Money Utilities",
+    "Cloud Storage",
+    "SuperStorage",
+    "Text to Speech 2.0",
+    "Asset Manager",
+    "Search Params",
+    "Numerical Encoding V2",
+    "Augmented Reality",
+    "Camera Sensing Plus",
+    "Cats",
+    "Zip",
+    "Physics",
+    "Clones+",
+    "CloudLink 4",
+    "McUtils",
+    "Skins",
+    "Longman Dictionary",
+    "Beepbox Player",
+    "Pointer Lock",
+    "Mouse Cursor",
+    "Video",
+    "Time Utils",
+    "Screen Resolution",
+    "Better Input",
+    "GD API",
+    "ISS",
+    "Browser & OS Information",
+    "URL Information",
+    "CloudLink Ω"
+  ],
+  "links": [
+    "https://sharkpools-extensions.vercel.app/extension-code/Monitors-Plus.js",
+    "https://sharkpools-extensions.vercel.app/extension-code/Tune-Shark.js",
+    "https://snail-ide.js.org/Lazy-Collisions.js",
+    "https://sharkpools-extensions.vercel.app/extension-code/Newgrounds-Audio.js",
+    "https://sharkpools-extensions.vercel.app/extension-code/Scratch-Utilities.js",
+    "https://snail-ide.js.org/VideoSharing.js",
+    "https://snail-ide.js.org/Prompts.js",
+    "https://snail-ide.js.org/api.js",
+    "https://extensions.penguinmod.com/extensions/SammerLOL/pangapi.js",
+    "https://sharkpools-extensions.vercel.app/extension-code/Tile-Grids.js",
+    "https://extensions.turbowarp.org/CubesterYT/KeySimulation.js",
+    "https://snail-ide.js.org/random_utils.js",
+    "https://snail-ide.js.org/save.js",
+    "https://snail-ide.js.org/grayscale.js",
+    "https://snail-ide.js.org/randomlyBlocks.js",
+    "https://extensions.penguinmod.com/extensions/skyhigh173/object.js",
+    "https://sharkpools-extensions.vercel.app/extension-code/Money-Utilities.js",
+    "https://snail-ide.js.org/cloudstorage.js",
+    "https://snail-ide.js.org/SuperStorage.js",
+    "https://sharkpools-extensions.vercel.app/extension-code/Text-to-Speech.js",
+    "https://extensions.turbowarp.org/Lily/Assets.js",
+    "https://extensions.turbowarp.org/ZXMushroom63/searchApi.js",
+    "https://extensions.turbowarp.org/numerical-encoding-2.js",
+    "https://extensions.turbowarp.org/ar.js",
+    "https://sharkpools-extensions.vercel.app/extension-code/Camera-Sensing-Plus.js",
+    "https://extensions.penguinmod.com/extensions/Gen1x/CATS.js",
+    "https://extensions.turbowarp.org/CST1229/zip.js",
+    "https://extensions.turbowarp.org/box2d.js",
+    "https://extensions.turbowarp.org/Lily/ClonesPlus.js",
+    "https://extensions.penguinmod.com/extensions/MikeDev101/cloudlink.js",
+    "https://extensions.turbowarp.org/Lily/McUtils.js",
+    "https://extensions.turbowarp.org/Lily/Skins.js",
+    "https://extensions.turbowarp.org/veggiecan/LongmanDictionary.js",
+    "https://extensions.penguinmod.com/extensions/DogeisCut/BeepBoxPlayer.js",
+    "https://extensions.turbowarp.org/pointerlock.js",
+    "https://extensions.turbowarp.org/cursor.js",
+    "https://extensions.turbowarp.org/Lily/Video.js",
+    "https://snail-ide.js.org/Time_Utilities.js",
+    "https://extensions.turbowarp.org/shreder95ua/resolution.js",
+    "https://extensions.penguinmod.com/extensions/SharkPool/BetterInput.js",
+    "https://sharkpools-extensions.vercel.app/extension-code/Geometry-Dash-API.js",
+    "https://snail-ide.js.org/iss.js",
+    "https://snail-ide.js.org/browserandosinfo.js",
+    "https://snail-ide.js.org/urlinfo.js",
+    "https://snail-ide.js.org/clomega.js"
+  ],
+  "thumbnails": [
+    "https://sharkpools-extensions.vercel.app/extension-thumbs/Monitors-Plus.svg",
+    "https://sharkpools-extensions.vercel.app/extension-thumbs/Tune-Shark.svg",
+    "https://sharkpools-extensions.vercel.app/extension-thumbs/Lazy-Collisions.svg",
+    "https://sharkpools-extensions.vercel.app/extension-thumbs/Newgrounds-Audio.svg",
+    "https://sharkpools-extensions.vercel.app/extension-thumbs/Scratch-Utilities.svg",
+    "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/VidShare/VideoSharing.svg",
+    "https://snail-ide.js.org/Prompts.png",
+    "https://snail-ide.js.org/snailideapiext.png",
+    "https://extensions.penguinmod.com/images/SammerLOL/pangapi.png",
+    "https://sharkpools-extensions.vercel.app/extension-thumbs/Tile-Grids.svg",
+    "https://extensions.turbowarp.org/images/CubesterYT/KeySimulation.svg",
+    "https://snail-ide.js.org/random.png",
+    "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/snailsavedata/cool.svg",
+    "https://snail-ide.js.org/grayscale.svg",
+    "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/randomly/randomlyBlocks.svg",
+    "https://extensions.penguinmod.com/images/skyhigh173/object.svg",
+    "https://sharkpools-extensions.vercel.app/extension-thumbs/Money-Utilities.svg",
+    "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/cloudstorage/CloudStorage.svg",
+    "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/SuperStorage/SuperStorage.svg",
+    "https://sharkpools-extensions.vercel.app/extension-thumbs/Text-to-Speech.svg",
+    "https://extensions.turbowarp.org/images/Lily/Assets.svg",
+    "https://extensions.turbowarp.org/images/ZXMushroom63/searchApi.svg",
+    "https://extensions.turbowarp.org/images/numerical-encoding-2.svg",
+    "https://extensions.turbowarp.org/images/ar.svg",
+    "https://sharkpools-extensions.vercel.app/extension-thumbs/Camera-Sensing-Plus.svg",
+    "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/cats/download.png",
+    "https://extensions.turbowarp.org/images/CST1229/zip.svg",
+    "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/penguinmod/extensions/griffpatch_physics.png",
+    "https://extensions.turbowarp.org/images/Lily/ClonesPlus.svg",
+    "https://extensions.penguinmod.com/images/MikeDev101/cloudlink.svg",
+    "https://extensions.turbowarp.org/images/Lily/McUtils.png",
+    "https://extensions.turbowarp.org/images/Lily/Skins.svg",
+    "https://extensions.turbowarp.org/images/veggiecan/LongmanDictionary.svg",
+    "https://extensions.penguinmod.com/images/DogeisCut/BeepBoxPlayer.svg",
+    "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/penguinmod/extensions/pointerlock.svg",
+    "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/penguinmod/extensions/cursor.svg",
+    "https://extensions.turbowarp.org/images/Lily/Video.svg",
+    "https://snail-ide.js.org/time.svg",
+    "https://extensions.turbowarp.org/images/shreder95ua/resolution.svg",
+    "https://extensions.penguinmod.com/images/SharkPool/BetterInput.svg",
+    "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/gdapi/Capture.png",
+    "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/snail-ide/iss.jpg",
+    "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/browserandosinfo/browserandosinfo.png",
+    "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/urlinfo/urlinfo.png",
+    "https://raw.githubusercontent.com/Snail-IDE/snail-ide.github.io/develop/src/lib/libraries/extensions/cloudlink/clomega.svg"
+  ],
+  "newExtensions": [
+    "Monitors Plus",
+    "Tune Shark",
+    "Lazy Collisions",
+    "Newgrounds Audio",
+    "Scratch Utitlites",
+    "VideoSharing",
+    "Prompts",
+    "SnailShare API",
+    "Pang API",
+    "Tile Grids",
+    "Key Simulation",
+    "Random Utils",
+    "Save Data",
+    "Grayscale",
+    "Randomly Blocks",
+    "Objects",
+    "Money Utilities",
+    "Cloud Storage",
+    "SuperStorage",
+    "Text to Speech 2.0",
+    "Asset Manager",
+    "Search Params",
+    "Numerical Encoding V2",
+    "Augmented Reality",
+    "Camera Sensing Plus",
+    "Cats",
+    "Zip",
+    "Physics",
+    "Clones+",
+    "CloudLink 4",
+    "McUtils",
+    "Skins",
+    "Longman Dictionary",
+    "Beepbox Player",
+    "Pointer Lock",
+    "Mouse Cursor",
+    "Video",
+    "Time Utils",
+    "Screen Resolution",
+    "Better Input",
+    "GD API",
+    "ISS",
+    "Browser & OS Information",
+    "URL Information",
+    "CloudLink Ω"
+  ]
+}
