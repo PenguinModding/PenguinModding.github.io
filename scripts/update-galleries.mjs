@@ -854,7 +854,7 @@ async function main() {
   // Rebuild the master index from every gallery JSON in the repository.
   // The description field records the originating gallery (e.g. penguinmod.json).
   const galleryFiles=(await fs.readdir(ROOT))
-    .filter(file=>file.endsWith("-extensions.json") && file!=="all-extensions.json" && file!=="coast-extensions.json")
+    .filter(file=>file.endsWith("-extensions.json") && file!=="all-extensions.json")
     .sort((a,b)=>a.localeCompare(b));
   const allExtensions={names:[],links:[],thumbnails:[],description:[]};
   for(const file of galleryFiles) {
