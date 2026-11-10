@@ -1,14 +1,5 @@
 {
   "names": [
-    "Site Runtime",
-    "Keys+",
-    "GitHub API",
-    "Python",
-    "Lua",
-    "Typable Tab Key",
-    "Useless blocks",
-    "Dogs",
-    "Functions and Tests",
     "Alejo.2014 utilities",
     "Favicon Utilities",
     "Better scratch extension V1.6",
@@ -918,15 +909,6 @@
     "Ciphers"
   ],
   "links": [
-    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/webextension.js",
-    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/keys-plus-extension.js",
-    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/github-api.js",
-    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/python.js",
-    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/lua.js",
-    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/typable-tab-character.js",
-    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/Useless_Blocks.js",
-    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/dogs.js",
-    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/extensions/jasmine.js",
     "https://beacons.ai/alejo.2014",
     "https://alejo14.vercel.app/extensions/Favicon_utils.js",
     "https://alejo14.vercel.app/extensions/BSE_v1_6.js",
@@ -1836,15 +1818,6 @@
     "https://ziplox.neocities.org/extensions/scripts/ciphers.js"
   ],
   "thumbnails": [
-    "https://gabsthecuriouskid.github.io/DinosaurModExtensions/images/images/site-runtime.png",
-    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/icons/keysPlus.png",
-    "https://gabsthecuriouskid.github.io/DinosaurModExtensions/images/images/githubapi.png",
-    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/icons/python.png",
-    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/icons/lua.png",
-    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/icons/placeholder.png",
-    "https://gabsthecuriouskid.github.io/DinosaurModExtensions/images/images/Useless_Blocks.png",
-    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/icons/placeholder.png",
-    "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/src/icons/placeholder.png",
     "https://i.imgur.com/tMm0Kfe.png",
     "https://i.imgur.com/bmmBHHK.png",
     "https://i.imgur.com/qWD7MSZ.png",
@@ -2754,15 +2727,6 @@
     "https://ziplox.neocities.org/extensions/banners/ciphers.svg"
   ],
   "description": [
-    "adacraft.json",
-    "adacraft.json",
-    "adacraft.json",
-    "adacraft.json",
-    "adacraft.json",
-    "adacraft.json",
-    "adacraft.json",
-    "adacraft.json",
-    "adacraft.json",
     "alejo.json",
     "alejo.json",
     "alejo.json",
