@@ -821,7 +821,7 @@ async function rebuildAllExtensions() {
   // Adacraft/Kittenblock filenames so stale artefacts cannot return.
   const galleryFiles=(await fs.readdir(ROOT))
     .filter(file => file.endsWith("-extensions.json")
-      && !["adacraft-extensions.json","kittenblock-extensions.json"].includes(file.toLowerCase()))
+      && !["all-extensions.json","adacraft-extensions.json","kittenblock-extensions.json"].includes(file.toLowerCase()))
     .sort((a,b)=>a.localeCompare(b));
   const allExtensions={names:[],links:[],thumbnails:[],description:[]};
   for(const file of galleryFiles) {
@@ -854,7 +854,7 @@ async function main() {
     try {
       const existing=await readExisting(source.file);
       const fetched=await fetchSource(source);
-      const filtered=source.id==="alejo" ? fetched.filter(item=>!/^coming\\s+soon(?:\\s*\\.{3}|…)?$/i.test(clean(item.name))) : fetched;
+      const filtered=source.id==="alejo" ? fetched.filter(item=>!/^coming\s+soon(?:\s*\.{3}|…)?$/i.test(clean(item.name))) : fetched;
       const items=await validSnapshot(filtered,existing);
       const oldKeys=new Set();
       (existing.names||[]).forEach((name,i)=>{
