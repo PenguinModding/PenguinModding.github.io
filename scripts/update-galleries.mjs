@@ -339,9 +339,6 @@ async function fetchDedicated(source, finalUrl, body) {
     const js = await response.text();
     const items = [];
     const readAttribute = (attrs, key) => {
-      const escaped = key.replace(/[.*+?^$()|[\]\\]/g, "\\      const escaped = key.replace(/[.*+?^$()|[\]\\]/g, "\\  if (source.kind === "snail") {");
-      const match = attrs.match(new RegExp("\\b" + escaped + "\\s*=\\s*(?:\\{\\s*([^}]+)\\s*\\}|(['" + '"' + "])(.*?)\\2)"));
-      return match ? (match[3] ?? match[1] ?? "").trim() : "";");
       const quoted = attrs.match(new RegExp("\\b" + escaped + "\\s*=\\s*(['\"])(.*?)\\1"));
       const braced = attrs.match(new RegExp("\\b" + escaped + "\\s*=\\s*\\{\\s*([^}]+)\\s*\\}"));
       return (quoted ? quoted[2] : braced ? braced[1] : "").trim();
