@@ -1,6 +1,6 @@
 {
-  "lastCheckedAt": "2026-11-10T00:48:08.445Z",
-  "lastAttemptAt": "2026-11-10T00:48:08.445Z",
+  "lastCheckedAt": "2026-11-10T01:28:28.380Z",
+  "lastAttemptAt": "2026-11-10T01:28:28.380Z",
   "intervalDays": 15,
   "report": [
     {
@@ -95,11 +95,11 @@
       "file": "ruby-extensions.json"
     },
     {
-      "id": "adacraft",
+      "id": "dinosaurmod",
       "status": "ok",
       "count": 9,
-      "new": 9,
-      "file": "adacraft-extensions.json"
+      "new": 0,
+      "file": "dinosaurmod-extensions.json"
     },
     {
       "id": "electramod",
@@ -161,7 +161,7 @@
       "id": "snail-ide",
       "status": "ok",
       "count": 45,
-      "new": 45,
+      "new": 0,
       "file": "snail-ide-extensions.json"
     },
     {
