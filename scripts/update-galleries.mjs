@@ -31,7 +31,7 @@ const SOURCES = [
 
   { id:"tringlyman", file:"tringlyman-extensions.json", url:"https://tringlyman.github.io/Scratch-Extensions/", kind:"tringlyman" },
   { id:"kittenblock", file:"kittenblock-extensions.json", url:"https://snail-ide.js.org/editor.html", kind:"snail" },
-  { id:"turbololder", file:"turbololder-extensions.json", url:"https://turbololder.vercel.app/", kind:"generic" }
+  { id:"turbololder", file:"turbololder-extensions.json", url:"https://turbololder.vercel.app/", kind:"turbololder" }
 ];
 
 const clean = value => String(value ?? "").replace(/\s+/g, " ").trim();
@@ -307,6 +307,55 @@ async function fetchDedicated(source, finalUrl, body) {
     }
     const result = uniq(items);
     if (result.length < 5) throw new Error("DinosaurMod index returned only " + result.length + " usable extensions");
+    return result;
+  }
+
+  if (source.kind === "tutelmod") {
+    const dataUrl = "https://raw.githubusercontent.com/TutelMod/TutelMod-ExtensionsGallery/main/src/lib/extensions.js";
+    const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
+    if (!response.ok) throw new Error("TutelMod extension index HTTP " + response.status);
+    const js = await response.text();
+    const items = [];
+    for (const object of extractObjectBlocks(js)) {
+      const name = jsStringField(object, "name");
+      const code = jsStringField(object, "code");
+      const banner = jsStringField(object, "banner");
+      if (!name || !code || !/\.js$/i.test(code)) continue;
+      items.push({
+        name,
+        link: absolute("static/extensions/" + code.replace(/^\/+/, ""), "https://extensions.tutelmod.com/"),
+        thumb: banner ? absolute("static/images/" + banner.replace(/^\/+/, ""), "https://extensions.tutelmod.com/") : ""
+      });
+    }
+    const result = uniq(items);
+    if (!result.length) throw new Error("TutelMod source index contained no valid extension entries");
+    return result;
+  }
+
+  if (source.kind === "turbololder") {
+    const jsUrl = "https://raw.githubusercontent.com/JeremyGamer13/turbololder/main/src/routes/+page.svelte";
+    const response = await fetch(jsUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
+    if (!response.ok) throw new Error("Turbololder extension page source HTTP " + response.status);
+    const js = await response.text();
+    const items = [];
+    const readAttribute = (attrs, key) => {
+      const escaped = key.replace(/[.*+?^$()|[\]\\]/g, "\\  if (source.kind === "snail") {");
+      const match = attrs.match(new RegExp("\\b" + escaped + "\\s*=\\s*(?:\\{\\s*([^}]+)\\s*\\}|(['" + '"' + "])(.*?)\\2)"));
+      return match ? (match[3] ?? match[1] ?? "").trim() : "";
+    };
+    for (const match of js.matchAll(/<Extension\b([\s\S]*?)\s*>/g)) {
+      const attrs = match[1];
+      const name = readAttribute(attrs, "name");
+      const rawUrl = readAttribute(attrs, "url");
+      const rawImage = readAttribute(attrs, "image");
+      if (!name || !rawUrl) continue;
+      const localPath = rawUrl.match(/["'](\/extensions\/[^"']+\.js)["']/);
+      const link = localPath ? absolute(localPath[1], "https://turbololder.vercel.app/") : absolute(rawUrl, "https://turbololder.vercel.app/");
+      const thumb = rawImage ? absolute(rawImage, "https://turbololder.vercel.app/") : "";
+      if (isUsefulLink(link)) items.push({name,link,thumb:isImage(thumb)?thumb:""});
+    }
+    const result = uniq(items);
+    if (result.length < 3) throw new Error("Turbololder source contained only " + result.length + " valid extension cards");
     return result;
   }
 
