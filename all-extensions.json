@@ -288,6 +288,9 @@
     "Revert the Script",
     "Reflow's MEGA Extension Script!",
     "Assets Store",
+    "Catto's Extension",
+    "Threads",
+    "Wii's Extension",
     "Pen+",
     "Shaded",
     "Render Control",
@@ -648,10 +651,7 @@
     "Block Dates",
     "Temporary Variables",
     "Nodes and Links",
-    "Ciphers",
-    "Catto's Extension",
-    "Threads",
-    "Wii's Extension"
+    "Ciphers"
   ],
   "links": [
     "https://beacons.ai/alejo.2014",
@@ -942,6 +942,9 @@
     "https://s.mgik.dev/delete.js",
     "https://s.mgik.dev/megascript.js",
     "https://raw.githubusercontent.com/bahr-projects/bahr-projects.github.io/refs/heads/main/turbostore/versions/v0.1.js",
+    "",
+    "https://raw.githubusercontent.com/the-can-of-soup/pm_threads/main/soup_threads.js",
+    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/wiis-extension.js",
     "https://pen-group.github.io/extensions/extensions/PenP/v7.js",
     "https://pen-group.github.io/extensions/extensions/ShadedStamps/extension.js",
     "https://pen-group.github.io/extensions/extensions/RenderControl/main.js",
@@ -1302,10 +1305,7 @@
     "https://ziplox.neocities.org/extensions/scripts/blockdates.js",
     "https://ziplox.neocities.org/extensions/scripts/tempvar.js",
     "https://ziplox.neocities.org/extensions/scripts/nodes.js",
-    "https://ziplox.neocities.org/extensions/scripts/ciphers.js",
-    "",
-    "https://raw.githubusercontent.com/the-can-of-soup/pm_threads/main/soup_threads.js",
-    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/wiis-extension.js"
+    "https://ziplox.neocities.org/extensions/scripts/ciphers.js"
   ],
   "thumbnails": [
     "https://i.imgur.com/tMm0Kfe.png",
@@ -1596,6 +1596,9 @@
     "",
     "",
     "https://bahr-projects.github.io/turbostore/icon.svg",
+    "",
+    "",
+    "",
     "https://pen-group.github.io/extensions/extensions/PenP/thumbnail.svg",
     "https://pen-group.github.io/extensions/extensions/ShadedStamps/thumbnail.png",
     "https://pen-group.github.io/extensions/extensions/RenderControl/thumbnail.svg",
@@ -1956,10 +1959,7 @@
     "https://ziplox.neocities.org/extensions/banners/blockdates.svg",
     "https://ziplox.neocities.org/extensions/banners/tempvar.svg",
     "https://ziplox.neocities.org/extensions/banners/nodes.svg",
-    "https://ziplox.neocities.org/extensions/banners/ciphers.svg",
-    "",
-    "",
-    ""
+    "https://ziplox.neocities.org/extensions/banners/ciphers.svg"
   ],
   "description": [
     "alejo.json",
@@ -2249,6 +2249,9 @@
     "mgik.json",
     "mgik.json",
     "mgik.json",
+    "misc.json",
+    "misc.json",
+    "misc.json",
     "misc.json",
     "pen.json",
     "pen.json",
@@ -2610,9 +2613,6 @@
     "ziplox.json",
     "ziplox.json",
     "ziplox.json",
-    "ziplox.json",
-    "misc-extensions.json",
-    "misc.json",
-    "misc.json"
+    "ziplox.json"
   ]
 }
