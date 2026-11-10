@@ -649,7 +649,8 @@
     "Temporary Variables",
     "Nodes and Links",
     "Ciphers",
-    "Catto's Extension"
+    "Catto's Extension",
+    "Threads"
   ],
   "links": [
     "https://beacons.ai/alejo.2014",
@@ -1301,7 +1302,8 @@
     "https://ziplox.neocities.org/extensions/scripts/tempvar.js",
     "https://ziplox.neocities.org/extensions/scripts/nodes.js",
     "https://ziplox.neocities.org/extensions/scripts/ciphers.js",
-    ""
+    "",
+    "https://raw.githubusercontent.com/the-can-of-soup/pm_threads/main/soup_threads.js"
   ],
   "thumbnails": [
     "https://i.imgur.com/tMm0Kfe.png",
@@ -1953,6 +1955,7 @@
     "https://ziplox.neocities.org/extensions/banners/tempvar.svg",
     "https://ziplox.neocities.org/extensions/banners/nodes.svg",
     "https://ziplox.neocities.org/extensions/banners/ciphers.svg",
+    "",
     ""
   ],
   "description": [
@@ -2605,6 +2608,7 @@
     "ziplox.json",
     "ziplox.json",
     "ziplox.json",
-    "misc-extensions.json"
+    "misc-extensions.json",
+    "misc.json"
   ]
 }
