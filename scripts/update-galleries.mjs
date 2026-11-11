@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { load } from "cheerio";
 
 const ROOT = process.cwd();
@@ -812,28 +813,111 @@ async function validSnapshot(items, existing) {
   })));
 }
 
+async function galleryOriginalDate(file) {
+  // Full Git history is available in the workflow checkout. Use the first
+  // commit that added this gallery file, not its latest refresh date.
+  try {
+    const history = execFileSync("git", ["log", "--follow", "--diff-filter=A", "--format=%ct", "--reverse", "--", file], {
+      cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"]
+    }).trim().split(/\s+/).filter(Boolean);
+    const timestamp = Number(history[0]);
+    return Number.isFinite(timestamp) && timestamp > 0 ? timestamp : Number.MAX_SAFE_INTEGER;
+  } catch {
+    return Number.MAX_SAFE_INTEGER;
+  }
+}
+
+function normalizedExtensionName(value) {
+  return clean(value).toLocaleLowerCase("en")
+    .replace(/\.(?:js|mjs|cjs)$/i, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function extensionIdentity(item) {
+  return {link:normalizedUrl(item.link), name:normalizedExtensionName(item.name)};
+}
+
+function thumbnailCreditOwner(thumb, galleryOwners) {
+  if (!thumb || !/^https?:/i.test(thumb)) return "";
+  let url;
+  try { url = new URL(thumb); } catch { return ""; }
+  const segments = decodeURIComponent(url.pathname).toLowerCase().split("/").filter(Boolean);
+  for (const owner of galleryOwners) {
+    const aliases = [owner.id, owner.id.replace(/-/g, ""), owner.id.replace(/-/g, "_")];
+    if (aliases.some(alias => alias && segments.includes(alias.toLowerCase()))) return owner.id;
+  }
+  return "";
+}
+
 async function rebuildAllExtensions() {
-  // Rebuild the master index from current gallery JSON files. Ignore legacy
-  // Adacraft/Kittenblock filenames so stale artefacts cannot return.
+  // The oldest gallery JSON file owns duplicate extensions by default.
+  // A thumbnail explicitly stored under another gallery owner's image
+  // directory overrides that date-based rule as a credit/attribution signal.
   const galleryFiles=(await fs.readdir(ROOT))
     .filter(file => file.endsWith("-extensions.json")
       && !["all-extensions.json","adacraft-extensions.json","kittenblock-extensions.json"].includes(file.toLowerCase()))
     .sort((a,b)=>a.localeCompare(b));
-  const allExtensions={names:[],links:[],thumbnails:[],description:[]};
-  for(const file of galleryFiles) {
-    let gallery;
-    try { gallery=JSON.parse(await fs.readFile(path.join(ROOT,file),"utf8")); }
-    catch(error) { console.warn("Skipping unreadable gallery "+file+": "+String(error)); continue; }
-    const names=Array.isArray(gallery.names)?gallery.names:[];
+
+  const galleries = await Promise.all(galleryFiles.map(async file => ({
+    file,
+    id:file.replace(/-extensions\.json$/i,"").toLowerCase(),
+    createdAt:await galleryOriginalDate(file),
+    data:JSON.parse(await fs.readFile(path.join(ROOT,file),"utf8"))
+  })));
+  galleries.sort((a,b)=>a.createdAt-b.createdAt || a.file.localeCompare(b.file));
+
+  const owners = galleries.map(g => ({id:g.id}));
+  const winners = new Map();
+  let duplicateCount = 0;
+  let creditOverrides = 0;
+
+  for (const gallery of galleries) {
+    const names=Array.isArray(gallery.data.names)?gallery.data.names:[];
     for(let i=0;i<names.length;i++) {
-      allExtensions.names.push(names[i]??"");
-      allExtensions.links.push(gallery.links?.[i]??"");
-      allExtensions.thumbnails.push(gallery.thumbnails?.[i]??"");
-      allExtensions.description.push(file.replace(/-extensions\.json$/i,"")+".json");
+      const item={
+        name:clean(names[i]),
+        link:clean(gallery.data.links?.[i]??""),
+        thumb:clean(gallery.data.thumbnails?.[i]??""),
+        description:gallery.file.replace(/-extensions\.json$/i,"")+".json",
+        galleryId:gallery.id
+      };
+      if(!item.name) continue;
+      const identity=extensionIdentity(item);
+      const keys=[];
+      if(identity.link) keys.push("url:"+identity.link);
+      if(identity.name) keys.push("name:"+identity.name);
+      const existing=keys.map(key=>winners.get(key)).find(Boolean);
+      if(!existing) {
+        const record={...item,keys};
+        for(const key of keys) winners.set(key,record);
+        continue;
+      }
+
+      duplicateCount++;
+      const creditedOwner=thumbnailCreditOwner(item.thumb,owners);
+      if(creditedOwner && creditedOwner!==existing.galleryId) {
+        const creditedGallery=galleries.find(g=>g.id===creditedOwner);
+        if(creditedGallery) {
+          for(const key of existing.keys) if(winners.get(key)===existing) winners.delete(key);
+          const replacement={...item,keys};
+          for(const key of keys) winners.set(key,replacement);
+          creditOverrides++;
+        }
+      }
     }
   }
+
+  const selected=[...new Set(winners.values())];
+  const allExtensions={names:[],links:[],thumbnails:[],description:[]};
+  for(const item of selected) {
+    allExtensions.names.push(item.name);
+    allExtensions.links.push(item.link);
+    allExtensions.thumbnails.push(item.thumb);
+    allExtensions.description.push(item.description);
+  }
   await fs.writeFile(path.join(ROOT,"all-extensions.json"),JSON.stringify(allExtensions,null,2)+"\n");
-  console.log("Updated all-extensions.json: "+allExtensions.names.length+" entries from "+galleryFiles.length+" gallery files.");
+  console.log("Updated all-extensions.json: "+allExtensions.names.length+" unique entries from "+galleryFiles.length+" gallery files; removed "+duplicateCount+" duplicates; "+creditOverrides+" thumbnail-credit ownership overrides.");
 }
 
 async function main() {
