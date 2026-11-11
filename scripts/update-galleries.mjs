@@ -14,7 +14,7 @@ const SOURCES = [
   { id:"ziplox", file:"ziplox-extensions.json", url:"https://ziplox.neocities.org/extensions/", kind:"ziplox" },
   { id:"allay", file:"allay-extensions.json", url:"https://greedyallay.github.io/extensions/", kind:"allay" },
   { id:"kylekart", file:"kylekart-extensions.json", url:"https://kylekart.github.io/ScratchExtensions/?ref=mistium&source=Joshuaknowsmaths", kind:"kylekart" },
-  { id:"pooiod7", file:"pooiod7-extensions.json", url:"https://p7scratchextensions.pages.dev/", kind:"pooiod7" },
+  { id:"pooiod7", file:"pooiod7-extensions.json", url:"https://raw.githubusercontent.com/pooiod/ScratchExtensions/main/new/extensions.json", kind:"pooiod7" },
   { id:"cst", file:"cst-extensions.json", url:"https://cst1229.eu.org/extensions", kind:"cst" },
   { id:"dde", file:"dde-extensions.json", url:"https://dde-ext-gallery.vercel.app/", kind:"dde" },
   { id:"lemons", file:"lemons-extensions.json", url:"https://bludisanlemon.github.io/lemons-gallery/", kind:"lemons" },
@@ -444,65 +444,44 @@ async function fetchDedicated(source, finalUrl, body) {
     return uniq(Object.entries(data.extensions || {}).filter(([, item]) => !item.isDeprecated).map(([name, item]) => ({
       name,
       link: item.url ? absolute("extension-code/" + item.url, finalUrl) : "",
-      thumb: item.banner ? absolute("extension-thumbs/" + item.banner, finalUrl) : ""
-    })));
-  }
+      thumb: item.banner ? absolute("extension-thumbs/"   if (source.id === "pooiod7" || source.kind === "pooiod7") {
+    // New Pooiod format: new/extensions.json. Each record contains build
+    // variants, an image template, and a hidden flag.
+    const dataUrl = "https://raw.githubusercontent.com/pooiod/ScratchExtensions/main/new/extensions.json";
+    const response = await fetch(dataUrl, {
+      headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0","accept":"application/json"},
+      signal:AbortSignal.timeout(35000)
+    });
+    if (!response.ok) throw new Error("[pooiod7] new extension index HTTP " + response.status);
+    const data = await response.json();
+    if (!Array.isArray(data) || !data.length) throw new Error("[pooiod7] new extension index was empty or not an array");
 
-  if (source.id === "pooiod7" || source.kind === "pooiod7") {
-    // The gallery publishes its source list as extensions.json. The live
-    // site and the project's source repository are both supported so a
-    // temporary Pages/CDN fetch issue does not make the whole gallery vanish.
-    const urls = [
-      "https://p7scratchextensions.pages.dev/extensions.json",
-      "https://raw.githubusercontent.com/pooiod/ScratchExtensions/main/extensions.json"
-    ];
-    let data = null;
-    const errors = [];
-    console.log("[pooiod7] starting dedicated JSON index lookup");
-    for (const dataUrl of urls) {
-      try {
-        const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0","accept":"application/json"},signal:AbortSignal.timeout(35000)});
-        console.log("[pooiod7] " + dataUrl + " -> HTTP " + response.status);
-        if (!response.ok) throw new Error("HTTP " + response.status);
-        const parsed = await response.json();
-        if (!Array.isArray(parsed) || !parsed.length) throw new Error("Extension index was empty or not an array");
-        console.log("[pooiod7] parsed raw entries=" + parsed.length);
-        data = parsed;
-        break;
-      } catch (error) { console.log("[pooiod7] index error: " + String(error)); errors.push(dataUrl + ": " + String(error)); }
-    }
-    // Last-resort source: GitHub's contents API. This avoids depending on
-    // either the Pages deployment or raw-content CDN being available to CI.
-    if (!data) {
-      try {
-        const response = await fetch("https://api.github.com/repos/pooiod/ScratchExtensions/contents/extensions.json", {
-          headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0","accept":"application/vnd.github+json"},
-          signal:AbortSignal.timeout(35000)
-        });
-        if (!response.ok) throw new Error("HTTP " + response.status);
-        const file = await response.json();
-        const parsed = JSON.parse(Buffer.from(file.content || "", "base64").toString("utf8"));
-        if (!Array.isArray(parsed) || !parsed.length) throw new Error("GitHub API returned an empty or invalid index");
-        data = parsed;
-      } catch (error) { errors.push("GitHub contents API: " + String(error)); }
-    }
-    if (!data) throw new Error("[pooiod7] extension index unavailable. " + errors.join(" | "));
-    console.log("[pooiod7] loaded raw entries=" + data.length);
-    const visibleEntries = data.filter(item => item && item.hidden !== true);
-    console.log("[pooiod7] visible entries=" + visibleEntries.length);
-    const items = uniq(visibleEntries.map(item => {
-      const id = String(item.id || "").trim();
-      const name = clean(item.title || item.name || id);
-      // The viewer defaults to /ext/<id>/main.js. Use the exact published
-      // asset path and retain the cover path supplied by the index.
-      const link = id ? absolute("ext/" + encodeURIComponent(id) + "/main.js", "https://p7scratchextensions.pages.dev/") : "";
-      const imagePath = typeof item.image === "string" ? item.image.replaceAll("[id]", id) : "";
-      const thumb = imagePath ? absolute(imagePath, "https://p7scratchextensions.pages.dev/") : "";
-      return {name,link,thumb};
-    }));
-    console.log("[pooiod7] usable unique entries=" + items.length);
-    if (items.length < 3) throw new Error("[pooiod7] index parsed but only " + items.length + " usable entries were extracted");
-    return items;
+    const base = "https://p7scratchextensions.pages.dev/";
+    const items = data
+      .filter(item => item && item.hidden !== true)
+      .map(item => {
+        const id = String(item.id || "").trim();
+        const name = clean(item.title || item.name || id);
+        const builds = item.builds || {};
+        // Prefer a PenguinMod-hosted build where explicitly supplied;
+        // otherwise use the main build and substitute its build name.
+        const direct = builds.PenguinMod?.direct || builds.main?.direct || "";
+        const buildName = builds.PenguinMod?.direct ? "main" : "main";
+        const link = id && direct
+          ? absolute(direct.replaceAll("[id]", encodeURIComponent(id)).replaceAll("[build]", buildName), base)
+          : "";
+        const image = typeof item.image === "string"
+          ? item.image.replaceAll("[id]", encodeURIComponent(id))
+          : "";
+        const thumb = image ? absolute(image, base) : "";
+        return {name, link, thumb};
+      })
+      .filter(item => item.name && isUsefulLink(item.link));
+
+    const result = uniq(items);
+    console.log("[pooiod7] parsed " + data.length + " records; " + result.length + " visible usable extensions");
+    if (result.length < 3) throw new Error("[pooiod7] new format returned only " + result.length + " usable extensions");
+    return result;
   }
 
   if (source.kind === "skybuilder") {
