@@ -445,9 +445,12 @@ async function fetchDedicated(source, finalUrl, body) {
     return uniq(Object.entries(data.extensions || {}).filter(([, item]) => !item.isDeprecated).map(([name, item]) => ({
       name,
       link: item.url ? absolute("extension-code/" + item.url, finalUrl) : "",
-      thumb: item.banner ? absolute("extension-thumbs/"   if (source.id === "pooiod7" || source.kind === "pooiod7") {
-    // New Pooiod format: new/extensions.json. Each record contains build
-    // variants, an image template, and a hidden flag.
+      thumb: item.banner ? absolute("extension-thumbs/" + item.banner, finalUrl) : ""
+    })));
+  }
+
+  if (source.id === "pooiod7" || source.kind === "pooiod7") {
+    // New Pooiod format: one record per extension with build variants.
     const dataUrl = "https://raw.githubusercontent.com/pooiod/ScratchExtensions/main/new/extensions.json";
     const response = await fetch(dataUrl, {
       headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0","accept":"application/json"},
@@ -456,29 +459,19 @@ async function fetchDedicated(source, finalUrl, body) {
     if (!response.ok) throw new Error("[pooiod7] new extension index HTTP " + response.status);
     const data = await response.json();
     if (!Array.isArray(data) || !data.length) throw new Error("[pooiod7] new extension index was empty or not an array");
-
     const base = "https://p7scratchextensions.pages.dev/";
-    const items = data
-      .filter(item => item && item.hidden !== true)
-      .map(item => {
-        const id = String(item.id || "").trim();
-        const name = clean(item.title || item.name || id);
-        const builds = item.builds || {};
-        // Prefer a PenguinMod-hosted build where explicitly supplied;
-        // otherwise use the main build and substitute its build name.
-        const direct = builds.PenguinMod?.direct || builds.main?.direct || "";
-        const buildName = builds.PenguinMod?.direct ? "main" : "main";
-        const link = id && direct
-          ? absolute(direct.replaceAll("[id]", encodeURIComponent(id)).replaceAll("[build]", buildName), base)
-          : "";
-        const image = typeof item.image === "string"
-          ? item.image.replaceAll("[id]", encodeURIComponent(id))
-          : "";
-        const thumb = image ? absolute(image, base) : "";
-        return {name, link, thumb};
-      })
-      .filter(item => item.name && isUsefulLink(item.link));
-
+    const items = data.filter(item => item && item.hidden !== true).map(item => {
+      const id = String(item.id || "").trim();
+      const name = clean(item.title || item.name || id);
+      const builds = item.builds || {};
+      const chosen = builds.PenguinMod?.direct ? "PenguinMod" : (builds.main?.direct ? "main" : "");
+      const direct = chosen ? builds[chosen].direct : "";
+      const link = id && direct
+        ? absolute(direct.replaceAll("[id]", encodeURIComponent(id)).replaceAll("[build]", chosen), base)
+        : "";
+      const image = typeof item.image === "string" ? item.image.replaceAll("[id]", encodeURIComponent(id)) : "";
+      return {name,link,thumb:image ? absolute(image,base) : ""};
+    }).filter(item => item.name && isUsefulLink(item.link));
     const result = uniq(items);
     console.log("[pooiod7] parsed " + data.length + " records; " + result.length + " visible usable extensions");
     if (result.length < 3) throw new Error("[pooiod7] new format returned only " + result.length + " usable extensions");
