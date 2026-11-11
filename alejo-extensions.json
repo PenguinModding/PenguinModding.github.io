@@ -6,8 +6,7 @@
     "GEOMETRY DASH TOOLS (BETA)",
     "Tobster Utilites",
     "Cockatiel Location",
-    "Cloud Position (BETA)",
-    "Coming soon..."
+    "Cloud Position (BETA)"
   ],
   "links": [
     "https://beacons.ai/alejo.2014",
@@ -16,8 +15,7 @@
     "https://alejo14.vercel.app/extensions/Geometry_Dash_Tools.js",
     "https://www.youtube.com/channel/UC-J0ytiHv-RPEq7RV2NZd4g",
     "https://github.com/bruhbeast-pixel",
-    "https://alejo14.vercel.app/extensions/Cloud_Position.js",
-    ""
+    "https://alejo14.vercel.app/extensions/Cloud_Position.js"
   ],
   "thumbnails": [
     "https://i.imgur.com/tMm0Kfe.png",
@@ -26,10 +24,7 @@
     "https://i.imgur.com/3lHu56Q.png",
     "https://i.imgur.com/OM7eowi.png",
     "https://raw.githubusercontent.com/PenguinMod/PenguinMod-ExtensionsGallery/fa2d8785a4c8059dc3a56aefbbbfae21dba04362/static/images/bruhbeast-pixel/CockatielLocation.svg",
-    "https://i.imgur.com/F4zrlNj.png",
-    "https://i.imgur.com/yx519hC.jpeg"
+    "https://i.imgur.com/F4zrlNj.png"
   ],
-  "newExtensions": [
-    "Coming soon..."
-  ]
+  "newExtensions": []
 }
