@@ -496,7 +496,8 @@
     "TurboGemini",
     "Ruby Maps",
     "Analytics",
-    "Image Utils"
+    "Image Utils",
+    "Mutable Objects"
   ],
   "links": [
     "https://greedyallay.github.io/extensions/resources/extensions/html.js",
@@ -995,7 +996,8 @@
     "https://ruby-devs.vercel.app/cdn/extensions/geminiai.js",
     "https://ruby-devs.vercel.app/cdn/extensions/rubymaps.js",
     "https://ruby-devs.vercel.app/cdn/extensions/analytics.js",
-    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/image-utils.js"
+    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/image-utils.js",
+    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/mutable-objects.js"
   ],
   "thumbnails": [
     "https://greedyallay.github.io/extensions/resources/html.png",
@@ -1494,7 +1496,8 @@
     "https://ruby-devs.vercel.app/cdn/thumbnails/turbogemini.webp",
     "https://ruby-devs.vercel.app/cdn/thumbnails/rubymaps.svg",
     "https://ruby-devs.vercel.app/cdn/thumbnails/analytics.webp",
-    "https://raw.githubusercontent.com/DashDevmationsDash/Image-Penguinmodxtension/main/Asset/Icons/Thumb.svg"
+    "https://raw.githubusercontent.com/DashDevmationsDash/Image-Penguinmodxtension/main/Asset/Icons/Thumb.svg",
+    "https://raw.githubusercontent.com/the-can-of-soup/pm_mutable/main/dvSoupMArrays_icon.svg"
   ],
   "description": [
     "allay.json",
@@ -1993,6 +1996,7 @@
     "ruby.json",
     "ruby.json",
     "ruby.json",
+    "misc-extensions.json",
     "misc-extensions.json"
   ]
 }
