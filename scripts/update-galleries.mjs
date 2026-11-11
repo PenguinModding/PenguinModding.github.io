@@ -841,7 +841,7 @@ const GALLERY_OWNER_ALIASES = {
 };
 
 function ownerAliases(owner) {
-  return [...new Set([owner.id, owner.id.replace(/-/g,""), owner.id.replace(/-/g,"_"), ...(GALLERY_OWNER_ALIASES[owner.id]||[])].map(x=>x.toLowerCase()).filter(x=>x.length>=5)];
+  return [...new Set([owner.id, owner.id.replace(/-/g,""), owner.id.replace(/-/g,"_"), ...(GALLERY_OWNER_ALIASES[owner.id]||[])].map(x=>x.toLowerCase()).filter(x=>x.length>=5))];
 }
 
 function thumbnailCreditOwner(thumb, galleryOwners) {
