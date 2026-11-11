@@ -838,7 +838,43 @@ function extensionIdentity(item) {
   return {link:normalizedUrl(item.link), name:normalizedExtensionName(item.name)};
 }
 
+const GALLERY_OWNER_ALIASES = {
+  cst:["cst1229"],
+  kylekart:["elmobear","kylekart"],
+  pooiod7:["pooiod","pooiod7"],
+  sharkpool:["sharkpool","sharkpools"],
+  tutelmod:["tutelmod"],
+  turbololder:["jeremygamer13"]
+};
+
+function ownerAliases(owner) {
+  return [...new Set([owner.id, owner.id.replace(/-/g,""), owner.id.replace(/-/g,"_"), ...(GALLERY_OWNER_ALIASES[owner.id]||[])].map(x=>x.toLowerCase()))];
+}
+
 function thumbnailCreditOwner(thumb, galleryOwners) {
+  if (!thumb || !/^https?:/i.test(thumb)) return "";
+  let url;
+  try { url = new URL(thumb); } catch { return ""; }
+  const segments = decodeURIComponent(url.pathname).toLowerCase().split("/").filter(Boolean);
+  for (const owner of galleryOwners) {
+    if (ownerAliases(owner).some(alias => segments.includes(alias))) return owner.id;
+  }
+  return "";
+}
+
+const extensionSourceCache = new Map();
+async function sourceCreditOwner(link, galleryOwners) {
+  if (!link || !isUsefulLink(link)) return "";
+  const normalized = normalizedUrl(link);
+  if (extensionSourceCache.has(normalized)) return extensionSourceCache.get(normalized);
+  let owner = "";
+  try {
+    const response = await fetch(link,{headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0","accept":"text/plain,*/*"},signal:AbortSignal.timeout(12000)});
+    if (response.ok) {
+      const source = (await response.text()).slice(0,500000).toLowerCase();
+      for (const candidate of galleryOwners) {
+        for (const alias of ownerAliases(candidate)) {
+          const escaped = alias.replace(/[.*+?^${}()|[\]\\]/g,"\\function thumbnailCreditOwner(thumb, galleryOwners) {
   if (!thumb || !/^https?:/i.test(thumb)) return "";
   let url;
   try { url = new URL(thumb); } catch { return ""; }
@@ -848,6 +884,17 @@ function thumbnailCreditOwner(thumb, galleryOwners) {
     if (aliases.some(alias => alias && segments.includes(alias.toLowerCase()))) return owner.id;
   }
   return "";
+}
+");
+          const pattern = new RegExp("(?:credits?|original(?:ly)?\\s+(?:made|created|written|owned)\\s+by|based\\s+on)\\s*[:=-]?[^\\n]{0,100}\\b"+escaped+"\\b","i");
+          if (pattern.test(source)) { owner=candidate.id; break; }
+        }
+        if (owner) break;
+      }
+    }
+  } catch {}
+  extensionSourceCache.set(normalized,owner);
+  return owner;
 }
 
 async function rebuildAllExtensions() {
@@ -895,7 +942,9 @@ async function rebuildAllExtensions() {
       }
 
       duplicateCount++;
-      const creditedOwner=thumbnailCreditOwner(item.thumb,owners);
+      const creditedOwner=thumbnailCreditOwner(item.thumb,owners)
+        || await sourceCreditOwner(item.link,owners)
+        || await sourceCreditOwner(existing.link,owners);
       if(creditedOwner && creditedOwner!==existing.galleryId) {
         const creditedGallery=galleries.find(g=>g.id===creditedOwner);
         if(creditedGallery) {
