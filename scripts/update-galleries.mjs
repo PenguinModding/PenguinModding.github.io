@@ -841,7 +841,7 @@ const GALLERY_OWNER_ALIASES = {
 };
 
 function ownerAliases(owner) {
-  return [...new Set([owner.id, owner.id.replace(/-/g,""), owner.id.replace(/-/g,"_"), ...(GALLERY_OWNER_ALIASES[owner.id]||[])].map(x=>x.toLowerCase()))];
+  return [...new Set([owner.id, owner.id.replace(/-/g,""), owner.id.replace(/-/g,"_"), ...(GALLERY_OWNER_ALIASES[owner.id]||[])].map(x=>x.toLowerCase()).filter(x=>x.length>=5)];
 }
 
 function thumbnailCreditOwner(thumb, galleryOwners) {
@@ -867,10 +867,14 @@ async function sourceCreditOwner(link, galleryOwners) {
       const source = (await response.text()).slice(0,500000).toLowerCase();
       for (const candidate of galleryOwners) {
         for (const alias of ownerAliases(candidate)) {
-          const markers = ["credit", "originally by", "created by", "written by", "based on"];
+          const markers = ["credits to ", "credit to ", "credits by ", "credit by ", "credits: ", "credit: ", "originally by ", "created by ", "written by "];
           const attributed = markers.some(marker => {
-            const index = source.indexOf(marker);
-            return index >= 0 && source.slice(index, index + 180).includes(alias);
+            let index = source.indexOf(marker);
+            while (index >= 0) {
+              if (source.slice(index, index + 180).includes(alias)) return true;
+              index = source.indexOf(marker, index + marker.length);
+            }
+            return false;
           });
           if (attributed) { owner=candidate.id; break; }
         }
