@@ -495,7 +495,8 @@
     "GoFile",
     "TurboGemini",
     "Ruby Maps",
-    "Analytics"
+    "Analytics",
+    "Image Utils"
   ],
   "links": [
     "https://greedyallay.github.io/extensions/resources/extensions/html.js",
@@ -993,7 +994,8 @@
     "https://ruby-devs.vercel.app/cdn/extensions/gofile.js",
     "https://ruby-devs.vercel.app/cdn/extensions/geminiai.js",
     "https://ruby-devs.vercel.app/cdn/extensions/rubymaps.js",
-    "https://ruby-devs.vercel.app/cdn/extensions/analytics.js"
+    "https://ruby-devs.vercel.app/cdn/extensions/analytics.js",
+    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/image-utils.js"
   ],
   "thumbnails": [
     "https://greedyallay.github.io/extensions/resources/html.png",
@@ -1491,7 +1493,8 @@
     "https://ruby-devs.vercel.app/cdn/thumbnails/gofile.png",
     "https://ruby-devs.vercel.app/cdn/thumbnails/turbogemini.webp",
     "https://ruby-devs.vercel.app/cdn/thumbnails/rubymaps.svg",
-    "https://ruby-devs.vercel.app/cdn/thumbnails/analytics.webp"
+    "https://ruby-devs.vercel.app/cdn/thumbnails/analytics.webp",
+    "https://raw.githubusercontent.com/DashDevmationsDash/Image-Penguinmodxtension/main/Asset/Icons/Thumb.svg"
   ],
   "description": [
     "allay.json",
@@ -1989,6 +1992,7 @@
     "ruby.json",
     "ruby.json",
     "ruby.json",
-    "ruby.json"
+    "ruby.json",
+    "misc-extensions.json"
   ]
 }
