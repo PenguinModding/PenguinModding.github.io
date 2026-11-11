@@ -4,21 +4,24 @@
     "Snap! Utilities",
     "Threads",
     "Speech to Text",
-    "Image Utils"
+    "Image Utils",
+    "Mutable Objects"
   ],
   "links": [
     "https://raw.githubusercontent.com/bahr-projects/bahr-projects.github.io/refs/heads/main/turbostore/versions/v0.1.js",
     "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/cattos-extension.xml",
     "https://raw.githubusercontent.com/the-can-of-soup/pm_threads/main/soup_threads.js",
     "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/wiis-extension.js",
-    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/image-utils.js"
+    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/image-utils.js",
+    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/mutable-objects.js"
   ],
   "thumbnails": [
     "https://bahr-projects.github.io/turbostore/icon.svg",
     "",
     "",
     "",
-    "https://raw.githubusercontent.com/DashDevmationsDash/Image-Penguinmodxtension/main/Asset/Icons/Thumb.svg"
+    "https://raw.githubusercontent.com/DashDevmationsDash/Image-Penguinmodxtension/main/Asset/Icons/Thumb.svg",
+    "https://raw.githubusercontent.com/the-can-of-soup/pm_mutable/main/dvSoupMArrays_icon.svg"
   ],
   "newExtensions": []
 }
