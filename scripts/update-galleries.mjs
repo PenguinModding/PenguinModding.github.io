@@ -874,20 +874,12 @@ async function sourceCreditOwner(link, galleryOwners) {
       const source = (await response.text()).slice(0,500000).toLowerCase();
       for (const candidate of galleryOwners) {
         for (const alias of ownerAliases(candidate)) {
-          const escaped = alias.replace(/[.*+?^${}()|[\]\\]/g,"\\function thumbnailCreditOwner(thumb, galleryOwners) {
-  if (!thumb || !/^https?:/i.test(thumb)) return "";
-  let url;
-  try { url = new URL(thumb); } catch { return ""; }
-  const segments = decodeURIComponent(url.pathname).toLowerCase().split("/").filter(Boolean);
-  for (const owner of galleryOwners) {
-    const aliases = [owner.id, owner.id.replace(/-/g, ""), owner.id.replace(/-/g, "_")];
-    if (aliases.some(alias => alias && segments.includes(alias.toLowerCase()))) return owner.id;
-  }
-  return "";
-}
-");
-          const pattern = new RegExp("(?:credits?|original(?:ly)?\\s+(?:made|created|written|owned)\\s+by|based\\s+on)\\s*[:=-]?[^\\n]{0,100}\\b"+escaped+"\\b","i");
-          if (pattern.test(source)) { owner=candidate.id; break; }
+          const markers = ["credit", "originally by", "created by", "written by", "based on"];
+          const attributed = markers.some(marker => {
+            const index = source.indexOf(marker);
+            return index >= 0 && source.slice(index, index + 180).includes(alias);
+          });
+          if (attributed) { owner=candidate.id; break; }
         }
         if (owner) break;
       }
