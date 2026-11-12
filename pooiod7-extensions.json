@@ -89,30 +89,5 @@
     "https://p7scratchextensions.pages.dev/ext/PageOpener/cover.svg",
     "https://p7scratchextensions.pages.dev/ext/Fetch/cover.svg"
   ],
-  "newExtensions": [
-    "Kobold AI",
-    "HTML Canvas",
-    "JavaScript Parser",
-    "FilePile",
-    "Clone Data",
-    "Elemental Images",
-    "Zdog",
-    "Puter",
-    "Ace Editor",
-    "Sam Speech",
-    "Hand Positions",
-    "Project Parser",
-    "Text to Speech",
-    "Racoon Facts",
-    "Local AI",
-    "Scroll Utilities",
-    "Super Storage",
-    "Quick Skins",
-    "Console",
-    "ScratchX Loader",
-    "Lists Plus",
-    "Window Hasher",
-    "Page Opener",
-    "Fetch"
-  ]
+  "newExtensions": []
 }
