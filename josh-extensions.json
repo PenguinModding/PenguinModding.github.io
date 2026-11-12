@@ -1,14 +1,18 @@
 {
   "names": [
-    "GalleryUI"
+    "GalleryUI",
+    "Pathfinding"
   ],
   "thumbnails": [
+    "",
     ""
   ],
   "links": [
-    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/customgallery.js"
+    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/customgallery.js",
+    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/pathfinding.js"
   ],
   "newExtensions": [
-    "GalleryUI"
+    "GalleryUI",
+    "Pathfinding"
   ]
 }
