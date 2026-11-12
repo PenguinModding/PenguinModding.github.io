@@ -1,18 +1,22 @@
 {
   "names": [
     "GalleryUI",
-    "Pathfinding"
+    "Pathfinding",
+    "Peng.GPT"
   ],
   "thumbnails": [
+    "",
     "",
     ""
   ],
   "links": [
     "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/customgallery.js",
-    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/pathfinding.js"
+    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/pathfinding.js",
+    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/peng-gpt.js"
   ],
   "newExtensions": [
     "GalleryUI",
-    "Pathfinding"
+    "Pathfinding",
+    "Peng.GPT"
   ]
 }
