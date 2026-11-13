@@ -887,75 +887,43 @@ async function sourceCreditOwner(link, galleryOwners) {
 }
 
 async function rebuildAllExtensions() {
-  // The oldest gallery JSON file owns duplicate extensions by default.
-  // A thumbnail explicitly stored under another gallery owner's image
-  // directory overrides that date-based rule as a credit/attribution signal.
-  const galleryFiles=(await fs.readdir(ROOT))
-    .filter(file => file.endsWith("-extensions.json")
-      && !["all-extensions.json","adacraft-extensions.json","kittenblock-extensions.json"].includes(file.toLowerCase()))
-    .sort((a,b)=>a.localeCompare(b));
+  // The master gallery is a straight aggregation of every gallery JSON.
+  // Keep every entry, including duplicates, and preserve each source gallery's
+  // name, code URL, thumbnail URL, and source filename.
+  const galleryFiles = (await fs.readdir(ROOT))
+    .filter(file => file.toLowerCase().endsWith("-extensions.json")
+      && file.toLowerCase() !== "all-extensions.json")
+    .sort((a, b) => a.localeCompare(b));
 
-  const galleries = await Promise.all(galleryFiles.map(async file => ({
-    file,
-    id:file.replace(/-extensions\.json$/i,"").toLowerCase(),
-    createdAt:await galleryOriginalDate(file),
-    data:JSON.parse(await fs.readFile(path.join(ROOT,file),"utf8"))
-  })));
-  galleries.sort((a,b)=>a.createdAt-b.createdAt || a.file.localeCompare(b.file));
+  const allExtensions = {
+    names: [],
+    links: [],
+    thumbnails: [],
+    description: []
+  };
 
-  const owners = galleries.map(g => ({id:g.id}));
-  const winners = new Map();
-  let duplicateCount = 0;
-  let creditOverrides = 0;
+  for (const file of galleryFiles) {
+    const data = JSON.parse(await fs.readFile(path.join(ROOT, file), "utf8"));
+    const names = Array.isArray(data.names) ? data.names : [];
+    const links = Array.isArray(data.links) ? data.links : [];
+    const thumbnails = Array.isArray(data.thumbnails) ? data.thumbnails : [];
 
-  for (const gallery of galleries) {
-    const names=Array.isArray(gallery.data.names)?gallery.data.names:[];
-    for(let i=0;i<names.length;i++) {
-      const item={
-        name:clean(names[i]),
-        link:clean(gallery.data.links?.[i]??""),
-        thumb:clean(gallery.data.thumbnails?.[i]??""),
-        description:gallery.file.replace(/-extensions\.json$/i,"")+".json",
-        galleryId:gallery.id
-      };
-      if(!item.name) continue;
-      const identity=extensionIdentity(item);
-      const keys=[];
-      if(identity.link) keys.push("url:"+identity.link);
-      if(identity.name) keys.push("name:"+identity.name);
-      const existing=keys.map(key=>winners.get(key)).find(Boolean);
-      if(!existing) {
-        const record={...item,keys};
-        for(const key of keys) winners.set(key,record);
-        continue;
-      }
-
-      duplicateCount++;
-      const creditedOwner=thumbnailCreditOwner(item.thumb,owners)
-        || await sourceCreditOwner(item.link,owners)
-        || await sourceCreditOwner(existing.link,owners);
-      if(creditedOwner && creditedOwner!==existing.galleryId) {
-        const creditedGallery=galleries.find(g=>g.id===creditedOwner);
-        if(creditedGallery) {
-          for(const key of existing.keys) if(winners.get(key)===existing) winners.delete(key);
-          const replacement={...item,keys};
-          for(const key of keys) winners.set(key,replacement);
-          creditOverrides++;
-        }
-      }
+    for (let i = 0; i < names.length; i++) {
+      allExtensions.names.push(names[i] ?? "");
+      allExtensions.links.push(links[i] ?? "");
+      allExtensions.thumbnails.push(thumbnails[i] ?? "");
+      allExtensions.description.push(file);
     }
   }
 
-  const selected=[...new Set(winners.values())];
-  const allExtensions={names:[],links:[],thumbnails:[],description:[]};
-  for(const item of selected) {
-    allExtensions.names.push(item.name);
-    allExtensions.links.push(item.link);
-    allExtensions.thumbnails.push(item.thumb);
-    allExtensions.description.push(item.description);
-  }
-  await fs.writeFile(path.join(ROOT,"all-extensions.json"),JSON.stringify(allExtensions,null,2)+"\n");
-  console.log("Updated all-extensions.json: "+allExtensions.names.length+" unique entries from "+galleryFiles.length+" gallery files; removed "+duplicateCount+" duplicates; "+creditOverrides+" thumbnail-credit ownership overrides.");
+  await fs.writeFile(
+    path.join(ROOT, "all-extensions.json"),
+    JSON.stringify(allExtensions, null, 2) + "\n"
+  );
+  console.log(
+    "Updated all-extensions.json: " + allExtensions.names.length +
+    " entries copied from " + galleryFiles.length + " gallery files (duplicates preserved)."
+  );
 }
 
 async function main() {
