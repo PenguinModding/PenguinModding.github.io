@@ -30,6 +30,7 @@ const SOURCES = [
   { id:"alejo", file:"alejo-extensions.json", url:"https://alejo14.vercel.app/extensions.html", kind:"generic" },
   { id:"applele", file:"applele-extensions.json", url:"https://raw.githubusercontent.com/Dimixixixiixix/Applele-extensions-idk-/main/code/extensions.json", kind:"applele" },
   { id:"tutelmod", file:"tutelmod-extensions.json", url:"https://extensions.tutelmod.com/?editor=true", kind:"tutelmod" },
+  { id:"dashblocks", file:"dashblocks-extensions.json", url:"https://dashblocks.org/extensions/", kind:"dashblocks" },
 
   { id:"tringlyman", file:"tringlyman-extensions.json", url:"https://tringlyman.github.io/Scratch-Extensions/", kind:"tringlyman" },
   { id:"snail-ide", file:"snail-ide-extensions.json", url:"https://snail-ide.js.org/editor.html", kind:"snail" },
@@ -331,6 +332,33 @@ async function fetchDedicated(source, finalUrl, body) {
     }
     const result = uniq(items);
     if (!result.length) throw new Error("TutelMod source index contained no valid extension entries");
+    return result;
+  }
+
+  if (source.kind === "dashblocks") {
+    const dataUrl = "https://raw.githubusercontent.com/DashBlocks/extensions/develop/src/lib/extensions.js";
+    const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
+    if (!response.ok) throw new Error("DashBlocks extension index HTTP " + response.status);
+    const js = await response.text();
+    const items = [];
+    for (const object of extractObjectBlocks(js)) {
+      const name = jsStringField(object, "name");
+      const code = jsStringField(object, "code");
+      const banner = jsStringField(object, "banner");
+      if (!name || !code || !/\\.js(?:[?#].*)?$/i.test(code)) continue;
+      const link = /^https?:\\/\\//i.test(code)
+        ? code
+        : absolute("static/extensions/" + code.replace(/^\\/+/, ""), "https://dashblocks.org/");
+      const thumb = banner
+        ? (/^https?:\\/\\//i.test(banner)
+            ? banner
+            : absolute("static/images/" + banner.replace(/^\\/+/, ""), "https://dashblocks.org/"))
+        : "https://dashblocks.org/static/images/unknown.svg";
+      if (isUsefulLink(link)) items.push({name, link, thumb:isImage(thumb) ? thumb : ""});
+    }
+    const result = uniq(items);
+    if (result.length < 10) throw new Error("DashBlocks index returned only " + result.length + " usable extensions");
+    console.log("[dashblocks] parsed " + result.length + " extensions");
     return result;
   }
 
@@ -951,7 +979,8 @@ async function main() {
         names:items.map(x=>x.name),
         links:items.map(x=>x.link||""),
         thumbnails:items.map(x=>x.thumb||""),
-        newExtensions:newItems.map(x=>x.name)
+        newExtensions:newItems.map(x=>x.name),
+        ...(source.id === "dashblocks" ? {compatibilityNote:"Some extensions may only work in Dash. They may rely on Arrays or Objects, generator functions as custom-type serializers/deserializers, or newer Cast/Patcher API methods."} : {})
       };
       await fs.writeFile(path.join(ROOT,source.file),JSON.stringify(output,null,2)+"\n");
       report.push({id:source.id,status:"ok",count:items.length,new:newItems.length,file:source.file});
