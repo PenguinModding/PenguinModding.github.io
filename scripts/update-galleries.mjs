@@ -325,8 +325,8 @@ async function fetchDedicated(source, finalUrl, body) {
       if (!name || !code || !/\.js$/i.test(code)) continue;
       items.push({
         name,
-        link: absolute("static/extensions/" + code.replace(/^\/+/, ""), "https://extensions.tutelmod.com/"),
-        thumb: banner ? absolute("static/images/" + banner.replace(/^\/+/, ""), "https://extensions.tutelmod.com/") : ""
+        link: absolute("extensions/" + code.replace(/^\/+/, ""), "https://extensions.tutelmod.com/"),
+        thumb: banner ? absolute("images/" + banner.replace(/^\/+/, ""), "https://extensions.tutelmod.com/") : ""
       });
     }
     const result = uniq(items);
