@@ -345,14 +345,14 @@ async function fetchDedicated(source, finalUrl, body) {
       const name = jsStringField(object, "name");
       const code = jsStringField(object, "code");
       const banner = jsStringField(object, "banner");
-      if (!name || !code || !/\\.js(?:[?#].*)?$/i.test(code)) continue;
-      const link = /^https?:\\/\\//i.test(code)
+      if (!name || !code || !/\.js(?:[?#].*)?$/i.test(code)) continue;
+      const link = /^https?:\/\//i.test(code)
         ? code
-        : absolute("static/extensions/" + code.replace(/^\\/+/, ""), "https://dashblocks.org/");
+        : absolute("static/extensions/" + code.replace(/^\/+/, ""), "https://dashblocks.org/");
       const thumb = banner
-        ? (/^https?:\\/\\//i.test(banner)
+        ? (/^https?:\/\//i.test(banner)
             ? banner
-            : absolute("static/images/" + banner.replace(/^\\/+/, ""), "https://dashblocks.org/"))
+            : absolute("static/images/" + banner.replace(/^\/+/, ""), "https://dashblocks.org/"))
         : "https://dashblocks.org/static/images/unknown.svg";
       if (isUsefulLink(link)) items.push({name, link, thumb:isImage(thumb) ? thumb : ""});
     }
