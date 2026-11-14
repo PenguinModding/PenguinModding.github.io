@@ -38,7 +38,7 @@ const SOURCES = [
 ];
 
 const clean = value => String(value ?? "").replace(/\s+/g, " ").trim();
-const normalizeThumbnail = value => clean(value).replace(/\/static\//gi, "/");
+const normalizeThumbnail = value => { const cleaned = clean(value); return /https?:\/\/dashblocks\.org\//i.test(cleaned) ? cleaned : cleaned.replace(/\/static\//gi, "/"); };
 const absolute = (value, base) => { try { return value ? new URL(value, base).href : ""; } catch { return ""; } };
 const isImage = value => /\.(png|jpe?g|gif|webp|svg|avif)(?:[?#]|$)/i.test(value || "") || /(?:\/image\/|\/images?\/|cloudinary|imgur|\.svg\?)/i.test(value || "");
 const isUsefulLink = value => /^https?:/i.test(value || "") && !isImage(value) && !/^(?:javascript:|mailto:|tel:)/i.test(value || "");
