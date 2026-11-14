@@ -291,8 +291,12 @@ async function fetchDedicated(source, finalUrl, body) {
       imports[match[1]] = absolute("src/icons/" + match[2], "https://raw.githubusercontent.com/Dinosaurmod/extensions/main/");
     }
     const legacyBase = "https://gabsthecuriouskid.github.io/DinosaurModExtensions/";
+    const arrayStart = js.indexOf("const extensions = [");
+    const arrayEnd = js.indexOf("\n];", arrayStart);
+    if (arrayStart < 0 || arrayEnd < 0) throw new Error("Could not isolate DashBlocks website extensions array");
+    const websiteExtensions = js.slice(arrayStart, arrayEnd);
     const items = [];
-    for (const object of extractObjectBlocks(js)) {
+    for (const object of extractObjectBlocks(websiteExtensions)) {
       const name = jsStringField(object, "name");
       const extensionExpr = object.match(/\bextensionId\s*:\s*extensionUrl\s*\+\s*(['"])([^'"]+)\1/);
       if (!name || !extensionExpr) continue;
