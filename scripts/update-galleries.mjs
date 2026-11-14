@@ -38,6 +38,7 @@ const SOURCES = [
 ];
 
 const clean = value => String(value ?? "").replace(/\s+/g, " ").trim();
+const normalizeThumbnail = value => clean(value).replace(/\/static\//gi, "/");
 const absolute = (value, base) => { try { return value ? new URL(value, base).href : ""; } catch { return ""; } };
 const isImage = value => /\.(png|jpe?g|gif|webp|svg|avif)(?:[?#]|$)/i.test(value || "") || /(?:\/image\/|\/images?\/|cloudinary|imgur|\.svg\?)/i.test(value || "");
 const isUsefulLink = value => /^https?:/i.test(value || "") && !isImage(value) && !/^(?:javascript:|mailto:|tel:)/i.test(value || "");
@@ -58,7 +59,7 @@ const identityKeys = item => {
 const uniq = items => {
   const map = new Map();
   for (const item of items) {
-    const name = clean(item.name), link = clean(item.link), thumb = clean(item.thumb);
+    const name = clean(item.name), link = clean(item.link), thumb = normalizeThumbnail(item.thumb);
     if (!name || name.length > 140 || /^(extensions?|filters?|categories|gallery|search|about|home|try it out|copy link)$/i.test(name) || /extension gallery$/i.test(name)) continue;
     const key = identityKeys({name,link})[0];
     if (!key) continue;
@@ -939,7 +940,7 @@ async function rebuildAllExtensions() {
     for (let i = 0; i < names.length; i++) {
       allExtensions.names.push(names[i] ?? "");
       allExtensions.links.push(links[i] ?? "");
-      allExtensions.thumbnails.push(thumbnails[i] ?? "");
+      allExtensions.thumbnails.push(normalizeThumbnail(thumbnails[i] ?? ""));
       allExtensions.description.push(file);
     }
   }
