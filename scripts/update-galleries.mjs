@@ -349,12 +349,12 @@ async function fetchDedicated(source, finalUrl, body) {
       if (!name || !code || !/\.js(?:[?#].*)?$/i.test(code)) continue;
       const link = /^https?:\/\//i.test(code)
         ? code
-        : absolute("static/extensions/" + code.replace(/^\/+/, ""), "https://dashblocks.org/");
+        : absolute("static/extensions/" + code.replace(/^\/+/, ""), "https://dashblocks.org/extensions/");
       const thumb = banner
         ? (/^https?:\/\//i.test(banner)
             ? banner
-            : absolute("static/images/" + banner.replace(/^\/+/, ""), "https://dashblocks.org/"))
-        : "https://dashblocks.org/static/images/unknown.svg";
+            : absolute("static/images/" + banner.replace(/^\/+/, ""), "https://dashblocks.org/extensions/"))
+        : "https://dashblocks.org/extensions/static/images/unknown.svg";
       if (isUsefulLink(link)) items.push({name, link, thumb:isImage(thumb) ? thumb : ""});
     }
     const result = uniq(items);
