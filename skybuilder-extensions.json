@@ -10,9 +10,9 @@
     "https://skybuilder-extensions.vercel.app/extensions/SK17.js"
   ],
   "thumbnails": [
-    "https://skybuilder-extensions.vercel.app/static/extensions/GeometryDashTools.png",
-    "https://skybuilder-extensions.vercel.app/static/extensions/Sparrow.svg",
-    "https://skybuilder-extensions.vercel.app/static/extensions/SK17.svg"
+    "https://skybuilder-extensions.vercel.app/extensions/GeometryDashTools.png",
+    "https://skybuilder-extensions.vercel.app/extensions/Sparrow.svg",
+    "https://skybuilder-extensions.vercel.app/extensions/SK17.svg"
   ],
   "newExtensions": []
 }
