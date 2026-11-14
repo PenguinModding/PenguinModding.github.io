@@ -2,9 +2,11 @@
   "names": [
     "GalleryUI",
     "Pathfinding",
-    "Peng.GPT"
+    "Peng.GPT",
+    "Word Filterer"
   ],
   "thumbnails": [
+    "",
     "",
     "",
     ""
@@ -12,11 +14,13 @@
   "links": [
     "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/customgallery.js",
     "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/pathfinding.js",
-    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/peng-gpt.js"
+    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/peng-gpt.js",
+    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/word-filterer.js"
   ],
   "newExtensions": [
     "GalleryUI",
     "Pathfinding",
-    "Peng.GPT"
+    "Peng.GPT",
+    "Word Filterer"
   ]
 }
