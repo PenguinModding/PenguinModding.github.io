@@ -1,0 +1,22 @@
+{
+  "names": [
+    "Temporary Lists",
+    "BrainFuck Extension",
+    "PiDos Proprietary Tools"
+  ],
+  "links": [
+    "https://picreatoragain.github.io/piextensions.github.io/temporarylists.js",
+    "https://picreatoragain.github.io/piextensions.github.io/brainfuck.js",
+    "https://picreatoragain.github.io/piextensions.github.io/pidospro.js"
+  ],
+  "thumbnails": [
+    "https://picreatoragain.github.io/piextensions.github.io/temporarylists.png",
+    "https://picreatoragain.github.io/piextensions.github.io/brainfuck.png",
+    "https://picreatoragain.github.io/piextensions.github.io/pidospro.png"
+  ],
+  "newExtensions": [
+    "Temporary Lists",
+    "BrainFuck Extension",
+    "PiDos Proprietary Tools"
+  ]
+}
