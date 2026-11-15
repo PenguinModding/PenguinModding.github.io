@@ -399,20 +399,22 @@ async function fetchDedicated(source, finalUrl, body) {
       const banner = jsStringField(object, "banner");
       if (!name || !code || !/\.js(?:[?#].*)?$/i.test(code)) continue;
 
+      // Use raw GitHub URLs instead of dashblocks.org. The latter does not
+      // reliably allow cross-origin fetches from third-party gallery pages.
       const link = /^https?:\/\//i.test(code)
         ? code
-        : absolute("static/extensions/" + code.replace(/^\/+/, ""), "https://dashblocks.org/extensions/");
+        : "https://raw.githubusercontent.com/DashBlocks/extensions/develop/static/extensions/" + code.replace(/^\/+/, "");
 
       const thumb = banner
         ? (/^https?:\/\//i.test(banner)
             ? banner
-            : absolute("static/images/" + banner.replace(/^\/+/, ""), "https://dashblocks.org/extensions/"))
-        : "https://dashblocks.org/extensions/static/images/unknown.svg";
+            : "https://raw.githubusercontent.com/DashBlocks/extensions/develop/static/images/" + banner.replace(/^\/+/, ""))
+        : "https://raw.githubusercontent.com/DashBlocks/extensions/develop/static/images/unknown.svg";
 
       items.push({
         name,
         link,
-        thumb: isImage(thumb) ? thumb : "https://dashblocks.org/extensions/static/images/unknown.svg"
+        thumb: isImage(thumb) ? thumb : "https://raw.githubusercontent.com/DashBlocks/extensions/develop/static/images/unknown.svg"
       });
     }
 
