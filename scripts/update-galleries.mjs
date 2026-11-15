@@ -31,6 +31,7 @@ const SOURCES = [
   { id:"applele", file:"applele-extensions.json", url:"https://raw.githubusercontent.com/Dimixixixiixix/Applele-extensions-idk-/main/code/extensions.json", kind:"applele" },
   { id:"tutelmod", file:"tutelmod-extensions.json", url:"https://extensions.tutelmod.com/?editor=true", kind:"tutelmod" },
   { id:"dashblocks", file:"dashblocks-extensions.json", url:"https://dashblocks.org/extensions/", kind:"dashblocks" },
+  { id:"picreator", file:"picreator-extensions.json", url:"https://picreatoragain.github.io/piextensions.github.io/", kind:"picreator" },
 
   { id:"tringlyman", file:"tringlyman-extensions.json", url:"https://tringlyman.github.io/Scratch-Extensions/", kind:"tringlyman" },
   { id:"snail-ide", file:"snail-ide-extensions.json", url:"https://snail-ide.js.org/editor.html", kind:"snail" },
@@ -340,30 +341,86 @@ async function fetchDedicated(source, finalUrl, body) {
     return result;
   }
 
+  if (source.kind === "picreator") {
+    const $ = load(body);
+    const names = {
+      temporarylists: "Temporary Lists",
+      brainfuck: "BrainFuck Extension",
+      pidospro: "PiDos Proprietary Tools"
+    };
+    const items = [];
+
+    $("a[href]").each((_, node) => {
+      const card = $(node);
+      const link = absolute(card.attr("href"), finalUrl);
+      if (!/\.js(?:[?#].*)?$/i.test(link)) return;
+
+      let slug = "";
+      try {
+        slug = new URL(link).pathname.split("/").pop().replace(/\.js$/i, "").toLowerCase();
+      } catch {
+        return;
+      }
+      const name = names[slug];
+      if (!name) return;
+
+      const image = card.find("img").first();
+      const rawThumb = image.attr("src") || image.attr("data-src") || "";
+      const thumb = rawThumb ? absolute(rawThumb, finalUrl) : "";
+      items.push({name, link, thumb:isImage(thumb) ? thumb : ""});
+    });
+
+    const result = uniq(items);
+    if (result.length !== 3 || !["Temporary Lists", "BrainFuck Extension", "PiDos Proprietary Tools"].every(name => result.some(item => item.name === name))) {
+      throw new Error("Pi Gallery page did not expose all 3 expected extension cards; existing JSON left untouched.");
+    }
+    console.log("[picreator] parsed " + result.length + " extensions");
+    return result;
+  }
+
   if (source.kind === "dashblocks") {
     const dataUrl = "https://raw.githubusercontent.com/DashBlocks/extensions/develop/src/lib/extensions.js";
     const response = await fetch(dataUrl, {headers:{"user-agent":"PenguinMod-Gallery-Monitor/1.0"},signal:AbortSignal.timeout(35000)});
     if (!response.ok) throw new Error("DashBlocks extension index HTTP " + response.status);
     const js = await response.text();
+
+    // The live website displays only the main extensions array, not otherExtensions.
+    const arrayStart = js.indexOf("const extensions = [");
+    const arrayEnd = js.indexOf("\n];", arrayStart);
+    if (arrayStart < 0 || arrayEnd < 0) {
+      throw new Error("Could not isolate DashBlocks displayed extensions array");
+    }
+
+    const websiteExtensions = js.slice(arrayStart, arrayEnd);
     const items = [];
-    for (const object of extractObjectBlocks(js)) {
+    for (const object of extractObjectBlocks(websiteExtensions)) {
       const name = jsStringField(object, "name");
       const code = jsStringField(object, "code");
       const banner = jsStringField(object, "banner");
       if (!name || !code || !/\.js(?:[?#].*)?$/i.test(code)) continue;
+
       const link = /^https?:\/\//i.test(code)
         ? code
         : absolute("static/extensions/" + code.replace(/^\/+/, ""), "https://dashblocks.org/extensions/");
+
       const thumb = banner
         ? (/^https?:\/\//i.test(banner)
             ? banner
             : absolute("static/images/" + banner.replace(/^\/+/, ""), "https://dashblocks.org/extensions/"))
         : "https://dashblocks.org/extensions/static/images/unknown.svg";
-      if (isUsefulLink(link)) items.push({name, link, thumb:isImage(thumb) ? thumb : ""});
+
+      items.push({
+        name,
+        link,
+        thumb: isImage(thumb) ? thumb : "https://dashblocks.org/extensions/static/images/unknown.svg"
+      });
     }
+
     const result = uniq(items);
-    if (result.length < 10) throw new Error("DashBlocks index returned only " + result.length + " usable extensions");
-    console.log("[dashblocks] parsed " + result.length + " extensions");
+    if (result.length !== 16) {
+      throw new Error("DashBlocks displayed array returned " + result.length + " entries; expected 16. Existing JSON left untouched.");
+    }
+    console.log("[dashblocks] parsed " + result.length + " displayed extensions");
     return result;
   }
 
@@ -868,6 +925,7 @@ const GALLERY_OWNER_ALIASES = {
   cst:["cst1229"],
   kylekart:["elmobear","kylekart"],
   pooiod7:["pooiod","pooiod7"],
+  picreator:["picreatoragain"],
   sharkpool:["sharkpool","sharkpools"],
   tutelmod:["tutelmod"],
   turbololder:["jeremygamer13"]
