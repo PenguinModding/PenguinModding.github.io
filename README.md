@@ -22,6 +22,7 @@ A collection of extension lists gathered from different Scratch and PenguinMod g
 | Ruby Devs | [View JSON](https://penguinmodding.github.io/ruby-extensions.json) |
 | jwklong | [View JSON](https://penguinmodding.github.io/jwklong-extensions.json) |
 | Joshua's Gallery | [View JSON](https://penguinmodding.github.io/josh-extensions.json) |
+| Pi Gallery | [View JSON](https://penguinmodding.github.io/picreator-extensions.json) |
 
 ## JSON format
 
@@ -54,7 +55,7 @@ Open a gallery page, wait for its cards to load, then click the bookmark. Review
 
 GitHub Actions now runs the gallery monitor daily, but the scanner only performs a full check when 15 days have elapsed since the last **complete** scan. You can also start a scan manually from the repository's **Actions → Update extension galleries → Run workflow** page.
 
-The monitor checks the 26 gallery URLs from the exported bookmark collection, using the old importers as extraction references and server-side adapters for each known layout. When it finds a valid gallery snapshot, it updates that gallery's JSON file and fills `newExtensions` with names newly detected since the previous snapshot.
+The monitor checks the 27 gallery URLs from the exported bookmark collection, using the old importers as extraction references and server-side adapters for each known layout. When it finds a valid gallery snapshot, it updates that gallery's JSON file and fills `newExtensions` with names newly detected since the previous snapshot.
 
 Safety rules:
 - If a website is unavailable or its layout cannot be parsed, its existing JSON is left untouched.
