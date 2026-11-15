@@ -399,11 +399,12 @@ async function fetchDedicated(source, finalUrl, body) {
       const banner = jsStringField(object, "banner");
       if (!name || !code || !/\.js(?:[?#].*)?$/i.test(code)) continue;
 
-      // Use raw GitHub URLs instead of dashblocks.org. The latter does not
-      // reliably allow cross-origin fetches from third-party gallery pages.
+      // Keep extension code on Dash's own /extensions/ origin. Dash only
+      // permits certain origins for unsandboxed extensions. Use raw GitHub
+      // for thumbnails so third-party gallery pages can fetch the images.
       const link = /^https?:\/\//i.test(code)
         ? code
-        : "https://raw.githubusercontent.com/DashBlocks/extensions/develop/static/extensions/" + code.replace(/^\/+/, "");
+        : absolute("static/extensions/" + code.replace(/^\/+/, ""), "https://dashblocks.org/extensions/");
 
       const thumb = banner
         ? (/^https?:\/\//i.test(banner)
