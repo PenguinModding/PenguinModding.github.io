@@ -188,6 +188,7 @@
     "Pathfinding",
     "Peng.GPT",
     "Word Filterer",
+    "ASCIIfy",
     "Mathematics",
     "Project Page",
     "Pitchano",
@@ -674,8 +675,7 @@
     "Block Dates",
     "Temporary Variables",
     "Nodes and Links",
-    "Ciphers",
-    "ASCIIfy"
+    "Ciphers"
   ],
   "links": [
     "https://beacons.ai/alejo.2014",
@@ -866,6 +866,7 @@
     "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/pathfinding.js",
     "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/peng-gpt.js",
     "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/word-filterer.js",
+    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/ascii.js",
     "https://raw.githubusercontent.com/PenguinMod/PenguinMod-ExtensionsGallery/main/static/extensions/jwklong/mathematics.js",
     "https://raw.githubusercontent.com/PenguinMod/PenguinMod-ExtensionsGallery/main/static/extensions/jwklong/projectpage.js",
     "https://kylekart.github.io/ScratchExtensions/get/pitchano.js",
@@ -1352,8 +1353,7 @@
     "https://ziplox.neocities.org/extensions/scripts/blockdates.js",
     "https://ziplox.neocities.org/extensions/scripts/tempvar.js",
     "https://ziplox.neocities.org/extensions/scripts/nodes.js",
-    "https://ziplox.neocities.org/extensions/scripts/ciphers.js",
-    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/ascii.js"
+    "https://ziplox.neocities.org/extensions/scripts/ciphers.js"
   ],
   "thumbnails": [
     "https://i.imgur.com/tMm0Kfe.png",
@@ -1540,6 +1540,7 @@
     "https://raw.githubusercontent.com/goofywarp/extensions/master/images/unknown.svg",
     "https://raw.githubusercontent.com/goofywarp/extensions/master/images/obviousAlexC/newgroundsIO.png",
     "https://raw.githubusercontent.com/goofywarp/extensions/master/images/Lily/McUtils.png",
+    "",
     "",
     "",
     "",
@@ -2030,8 +2031,7 @@
     "https://ziplox.neocities.org/extensions/banners/blockdates.svg",
     "https://ziplox.neocities.org/extensions/banners/tempvar.svg",
     "https://ziplox.neocities.org/extensions/banners/nodes.svg",
-    "https://ziplox.neocities.org/extensions/banners/ciphers.svg",
-    ""
+    "https://ziplox.neocities.org/extensions/banners/ciphers.svg"
   ],
   "description": [
     "alejo-extensions.json",
@@ -2218,6 +2218,7 @@
     "goofywarp-extensions.json",
     "goofywarp-extensions.json",
     "goofywarp-extensions.json",
+    "josh-extensions.json",
     "josh-extensions.json",
     "josh-extensions.json",
     "josh-extensions.json",
@@ -2708,7 +2709,6 @@
     "ziplox-extensions.json",
     "ziplox-extensions.json",
     "ziplox-extensions.json",
-    "ziplox-extensions.json",
-    "josh-extensions.json"
+    "ziplox-extensions.json"
   ]
 }
