@@ -2,7 +2,7 @@
     "use strict";
 
     /*
-     * The ASCII extension
+     * ASCIIfy
      * Creator: Joshuaknowsmaths
      */
 
@@ -10,7 +10,7 @@
         getInfo() {
             return {
                 id: "unicode",
-                name: "The ASCII extension",
+                name: "ASCIIfy",
                 color1: "#5265C9",
                 color2: "#4052AC",
                 blocks: [
