@@ -3,9 +3,11 @@
     "GalleryUI",
     "Pathfinding",
     "Peng.GPT",
-    "Word Filterer"
+    "Word Filterer",
+    "The ASCII extension"
   ],
   "thumbnails": [
+    "",
     "",
     "",
     "",
@@ -15,12 +17,14 @@
     "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/customgallery.js",
     "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/pathfinding.js",
     "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/peng-gpt.js",
-    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/word-filterer.js"
+    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/word-filterer.js",
+    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/ascii.js"
   ],
   "newExtensions": [
     "GalleryUI",
     "Pathfinding",
     "Peng.GPT",
-    "Word Filterer"
+    "Word Filterer",
+    "The ASCII extension"
   ]
 }
