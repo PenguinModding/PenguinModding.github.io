@@ -674,7 +674,8 @@
     "Block Dates",
     "Temporary Variables",
     "Nodes and Links",
-    "Ciphers"
+    "Ciphers",
+    "The ASCII extension"
   ],
   "links": [
     "https://beacons.ai/alejo.2014",
@@ -1351,7 +1352,8 @@
     "https://ziplox.neocities.org/extensions/scripts/blockdates.js",
     "https://ziplox.neocities.org/extensions/scripts/tempvar.js",
     "https://ziplox.neocities.org/extensions/scripts/nodes.js",
-    "https://ziplox.neocities.org/extensions/scripts/ciphers.js"
+    "https://ziplox.neocities.org/extensions/scripts/ciphers.js",
+    "https://raw.githubusercontent.com/PenguinModding/PenguinModding.github.io/main/hosted-extensions/ascii.js"
   ],
   "thumbnails": [
     "https://i.imgur.com/tMm0Kfe.png",
@@ -2028,7 +2030,8 @@
     "https://ziplox.neocities.org/extensions/banners/blockdates.svg",
     "https://ziplox.neocities.org/extensions/banners/tempvar.svg",
     "https://ziplox.neocities.org/extensions/banners/nodes.svg",
-    "https://ziplox.neocities.org/extensions/banners/ciphers.svg"
+    "https://ziplox.neocities.org/extensions/banners/ciphers.svg",
+    ""
   ],
   "description": [
     "alejo-extensions.json",
@@ -2705,6 +2708,7 @@
     "ziplox-extensions.json",
     "ziplox-extensions.json",
     "ziplox-extensions.json",
-    "ziplox-extensions.json"
+    "ziplox-extensions.json",
+    "josh-extensions.json"
   ]
 }
