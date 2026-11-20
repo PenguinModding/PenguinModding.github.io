@@ -1,15 +1,16 @@
+/**!
+ * @file ASCIIfy
+ * @author Joshuaknowsmaths
+ * @link https://github.com/PenguinModding/PenguinModding.github.io/blob/main/hosted-extensions/ascii.js
+ * @copyright Licensed under LGPL-3.0
+ */
 (function (Scratch) {
     "use strict";
 
-    /*
-     * ASCIIfy
-     * Creator: Joshuaknowsmaths
-     */
-
-    class UnicodeExtension {
+    class ASCIIfy {
         getInfo() {
             return {
-                id: "unicode",
+                id: "asciify",
                 name: "ASCIIfy",
                 color1: "#5265C9",
                 color2: "#4052AC",
@@ -17,7 +18,7 @@
                     {
                         opcode: "characterToID",
                         blockType: Scratch.BlockType.REPORTER,
-                        text: "character [CHARACTER] to ASCIIfy",
+                        text: "character [CHARACTER] to Unicode ID",
                         arguments: {
                             CHARACTER: {
                                 type: Scratch.ArgumentType.STRING,
@@ -28,7 +29,7 @@
                     {
                         opcode: "idToCharacter",
                         blockType: Scratch.BlockType.REPORTER,
-                        text: "ASCIIfy [ID] to character",
+                        text: "Unicode ID [ID] to character",
                         arguments: {
                             ID: {
                                 type: Scratch.ArgumentType.NUMBER,
@@ -39,7 +40,7 @@
                     {
                         opcode: "characterAt",
                         blockType: Scratch.BlockType.REPORTER,
-                        text: "ASCII [INDEX] of [TEXT]",
+                        text: "character [INDEX] of [TEXT]",
                         arguments: {
                             INDEX: {
                                 type: Scratch.ArgumentType.NUMBER,
@@ -54,7 +55,7 @@
                     {
                         opcode: "unicodeLength",
                         blockType: Scratch.BlockType.REPORTER,
-                        text: "id length of [TEXT]",
+                        text: "Unicode length of [TEXT]",
                         arguments: {
                             TEXT: {
                                 type: Scratch.ArgumentType.STRING,
@@ -65,7 +66,7 @@
                     {
                         opcode: "asciiCheck",
                         blockType: Scratch.BlockType.BOOLEAN,
-                        text: "can [ID] be converted to ASCII?",
+                        text: "is [ID] a valid ASCII ID?",
                         arguments: {
                             ID: {
                                 type: Scratch.ArgumentType.NUMBER,
@@ -78,18 +79,23 @@
         }
 
         characterToID(args) {
-            const chars = Array.from(String(args.CHARACTER));
-            if (chars.length === 0) return -1;
-            return chars[0].codePointAt(0);
+            // Use the first Unicode character, including characters outside the basic plane.
+            const character = Array.from(String(args.CHARACTER))[0];
+
+            if (character === undefined) return -1;
+            return character.codePointAt(0);
         }
 
         idToCharacter(args) {
             const id = Number(args.ID);
 
-            if (!Number.isInteger(id) ||
+            // Reject invalid Unicode values and the reserved surrogate range.
+            if (
+                !Number.isInteger(id) ||
                 id < 0 ||
                 id > 0x10FFFF ||
-                (id >= 0xD800 && id <= 0xDFFF)) {
+                (id >= 0xD800 && id <= 0xDFFF)
+            ) {
                 return "";
             }
 
@@ -97,11 +103,11 @@
         }
 
         characterAt(args) {
-            const chars = Array.from(String(args.TEXT));
+            const characters = Array.from(String(args.TEXT));
             const index = Math.floor(Number(args.INDEX)) - 1;
 
-            if (index < 0 || index >= chars.length) return "";
-            return chars[index];
+            if (index < 0 || index >= characters.length) return "";
+            return characters[index];
         }
 
         unicodeLength(args) {
@@ -114,5 +120,5 @@
         }
     }
 
-    Scratch.extensions.register(new UnicodeExtension());
+    Scratch.extensions.register(new ASCIIfy());
 })(Scratch);
