@@ -9221,13 +9221,7 @@ Enjoy!! :D
                     {
                         opcode: 'unicodeIDsAsArray',
                         blockType: Scratch.BlockType.REPORTER,
-                        text: 'Unicode IDs of [TEXT] as array',
-                        arguments: {
-                            TEXT: {
-                                type: Scratch.ArgumentType.STRING,
-                                defaultValue: 'Hello'
-                            }
-                        }
+                        text: 'Unicode IDs of last text as array'
                     },
                     {
                         opcode: 'getCharCount',
@@ -11222,8 +11216,9 @@ Enjoy!! :D
             return Number.isInteger(id) && id >= 0 && id <= 127;
         }
 
-        unicodeIDsAsArray(args) {
-            return JSON.stringify(Array.from(String(args.TEXT), character => character.codePointAt(0)));
+        unicodeIDsAsArray(args, util) {
+            const text = stripMarkup(getState(util.target).finalText);
+            return JSON.stringify(Array.from(text, character => character.codePointAt(0)));
         }
 
         getCharAt(args, util) {
