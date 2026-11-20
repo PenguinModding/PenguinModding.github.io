@@ -91,18 +91,15 @@
 
         characterToID(args) {
             const characters = Array.from(String(args.CHARACTER));
-            if (characters.length === 0) return "";
+            if (!characters.length) return "";
 
-            const codepoints = characters.map(character =>
-                character.codePointAt(0)
-            );
+            const codepoints = characters.map(character => character.codePointAt(0));
             const choice = String(args.CODEPOINT).toLowerCase();
 
             if (choice === "first") return codepoints[0];
             if (choice === "last") return codepoints[codepoints.length - 1];
-            if (choice === "all") return codepoints.join(",");
+            if (choice === "all") return codepoints.join("-");
 
-            // A number supplied by a reporter selects that 1-based codepoint.
             const index = Math.floor(Number(args.CODEPOINT)) - 1;
             if (!Number.isFinite(index) || index < 0 || index >= codepoints.length) {
                 return "";
@@ -112,31 +109,26 @@
         }
 
         idToCharacter(args) {
-            const values = String(args.ID).split(",").map(value => value.trim());
-
-            if (values.length === 0 || values.some(value => value === "")) {
-                return "";
-            }
+            const values = String(args.ID).split("-").map(value => value.trim());
+            if (!values.length || values.some(value => value === "")) return "";
 
             const codepoints = values.map(Number);
-            if (codepoints.some(id =>
-                !Number.isInteger(id) ||
-                id < 0 ||
-                id > 0x10FFFF ||
-                (id >= 0xD800 && id <= 0xDFFF)
-            )) {
-                return "";
-            }
+            const isValid = codepoints.every(id =>
+                Number.isInteger(id) &&
+                id >= 0 &&
+                id <= 0x10FFFF &&
+                !(id >= 0xD800 && id <= 0xDFFF)
+            );
 
-            return codepoints.map(id => String.fromCodePoint(id)).join("");
+            if (!isValid) return "";
+            return String.fromCodePoint(...codepoints);
         }
 
         characterAt(args) {
             const characters = Array.from(String(args.TEXT));
             const index = Math.floor(Number(args.INDEX)) - 1;
 
-            if (index < 0 || index >= characters.length) return "";
-            return characters[index];
+            return index >= 0 && index < characters.length ? characters[index] : "";
         }
 
         unicodeLength(args) {
