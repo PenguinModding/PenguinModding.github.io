@@ -11138,7 +11138,7 @@ Enjoy!! :D
         }
 
         getLineCount(args, util) {
-            return stripMarkup(getState(util.target).rawText).split('\\n').length;
+            return stripMarkup(getState(util.target).rawText).split('\n').length;
         }
 
         getPlainText(args, util) {
