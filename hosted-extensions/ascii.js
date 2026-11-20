@@ -34,11 +34,16 @@
                     {
                         opcode: "idToCharacter",
                         blockType: Scratch.BlockType.REPORTER,
-                        text: "Unicode ID [ID] to character",
+                        text: "Unicode ID [ID] to character with codepoint [CODEPOINT]",
                         arguments: {
                             ID: {
                                 type: Scratch.ArgumentType.STRING,
                                 defaultValue: "97"
+                            },
+                            CODEPOINT: {
+                                type: Scratch.ArgumentType.STRING,
+                                menu: "codepointMenu",
+                                defaultValue: "all"
                             }
                         }
                     },
@@ -121,7 +126,25 @@
             );
 
             if (!isValid) return "";
-            return String.fromCodePoint(...codepoints);
+
+            const choice = String(args.CODEPOINT).toLowerCase();
+            let selected;
+
+            if (choice === "first") {
+                selected = [codepoints[0]];
+            } else if (choice === "last") {
+                selected = [codepoints[codepoints.length - 1]];
+            } else if (choice === "all") {
+                selected = codepoints;
+            } else {
+                const index = Math.floor(Number(args.CODEPOINT)) - 1;
+                if (!Number.isFinite(index) || index < 0 || index >= codepoints.length) {
+                    return "";
+                }
+                selected = [codepoints[index]];
+            }
+
+            return selected.map(id => String.fromCodePoint(id)).join("");
         }
 
         characterAt(args) {
