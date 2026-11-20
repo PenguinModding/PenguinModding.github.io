@@ -1,3 +1,10 @@
+/**!
+ * @file Iris Text 2
+ * @author Joshuaknowsmaths, Gen1x
+ * @link https://github.com/PenguinModding/PenguinModding.github.io/blob/main/hosted-extensions/iris-text.js
+ * @copyright Licensed under LGPL-3.0
+ */
+
 /*
 Iris Text by Gen1x - 2026
 
@@ -822,10 +829,16 @@ Enjoy!! :D
                 continue;
             }
             if (closing) {
-                if (stack.length > 1) stack.pop();
+                for (let index = stack.length - 1; index > 0; index--) {
+                    if (stack[index].tagName === tag) {
+                        stack.length = index;
+                        break;
+                    }
+                }
             } else {
                 const prev = stack[stack.length - 1];
                 const top = {
+                    tagName: tag,
                     color: prev.color,
                     bold: prev.bold,
                     italic: prev.italic,
@@ -9141,6 +9154,27 @@ Enjoy!! :D
                         text: 'number of characters'
                     },
                     {
+                        opcode: 'getWordCount',
+                        blockType: Scratch.BlockType.REPORTER,
+                        text: 'number of words'
+                    },
+                    {
+                        opcode: 'getWordAt',
+                        blockType: Scratch.BlockType.REPORTER,
+                        text: 'word [INDEX] of the text',
+                        arguments: {
+                            INDEX: {
+                                type: Scratch.ArgumentType.NUMBER,
+                                defaultValue: 1
+                            }
+                        }
+                    },
+                    {
+                        opcode: 'getLineCount',
+                        blockType: Scratch.BlockType.REPORTER,
+                        text: 'number of lines'
+                    },
+                    {
                         opcode: 'getPlainText',
                         blockType: Scratch.BlockType.REPORTER,
                         text: 'displayed text (no markup)'
@@ -11052,8 +11086,8 @@ Enjoy!! :D
         getCharAt(args, util) {
             const state = getState(util.target);
             const plain = stripMarkup(state.rawText);
-            const idx = Scratch.Cast.toNumber(args.INDEX) - 1;
-            return plain[idx] || '';
+            const idx = Math.floor(Scratch.Cast.toNumber(args.INDEX)) - 1;
+            return splitGraphemes(plain)[idx] || '';
         }
 
         getCharDimension(args, util) {
@@ -11090,7 +11124,21 @@ Enjoy!! :D
 
         getCharCount(args, util) {
             const state = getState(util.target);
-            return stripMarkup(state.rawText).length;
+            return splitGraphemes(stripMarkup(state.rawText)).length;
+        }
+
+        getWordCount(args, util) {
+            return wordSpans(util.target).length;
+        }
+
+        getWordAt(args, util) {
+            const words = wordSpans(util.target);
+            const index = Math.floor(Scratch.Cast.toNumber(args.INDEX)) - 1;
+            return words[index] ? words[index].text : '';
+        }
+
+        getLineCount(args, util) {
+            return stripMarkup(getState(util.target).rawText).split('\\n').length;
         }
 
         getPlainText(args, util) {
