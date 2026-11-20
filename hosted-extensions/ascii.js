@@ -18,11 +18,16 @@
                     {
                         opcode: "characterToID",
                         blockType: Scratch.BlockType.REPORTER,
-                        text: "character [CHARACTER] to Unicode ID",
+                        text: "character [CHARACTER] to Unicode ID with codepoint [CODEPOINT]",
                         arguments: {
                             CHARACTER: {
                                 type: Scratch.ArgumentType.STRING,
                                 defaultValue: "a"
+                            },
+                            CODEPOINT: {
+                                type: Scratch.ArgumentType.STRING,
+                                menu: "codepointMenu",
+                                defaultValue: "first"
                             }
                         }
                     },
@@ -32,8 +37,8 @@
                         text: "Unicode ID [ID] to character",
                         arguments: {
                             ID: {
-                                type: Scratch.ArgumentType.NUMBER,
-                                defaultValue: 97
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: "97"
                             }
                         }
                     },
@@ -74,32 +79,56 @@
                             }
                         }
                     }
-                ]
+                ],
+                menus: {
+                    codepointMenu: {
+                        acceptReporters: true,
+                        items: ["first", "last", "all"]
+                    }
+                }
             };
         }
 
         characterToID(args) {
-            // Use the first Unicode character, including characters outside the basic plane.
-            const character = Array.from(String(args.CHARACTER))[0];
+            const characters = Array.from(String(args.CHARACTER));
+            if (characters.length === 0) return "";
 
-            if (character === undefined) return -1;
-            return character.codePointAt(0);
+            const codepoints = characters.map(character =>
+                character.codePointAt(0)
+            );
+            const choice = String(args.CODEPOINT).toLowerCase();
+
+            if (choice === "first") return codepoints[0];
+            if (choice === "last") return codepoints[codepoints.length - 1];
+            if (choice === "all") return codepoints.join(",");
+
+            // A number supplied by a reporter selects that 1-based codepoint.
+            const index = Math.floor(Number(args.CODEPOINT)) - 1;
+            if (!Number.isFinite(index) || index < 0 || index >= codepoints.length) {
+                return "";
+            }
+
+            return codepoints[index];
         }
 
         idToCharacter(args) {
-            const id = Number(args.ID);
+            const values = String(args.ID).split(",").map(value => value.trim());
 
-            // Reject invalid Unicode values and the reserved surrogate range.
-            if (
+            if (values.length === 0 || values.some(value => value === "")) {
+                return "";
+            }
+
+            const codepoints = values.map(Number);
+            if (codepoints.some(id =>
                 !Number.isInteger(id) ||
                 id < 0 ||
                 id > 0x10FFFF ||
                 (id >= 0xD800 && id <= 0xDFFF)
-            ) {
+            )) {
                 return "";
             }
 
-            return String.fromCodePoint(id);
+            return codepoints.map(id => String.fromCodePoint(id)).join("");
         }
 
         characterAt(args) {
