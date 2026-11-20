@@ -5,17 +5,6 @@
  * @copyright Licensed under LGPL-3.0
  */
 
-/*
-Iris Text by Gen1x - 2026
-
-Code inspiration:
-- Animated Text (PenguinMod version)
-- Tween Extension by JeremyGamer13
-
-Special thanks to SharkPool for helping me find bugs!
-
-Enjoy!! :D
-*/
 
 (function(Scratch) {
     'use strict';
@@ -263,7 +252,6 @@ Enjoy!! :D
     const gradientTypeRadial = 'radial';
     const gradientTypeConic = 'conic';
 
-    /* stolen from PM's animated text extension code :3 */
     const sansSerifId = 'Sans Serif';
     const serifId = 'Serif';
     const handwritingId = 'Handwriting';
@@ -288,7 +276,6 @@ Enjoy!! :D
         scratchId, archivoId, archivoBlackId
     ];
 
-    // in case the rendering screws up:
     const fontFallbacks = {
         [sansSerifId]: 'sans-serif',
         [serifId]: 'serif',
@@ -9221,7 +9208,14 @@ Enjoy!! :D
                     {
                         opcode: 'unicodeIDsAsArray',
                         blockType: Scratch.BlockType.REPORTER,
-                        text: 'Unicode IDs of last text as array'
+                        text: 'Unicode IDs of [SOURCE] as array',
+                        arguments: {
+                            SOURCE: {
+                                type: Scratch.ArgumentType.STRING,
+                                menu: 'UNICODE_TEXT_SOURCE',
+                                defaultValue: 'displayed'
+                            }
+                        }
                     },
                     {
                         opcode: 'getCharCount',
@@ -9567,6 +9561,12 @@ Enjoy!! :D
                     }
                 ],
                 menus: {
+                    UNICODE_TEXT_SOURCE: {
+                        items: [
+                            { text: 'displayed text (no markup)', value: 'displayed' },
+                            { text: 'total final text (no markup)', value: 'final' }
+                        ]
+                    },
                     ONOFF: {
                         items: ['on', 'off']
                     },
@@ -9600,7 +9600,7 @@ Enjoy!! :D
                     FONT: {
                         items: 'getFontMenuItems',
                         isTypeable: true,
-                        acceptText: true // for my 3 nitrobolt users :P
+                        acceptText: true
                     },
                     ICON_SIZE: {
                         items: ['default'],
@@ -11217,7 +11217,8 @@ Enjoy!! :D
         }
 
         unicodeIDsAsArray(args, util) {
-            const text = stripMarkup(getState(util.target).finalText);
+            const state = getState(util.target);
+            const text = args.SOURCE === 'displayed' ? stripMarkup(state.rawText) : stripMarkup(state.finalText);
             return JSON.stringify(Array.from(text, character => character.codePointAt(0)));
         }
 
